@@ -6,45 +6,45 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mysql.jdbc.PreparedStatement;
+
 public class ConnectarBD {
 	static Statement statement;
-	static Connection connection;
-	private String host = "jdbc:mysql://localhost:3306/trabajora2";
-	private String user = "admin";
-	private String pass = "admin";
+	static Connection cc;
+	java.sql.PreparedStatement ps;
+	private String host = "jdbc:mysql://localhost/school";
+	private String user = "root";
+	private String pass = "";
 	private String tabla="profesor";
 	private String dni="414151J", nombre="Andres", apellidos="Molina", email="andres@gmail.com";
 	
 	public ConnectarBD() {
 		
 		try {
-			connection = DriverManager.getConnection(host, user, pass);
-			statement = connection.createStatement();
+			cc = DriverManager.getConnection(host, user, pass);
+			statement = cc.createStatement();
 			System.out.println("Connection success!");
 		} catch (SQLException ex) {
 			System.out.println("Connection failed!");
 		}
 	}
 	
-	//for inserting data
+	//TO INSERT DATA
 	public void insert(){
 	    try{
-	        String insertquery = "INSERT INTO 'tablename' VALUES('value1', 'value2', 'value3', 'value4')";
-	        String remplazar=insertquery.replace("tablename", tabla).replace("value1", dni).replace("value2", nombre).replace("value3",apellidos).replace("value4", email);
-	        System.out.println(remplazar);
-	        statement.executeUpdate(remplazar);
-	        
-	        System.out.print("Inserted");
+	        String query = "INSERT INTO "+tabla+" values('"+dni+"','"+nombre+"','"+apellidos+"','"+email+"');";
+	        statement.execute(query);
+	        System.out.println("Inserted");
 	        
 	    } catch(Exception e){
-	        System.out.print("Not Inserted");
+	        System.out.println("Not Inserted");
 	    }
 	}
 
-	 //for viewing data
+	 //TO VIEW DATA
 	 public void view(){
 	    try {
-	        String insertquery = "select * from `table_name` where field = 'value1'";
+	        String insertquery = "select * from profesor";
 	        ResultSet result = statement.executeQuery(insertquery);
 	        if(result.next()){
 	            System.out.println("Value " + result.getString(2));
@@ -55,7 +55,7 @@ public class ConnectarBD {
 	    }
 	 }
 
-	 //to update data
+	 //TO UPDATE DATA
 	 public void update(){
 	    try {
 	        String insertquery = "UPDATE `table_name` set `field`='value',`field2`='value2' WHERE field = 'value'";
@@ -66,7 +66,7 @@ public class ConnectarBD {
 	    }
 	 }
 
-	//to delete data
+	//TO DELETE DATA
 	public void delete(){
 	     try {
 	        String insertquery = "DELETE FROM `table_name` WHERE field = 'value'";

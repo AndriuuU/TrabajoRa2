@@ -11,6 +11,7 @@ public class test {
 		
 		ConnectarBD c=new ConnectarBD();
 		c.insert();
+		c.view();
 //		String host = "jdbc:mysql://localhost:3306/trabajora2";
 //	    String user = "root";
 //	    String pass = "";

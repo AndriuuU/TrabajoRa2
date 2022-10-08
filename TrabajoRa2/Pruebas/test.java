@@ -2,16 +2,18 @@ package Pruebas;
 
 import java.sql.Statement;
 
-import connec.ConnectarBD;
+import windows.Login;
 
 public class test {
 	static Statement statement;
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
-		ConnectarBD c=new ConnectarBD();
-		c.insert();
-		c.view();
+
+		Login l = new Login();
+
+//		ConnectarBD c=new ConnectarBD();
+//		c.insert();
 //		String host = "jdbc:mysql://localhost:3306/trabajora2";
 //	    String user = "root";
 //	    String pass = "";

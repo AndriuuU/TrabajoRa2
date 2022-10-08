@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 public class WindowPreset {
 
 	public static void preset(JFrame jf) {
-
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setBackground(Color.GRAY);
 		jf.setLocationRelativeTo(null);

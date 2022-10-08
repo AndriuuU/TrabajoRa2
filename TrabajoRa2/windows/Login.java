@@ -18,11 +18,11 @@ public class Login extends JFrame {
 	private JButton jbLogin, jbRegister;
 
 	public Login() {
-
 		super("Login");
+		setSize(300, 250);
 		WindowPreset.preset(this);
 		setLayout(null);
-		setSize(300, 250);
+		
 
 		jlUser = new JLabel("Username: ");
 		jlUser.setBounds(31, 44, 90, 19);
@@ -38,25 +38,9 @@ public class Login extends JFrame {
 
 		jbLogin = new JButton("Login");
 		jbLogin.setBounds(40, 135, 100, 20);
-		jbLogin.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-
-			}
-		});
 
 		jbRegister = new JButton("Register");
 		jbRegister.setBounds(160, 135, 100, 20);
-		jbRegister.addActionListener(new ActionListener() {
-
-			@SuppressWarnings("unused")
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				Register r = new Register();
-
-			}
-		});
 
 		add(jlUser);
 		add(jtUser);
@@ -65,7 +49,42 @@ public class Login extends JFrame {
 		add(jbLogin);
 		add(jbRegister);
 
+		
+		//addActionListeners
+		driverRegister register = new driverRegister();
+		jbRegister.addActionListener(register);
+		
+		driverLogin login = new driverLogin();
+		jbLogin.addActionListener(login);
+
+		
 		setVisible(true);
 
 	}
+	
+	
+	//Driver to register
+	public class driverRegister implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		}
+		
+	}
+	
+	//Driver to login
+	public class driverLogin implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+
+
+	
+	
+	
 }

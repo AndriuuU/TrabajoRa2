@@ -4,9 +4,9 @@ public class Asignatura {
 
 	private String codAdig,nombre;
 	private int horas;
-	private Profesor dniProfesor;
+	private Teacher dniProfesor;
 	
-	public Asignatura(String codAdig, String nombre, int horas, Profesor dniProfesor) {
+	public Asignatura(String codAdig, String nombre, int horas, Teacher dniProfesor) {
 		super();
 		this.codAdig = codAdig;
 		this.nombre = nombre;
@@ -38,11 +38,11 @@ public class Asignatura {
 		this.horas = horas;
 	}
 
-	public Profesor getDniProfesor() {
+	public Teacher getDniProfesor() {
 		return dniProfesor;
 	}
 
-	public void setDniProfesor(Profesor dniProfesor) {
+	public void setDniProfesor(Teacher dniProfesor) {
 		this.dniProfesor = dniProfesor;
 	}
 

@@ -1,10 +1,10 @@
 package clases;
 
-public class Profesor {
+public class Teacher {
 
 	private String dni, nombre,apellidos,email;
 
-	public Profesor(String dni, String nombre, String apellidos, String email) {
+	public Teacher(String dni, String nombre, String apellidos, String email) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
@@ -12,7 +12,7 @@ public class Profesor {
 		this.email = email;
 	}
 		
-	public Profesor() {
+	public Teacher() {
 		super();
 	}
 

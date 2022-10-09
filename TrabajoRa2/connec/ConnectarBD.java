@@ -8,6 +8,9 @@ import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import clases.Student;
+import clases.Teacher;
+
 public class ConnectarBD {
 	static Statement statement;
 	static Connection cc;
@@ -15,8 +18,6 @@ public class ConnectarBD {
 	private String host = "jdbc:mysql://localhost/school";
 	private String user = "root";
 	private String pass = "";
-	private String tabla="profesor";
-	private String dni="414151J", nombre="Andres", apellidos="Molina", email="andres@gmail.com";
 	
 	public ConnectarBD() {
 		
@@ -29,10 +30,25 @@ public class ConnectarBD {
 		}
 	}
 	
-	//TO INSERT DATA
-	public void insert(){
+	// INSERT ALUMNO
+	public void insertStudent(Student s){
 	    try{
-	        String query = "INSERT INTO "+tabla+" values('"+dni+"','"+nombre+"','"+apellidos+"','"+email+"');";
+	    	//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
+	        String query = "INSERT INTO alumnos values('"+s.getDni()+"','"+s.getNombre()+"','"+s.getApellidos()+"','"+s.getEmail()+"','"+s.getFecha_nac()+"','"+s.getFoto()+"','"+s.getTelefono()+"');";
+	        System.out.println(query);
+	        statement.execute(query);
+	        System.out.println("Inserted");
+	        
+	    } catch(Exception e){
+	        System.out.println("Not Inserted");
+	    }
+	}
+	
+	public void insertTeacher(Teacher t) {
+		try{
+	    	//String dni, String nombre, String apellidos, String email
+	        String query = "INSERT INTO profesor values('"+t.getDni()+"','"+t.getNombre()+"','"+t.getApellidos()+"','"+t.getEmail()+"');";
+	        System.out.println(query);
 	        statement.execute(query);
 	        System.out.println("Inserted");
 	        

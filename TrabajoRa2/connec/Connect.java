@@ -11,7 +11,7 @@ import com.mysql.jdbc.PreparedStatement;
 import clases.Student;
 import clases.Teacher;
 
-public class ConnectarBD {
+public class Connect {
 	static Statement statement;
 	static Connection cc;
 	java.sql.PreparedStatement ps;
@@ -19,7 +19,7 @@ public class ConnectarBD {
 	private String user = "root";
 	private String pass = "";
 	
-	public ConnectarBD() {
+	public Connect() {
 		
 		try {
 			cc = DriverManager.getConnection(host, user, pass);

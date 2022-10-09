@@ -1,22 +1,25 @@
 package windows;
 
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
+import java.util.Date;
+import java.text.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+
+import clases.Student;
+import clases.Teacher;
+import connec.Connect;
 
 @SuppressWarnings("serial")
 public class Register extends JFrame {
@@ -25,10 +28,12 @@ public class Register extends JFrame {
 	private JTextField jtSurname;
 	private JTextField jtEmail;
 	private JTextField jtTelefono;
-	
+	private Connect c = new Connect();
 	private JButton btnImg;
+	private JButton btnAgregar;
 	private JDateChooser date;
 	private JComboBox cbTipo;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	
 	private JLabel lblImg;
 	private JLabel lblTipo;
@@ -99,7 +104,7 @@ public class Register extends JFrame {
 		
 		date = new JDateChooser();
 		date.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-		date.setDateFormatString("dd/MM/yyyy");
+		date.setDateFormatString("yyyy/dd/MM");
 		date.setBounds(171, 227, 110, 20);
 		getContentPane().add(date);
 		
@@ -136,10 +141,16 @@ public class Register extends JFrame {
 		lblTipo.setBounds(469, 42, 46, 14);
 		getContentPane().add(lblTipo);
 		
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(440, 259, 110, 23);
+		getContentPane().add(btnAgregar);
+		
 		
 		driverRegister dRegister = new driverRegister();
 		cbTipo.addItemListener(dRegister);
 		
+		driverAdd dAgregar = new driverAdd();
+		btnAgregar.addActionListener(dAgregar);
 		
 		setVisible(true);
 	}
@@ -165,6 +176,34 @@ public class Register extends JFrame {
 				date.setEnabled(true);
 				lblImg.setEnabled(true);
 				btnImg.setEnabled(true);
+			}
+			
+		}
+		
+	}
+	
+	public class driverAdd implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
+			if(cbTipo.getSelectedItem().toString().equalsIgnoreCase("Alumno")) {
+				//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
+				String dni = jtDni.getText().toString();
+				String name = jtName.getText().toString();
+				String surnames = jtSurname.getText().toString();
+				String email = jtEmail.getText().toString();
+				String date_birth = sdf.format(date.getDate());
+				String pic = "foto";
+				int telefono = Integer.parseInt(jtTelefono.getText().toString());
+				Student s = new Student(dni,name,surnames,email,date_birth,pic,telefono);
+				c.insertStudent(s);
+			}else {
+				String dni = jtDni.getText().toString();
+				String name = jtName.getText().toString();
+				String surnames = jtSurname.getText().toString();
+				String email = jtEmail.getText().toString();
+				Teacher t = new Teacher(dni,name,surnames,email);
+				c.insertTeacher(t);
 			}
 			
 		}

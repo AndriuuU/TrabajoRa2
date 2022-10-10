@@ -2,14 +2,15 @@ package clases;
 
 public class Teacher {
 
-	private String dni, nombre,apellidos,email;
+	private String dni, nombre,apellidos,email,passwd;
 
-	public Teacher(String dni, String nombre, String apellidos, String email) {
+	public Teacher(String dni, String nombre, String apellidos, String email,String passwd) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
+		this.passwd = passwd;
 	}
 		
 	public Teacher() {
@@ -46,6 +47,15 @@ public class Teacher {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+
+	public String getPasswd() {
+		return passwd;
+	}
+
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
 	}
 
 	@Override

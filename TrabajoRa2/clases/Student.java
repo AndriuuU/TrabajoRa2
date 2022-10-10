@@ -1,17 +1,19 @@
 package clases;
 
 public class Student {
-	private String dni, nombre, apellidos,email,fecha_nac;
-	private String foto;
+	private String dni, nombre, apellidos,email,fecha_nac,passwd,foto;
 	private int telefono;
 	
-	public Student(String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono) {
+
+	public Student(String dni, String nombre, String apellidos, String email, String fecha_nac, String passwd,
+			String foto, int telefono) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.fecha_nac = fecha_nac;
+		this.passwd = passwd;
 		this.foto = foto;
 		this.telefono = telefono;
 	}
@@ -76,12 +78,23 @@ public class Student {
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
+	
+
+	public String getPasswd() {
+		return passwd;
+	}
+
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
 
 	@Override
 	public String toString() {
-		return "Alumno [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email + ", edad="
-				+ fecha_nac + ", foto=" + foto + ", telefono=" + telefono + "]";
+		return "Student [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
+				+ ", fecha_nac=" + fecha_nac + ", passwd=" + passwd + ", foto=" + foto + ", telefono=" + telefono + "]";
 	}
+
+	
 	
 	
 	

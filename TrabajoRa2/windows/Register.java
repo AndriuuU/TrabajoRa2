@@ -1,15 +1,14 @@
 package windows;
 
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Date;
 import java.text.*;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -18,8 +17,8 @@ import javax.swing.SwingConstants;
 import com.toedter.calendar.JDateChooser;
 
 import clases.Student;
-import clases.Teacher;
 import connec.Connect;
+import javax.swing.JPasswordField;
 
 @SuppressWarnings("serial")
 public class Register extends JFrame {
@@ -32,17 +31,17 @@ public class Register extends JFrame {
 	private JButton btnImg;
 	private JButton btnAgregar;
 	private JDateChooser date;
-	private JComboBox cbTipo;
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	
 	private JLabel lblImg;
-	private JLabel lblTipo;
 	private JLabel lblTlf;
 	private JLabel lblDate;
 	private JLabel lblEmail;
 	private JLabel lblSurnames;
 	private JLabel lblName;
 	private JLabel lblDni;
+	private JLabel lblFoto;
+	private JLabel lblPass;
+	private JPasswordField jtPass;
 
 	public Register() {
 
@@ -54,29 +53,29 @@ public class Register extends JFrame {
 		
 		lblDni = new JLabel("DNI");
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblDni.setBounds(130, 70, 25, 14);
+		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDni.setBounds(130, 57, 25, 14);
 		getContentPane().add(lblDni);
 		
 		jtDni = new JTextField();
-		jtDni.setBounds(171, 68, 123, 20);
+		jtDni.setBounds(171, 56, 189, 20);
 		getContentPane().add(jtDni);
 		jtDni.setColumns(10);
 		
 		lblName = new JLabel("NOMBRE");
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblName.setBounds(101, 99, 54, 14);
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblName.setBounds(101, 94, 54, 14);
 		getContentPane().add(lblName);
 		
 		jtName = new JTextField();
-		jtName.setBounds(171, 97, 123, 20);
+		jtName.setBounds(171, 93, 189, 20);
 		getContentPane().add(jtName);
 		jtName.setColumns(10);
 		
 		lblSurnames = new JLabel("APELLIDOS");
 		lblSurnames.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblSurnames.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblSurnames.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblSurnames.setBounds(85, 130, 70, 14);
 		getContentPane().add(lblSurnames);
 		
@@ -87,7 +86,7 @@ public class Register extends JFrame {
 		
 		lblEmail = new JLabel("EMAIL");
 		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblEmail.setBounds(109, 163, 46, 14);
 		getContentPane().add(lblEmail);
 		
@@ -98,56 +97,57 @@ public class Register extends JFrame {
 		
 		lblDate = new JLabel("FECHA NACIMIENTO");
 		lblDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblDate.setBounds(41, 233, 120, 14);
+		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDate.setBounds(15, 233, 140, 14);
 		getContentPane().add(lblDate);
 		
 		date = new JDateChooser();
 		date.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 		date.setDateFormatString("yyyy/dd/MM");
-		date.setBounds(171, 227, 110, 20);
+		date.setBounds(171, 227, 120, 20);
 		getContentPane().add(date);
 		
 		lblTlf = new JLabel("TELEFONO");
 		lblTlf.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTlf.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblTlf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblTlf.setBounds(85, 198, 71, 14);
 		getContentPane().add(lblTlf);
 		
 		jtTelefono = new JTextField();
-		jtTelefono.setBounds(171, 196, 86, 20);
+		jtTelefono.setBounds(171, 196, 120, 20);
 		getContentPane().add(jtTelefono);
 		jtTelefono.setColumns(10);
 		
 		lblImg = new JLabel("ADD IMAGEN");
-		lblImg.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblImg.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblImg.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblImg.setBounds(69, 262, 92, 14);
+		lblImg.setBounds(347, 233, 92, 14);
 		getContentPane().add(lblImg);
 		
-		btnImg = new JButton("Imagen");
-		btnImg.setBounds(171, 259, 89, 23);
+		btnImg = new JButton("Picture");
+		btnImg.setBounds(449, 231, 89, 23);
 		getContentPane().add(btnImg);
-		
-		
-		String tipo[] = {"Alumno","Profesor"};
-		cbTipo = new JComboBox<Object>(tipo);
-		cbTipo.setBounds(440, 67, 110, 22);
-		getContentPane().add(cbTipo);
-		
-		lblTipo = new JLabel("TIPO");
-		lblTipo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTipo.setBounds(469, 42, 46, 14);
-		getContentPane().add(lblTipo);
-		
+
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(440, 259, 110, 23);
+		btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnAgregar.setBounds(239, 309, 110, 23);
 		getContentPane().add(btnAgregar);
 		
+		lblFoto = new JLabel("Foto");
+		lblFoto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFoto.setBounds(432, 56, 128, 156);
+		lblFoto.setBorder(BorderFactory.createLineBorder(Color.black));
+		getContentPane().add(lblFoto);
 		
-		driverRegister dRegister = new driverRegister();
-		cbTipo.addItemListener(dRegister);
+		lblPass = new JLabel("CONTRASEÑA");
+		lblPass.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPass.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPass.setBounds(66, 267, 89, 14);
+		getContentPane().add(lblPass);
+		
+		jtPass = new JPasswordField();
+		jtPass.setBounds(171, 266, 189, 20);
+		getContentPane().add(jtPass);
 		
 		driverAdd dAgregar = new driverAdd();
 		btnAgregar.addActionListener(dAgregar);
@@ -155,57 +155,22 @@ public class Register extends JFrame {
 		setVisible(true);
 	}
 	
-	public class driverRegister implements ItemListener {
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			System.out.println(cbTipo.getSelectedItem().toString());
-			String tipo = cbTipo.getSelectedItem().toString();
-			if(tipo.equalsIgnoreCase("Profesor")) {
-				lblTlf.setEnabled(false);
-				jtTelefono.setEnabled(false);
-				jtTelefono.setText("");
-				lblDate.setEnabled(false);
-				date.setEnabled(false);
-				date.setDate(null);
-				lblImg.setEnabled(false);
-				btnImg.setEnabled(false);
-			}else {
-				lblTlf.setEnabled(true);
-				jtTelefono.setEnabled(true);
-				lblDate.setEnabled(true);
-				date.setEnabled(true);
-				lblImg.setEnabled(true);
-				btnImg.setEnabled(true);
-			}
-			
-		}
-		
-	}
-	
 	public class driverAdd implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
-			if(cbTipo.getSelectedItem().toString().equalsIgnoreCase("Alumno")) {
-				//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
-				String dni = jtDni.getText().toString();
-				String name = jtName.getText().toString();
-				String surnames = jtSurname.getText().toString();
-				String email = jtEmail.getText().toString();
-				String date_birth = sdf.format(date.getDate());
-				String pic = "foto";
-				int telefono = Integer.parseInt(jtTelefono.getText().toString());
-				Student s = new Student(dni,name,surnames,email,date_birth,pic,telefono);
-				c.insertStudent(s);
-			}else {
-				String dni = jtDni.getText().toString();
-				String name = jtName.getText().toString();
-				String surnames = jtSurname.getText().toString();
-				String email = jtEmail.getText().toString();
-				Teacher t = new Teacher(dni,name,surnames,email);
-				c.insertTeacher(t);
-			}
-			
+//				String dni = jtDni.getText().toString();
+//				String name = jtName.getText().toString();
+//				String surnames = jtSurname.getText().toString();
+//				String email = jtEmail.getText().toString();
+//				String date_birth = sdf.format(date.getDate());
+//				String pic = "foto";
+				String input = jtPass.getPassword().toString();
+				System.out.println(input);
+				String passwd = new String(jtPass.getPassword());
+//				int telefono = Integer.parseInt(jtTelefono.getText().toString());
+//				Student s = new Student(dni,name,surnames,email,date_birth,passwd,pic,telefono);
+//				c.insertStudent(s);			
 		}
 		
 	}

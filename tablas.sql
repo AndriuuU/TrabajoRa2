@@ -6,6 +6,7 @@ CREATE TABLE Alumnos (
     fecha_nac DATE,
     foto VARCHAR(100),
     telefono int(9),
+    pass VARCHAR(20),
     CONSTRAINT alumnos_dni_pk PRIMARY KEY (dni)
 );
 
@@ -14,6 +15,7 @@ CREATE TABLE Profesor(
     nombre VARCHAR(100),
     apellidos VARCHAR(200),
     email VARCHAR(100),
+    pass VARCHAR(20),
     CONSTRAINT profesor_dni_pk PRIMARY KEY (dni)
 );
 

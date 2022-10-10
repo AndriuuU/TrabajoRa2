@@ -119,7 +119,7 @@ public class Connect {
 			}
 		}
 		
-		//The value returned will be 
+		//The value returned will be :
 		// "" -> if user doesnt exist
 		// "notaccepted" -> if the password is wrong
 		// "studentaccepted" or "teacheraccepted" if the user and the password is correct

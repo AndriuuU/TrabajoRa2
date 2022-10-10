@@ -159,18 +159,20 @@ public class Register extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
-//				String dni = jtDni.getText().toString();
-//				String name = jtName.getText().toString();
-//				String surnames = jtSurname.getText().toString();
-//				String email = jtEmail.getText().toString();
-//				String date_birth = sdf.format(date.getDate());
-//				String pic = "foto";
-				String input = jtPass.getPassword().toString();
-				System.out.println(input);
-				String passwd = new String(jtPass.getPassword());
-//				int telefono = Integer.parseInt(jtTelefono.getText().toString());
-//				Student s = new Student(dni,name,surnames,email,date_birth,passwd,pic,telefono);
-//				c.insertStudent(s);			
+				String dni = jtDni.getText().toString();
+				String name = jtName.getText().toString();
+				String surnames = jtSurname.getText().toString();
+				String email = jtEmail.getText().toString();
+				String date_birth = sdf.format(date.getDate());
+				String pic = "foto";
+				String valorPass = new String(jtPass.getPassword());
+				System.out.println(valorPass);
+				int telefono = Integer.parseInt(jtTelefono.getText().toString());
+				Student s = new Student(dni,name,surnames,email,date_birth,pic,telefono,valorPass);
+				System.out.println(s.toString());
+				c.insertStudent(s);
+				//Student s = new Student(dni,name,surnames,email,date_birth,pic,pass, telefono);
+				//c.insertStudent(s);			
 		}
 		
 	}

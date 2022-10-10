@@ -1,19 +1,24 @@
 package Pruebas;
 
+import java.sql.SQLException;
 import java.sql.Statement;
 
+import connec.Connect;
+import windows.Login;
 import windows.Register;
 
 public class test {
 	static Statement statement;
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 
-		//Login l = new Login();
+		Login l = new Login();
 		//RaStudentView r = new RaStudentView();
 		
-		Register r = new Register();
+		//Register r = new Register();
+		//Connect c = new Connect();
+		//c.login();
 		
 		//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
 		//Student a = new Student("31010101K","Perro","Sanche","perro@sanche.es","1990-10-5","sinFoto", 648950);

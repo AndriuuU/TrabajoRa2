@@ -3,8 +3,6 @@ package Pruebas;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import connec.Connect;
-import windows.Login;
 import windows.RegisterStudent;
 
 public class test {
@@ -17,8 +15,9 @@ public class test {
 		//RaStudentView r = new RaStudentView();
 		
 		RegisterStudent r = new RegisterStudent();
-		//Connect c = new Connect();
-		//c.login();
+//		RegisterTeacher rt = new RegisterTeacher();
+//		Connect c = new Connect();
+//		c.login();
 		
 		//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
 		//Student a = new Student("31010101K","Perro","Sanche","perro@sanche.es","1990-10-5","sinFoto", 648950);

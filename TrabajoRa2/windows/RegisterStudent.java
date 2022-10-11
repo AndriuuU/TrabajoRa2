@@ -155,6 +155,8 @@ public class RegisterStudent extends JFrame {
 		setVisible(true);
 	}
 
+	
+	//Add the new user if all of the jtextfields are filled
 	public class driverAdd implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -163,15 +165,29 @@ public class RegisterStudent extends JFrame {
 			String name = jtName.getText().toString();
 			String surnames = jtSurname.getText().toString();
 			String email = jtEmail.getText().toString();
-			String date_birth = sdf.format(date.getDate());
+			String date_birth = date.getDateFormatString();
 			String pic = "foto";
 			String valorPass = new String(jtPass.getPassword());
-			int telefono = Integer.parseInt(jtTelefono.getText().toString());
-			Student s = new Student(dni, name, surnames, email, date_birth, pic, telefono, valorPass);
-			//System.out.println(s.toString());
-			c.insertStudent(s);
-
+			String telefono = jtTelefono.getText().toString();	
+			if (emptyDetector(dni,name, surnames, email, date_birth, pic, valorPass,telefono)==true) {
+				date_birth = sdf.format(date.getDate());
+				Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono), valorPass);
+				c.insertStudent(s);
+			}else {
+				JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
 		}
-
 	}
+	
+	
+	//To dettect if jtextfield are empty
+	public boolean emptyDetector(String dni,String name,String surnames,String email,String date_birth,String pic,String valorPass,String telefono) {
+		boolean passed = true;
+		if(dni.equalsIgnoreCase("") || name.equalsIgnoreCase("") || surnames.equalsIgnoreCase("") || email.equalsIgnoreCase("") || date_birth.equalsIgnoreCase("") ||pic.equalsIgnoreCase("") || valorPass.equalsIgnoreCase("") || telefono.equalsIgnoreCase("") )
+			passed = false;
+		return passed;
+	}
+	 
+
 }

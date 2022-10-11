@@ -128,52 +128,50 @@ public class Connect {
 
 
 
-//	// TO VIEW DATA
-//	public void viewTeacher() {
-//		List<Teacher> listTeacher = new ArrayList<>();
-//		try {
-//			String insertquery = "select * from profesor";
-//			ResultSet result = statement.executeQuery(insertquery);
-//			if (result.next()) {
-//				Teacher teacher = new Teacher(result.getString(1), result.getString(2), result.getString(3),
-//						result.getString(4));
-//				listTeacher.add(teacher);
-//			}
-//			for (Teacher t : listTeacher) {
-//				System.out.println(t);
-//			}
-//		} catch (SQLException ex) {
-//			System.out.println("Problem To Show Data");
-//		}
-//	}
-//
-//	// TO VIEW DATA
-//	public void viewStudents() {
-//		List<Student> listStudents = new ArrayList<>();
-//		try {
-//			String insertquery = "select * from alumnos";
-//			ResultSet result = statement.executeQuery(insertquery);
-//			if (result.next()) {
-//
-//				Student studen = new Student(result.getString(1), result.getString(2), result.getString(3),
-//						result.getString(4), result.getString(5), result.getString(6),
-//						Integer.parseInt(result.getString(7)));
-//				listStudents.add(studen);
-//			}
-//			for (Student s : listStudents) {
-//				System.out.println(s);
-//			}
-//		} catch (SQLException ex) {
-//			System.out.println("Problem To Show Data");
-//		}
-//	}
-
-	public void viewStudentsRA(int dni) {
-
+	// TO VIEW DATA
+	public void viewTeacher() {
+		List<Teacher> listTeacher = new ArrayList<>();
 		try {
-			// Falta terminar el view
-			String insertquery = "SELECT asg.codAsig,asg.nombre,r. FROM matricula as INNER JOIN alumnos as a on m.dniAlumno = a."
-					+ dni + " INNER JOIN asignatura as asg on m.codAsig = asg.codAsig;";
+			String insertquery = "select * from profesor";
+			ResultSet result = statement.executeQuery(insertquery);
+			if (result.next()) {
+				Teacher teacher = new Teacher(result.getString("dni"), result.getString("nombre"), result.getString("apellidos"),
+						result.getString("email"),result.getString("pass"));
+				listTeacher.add(teacher);
+			}
+			for (Teacher t : listTeacher) {
+				System.out.println(t);
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+	}
+
+	// TO VIEW DATA
+	public void viewStudents() {
+		List<Student> listStudents = new ArrayList<>();
+		try {
+			String insertquery = "select * from alumnos";
+			ResultSet result = statement.executeQuery(insertquery);
+			if (result.next()) {
+
+				Student studen = new Student(result.getString("dni"), result.getString("nombre"), result.getString("apellidos"),
+						result.getString("email"),result.getString("fecha_nac"), result.getString("foto"),
+						Integer.parseInt(result.getString("telefono")),result.getString("pass"));
+				listStudents.add(studen);
+			}
+			for (Student s : listStudents) {
+				System.out.println(s);
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+	}
+
+	public void viewStudents(String dni) {
+		try {
+			
+			String insertquery = "SELECT ";
 			ResultSet result = statement.executeQuery(insertquery);
 			if (result.next()) {
 
@@ -181,6 +179,25 @@ public class Connect {
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
+		
+	}
+	
+	public Map<String, String> viewStudentsRA(String dni) {
+		Map<String, String> ras = new HashMap<String, String>();
+		try {
+			// Falta terminar el view
+			String insertquery = "SELECT c.idRa, c.nota FROM califica c, matricula m, ra r WHERE '"+dni+"' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig;";
+			
+			ResultSet result = statement.executeQuery(insertquery);
+			if (result.next()) {
+				ras.put(result.getString("idRa"), result.getString("nota"));
+				result.next();
+				System.out.println(result.getString("idRa"));
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+		return ras;
 	}
 
 	// TO UPDATE DATA

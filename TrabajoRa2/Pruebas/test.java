@@ -5,7 +5,7 @@ import java.sql.Statement;
 
 import connec.Connect;
 import windows.Login;
-import windows.Register;
+import windows.RegisterStudent;
 
 public class test {
 	static Statement statement;
@@ -13,10 +13,10 @@ public class test {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws SQLException {
 
-		Login l = new Login();
+		//Login l = new Login();
 		//RaStudentView r = new RaStudentView();
 		
-		//Register r = new Register();
+		RegisterStudent r = new RegisterStudent();
 		//Connect c = new Connect();
 		//c.login();
 		

@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import clases.Student;
 import clases.Teacher;
 import windows.Login;
@@ -44,11 +46,11 @@ public class Connect {
 			String query = "INSERT INTO alumnos values('" + s.getDni() + "','" + s.getNombre() + "','"
 					+ s.getApellidos() + "','" + s.getEmail() + "','" + s.getFecha_nac() + "','" + s.getFoto() + "','"
 					+ s.getTelefono() + "','" + s.getPassw() + "');";
-			System.out.println(query);
+			//System.out.println(query);
 			statement.execute(query);
 			System.out.println("Inserted");
-		} catch (Exception e) {
-			System.out.println("Not Inserted");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Ya existe una cuenta con ese DNI", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -75,7 +77,6 @@ public class Connect {
 		Map<String, String> teachers = new HashMap<String, String>();
 		String queryStudent = "select dni,pass from alumnos";
 		String queryTeachers = "select dni,pass from profesor";
-		;
 		
 		//Insert data in students Map
 		ResultSet resultStudent = statement.executeQuery(queryStudent);

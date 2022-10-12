@@ -1,5 +1,6 @@
 package windows;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -8,6 +9,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 
@@ -16,11 +19,15 @@ public class AdminWindow extends JFrame {
 
 	private JComboBox<String> comboBox;
 	private JPanel jptable, jpButton;
-	private JTable jtable;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
 	private String[] options = { "Courses", "Professors", "Students" };
-	private static int option = 0;
-	private JScrollPane scrollPane;
+
+	// Table's Attributes.
+
+	private static String[] columnsName;
+	private static TableModel model;
+	private static JScrollPane scrollPane;
+	private static JTable jtable;
 
 	public AdminWindow() {
 
@@ -30,11 +37,12 @@ public class AdminWindow extends JFrame {
 
 		// añadir (options) como parametro del constructor, una vez metido no deja abrir
 		// windowBuilder
-		comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>(options);
 		comboBox.setMaximumRowCount(3);
 		comboBox.setToolTipText("Selector");
 		comboBox.setBounds(10, 10, 130, 20);
 		comboBox.setSelectedIndex(0);
+		comboBox.setBackground(Color.LIGHT_GRAY);
 		getContentPane().add(comboBox);
 		comboBox.addItemListener(new ItemListener() {
 
@@ -42,7 +50,7 @@ public class AdminWindow extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 
 				JComboBox<?> jcb1 = (JComboBox<?>) e.getSource();
-				option = jcb1.getSelectedIndex();
+				changeTable(jcb1.getSelectedIndex());
 
 			}
 		});
@@ -61,21 +69,23 @@ public class AdminWindow extends JFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
 
+		changeTable(comboBox.getSelectedIndex());
+
 		jbInsert = new JButton("Insert");
-		jbInsert.setBounds(10, 25, 97, 21);
-		jbInsert.setToolTipText("Insert new row.");
+		jbInsert.setBounds(10, 25, 100, 20);
+		WindowPreset.buttonPreset(jbInsert, "Insert new row.");
 		jbDelete = new JButton("Delete");
-		jbDelete.setBounds(10, 56, 97, 21);
-		jbDelete.setToolTipText("Delete selected row.");
+		jbDelete.setBounds(10, 56, 100, 20);
+		WindowPreset.buttonPreset(jbDelete, "Delete selected row.");
 		jbDetails = new JButton("Details");
-		jbDetails.setBounds(10, 87, 97, 21);
-		jbDetails.setToolTipText("Detail selected row.");
+		jbDetails.setBounds(10, 87, 100, 20);
+		WindowPreset.buttonPreset(jbDetails, "Detail selected row.");
 		jbUpdate = new JButton("Modify");
-		jbUpdate.setBounds(10, 118, 97, 21);
-		jbUpdate.setToolTipText("Modify selected row.");
+		jbUpdate.setBounds(10, 118, 100, 20);
+		WindowPreset.buttonPreset(jbUpdate, "Modify selected row.");
 		jbDis = new JButton("Disconnect");
-		jbDis.setBounds(10, 198, 97, 21);
-		jbDis.setToolTipText("Go to Login.");
+		jbDis.setBounds(10, 198, 100, 20);
+		WindowPreset.buttonPreset(jbDis, "Go to Login.");
 		jptable.setLayout(null);
 
 		jpButton.setLayout(null);
@@ -91,5 +101,24 @@ public class AdminWindow extends JFrame {
 
 		setVisible(true);
 
+	}
+
+	public static void changeTable(int index) {
+		if (index == 0) {
+			columnsName = new String[] { "Code", "Name" };
+			model = new DefaultTableModel(columnsName, 0);
+			jtable = new JTable(model);
+			scrollPane.setViewportView(jtable);
+		} else if (index == 1) {
+			columnsName = new String[] { "NIF", "Name", "Surname" };
+			model = new DefaultTableModel(columnsName, 0);
+			jtable = new JTable(model);
+			scrollPane.setViewportView(jtable);
+		} else if (index == 2) {
+			columnsName = new String[] { "NIF", "Name", "Surname" };
+			model = new DefaultTableModel(columnsName, 0);
+			jtable = new JTable(model);
+			scrollPane.setViewportView(jtable);
+		}
 	}
 }

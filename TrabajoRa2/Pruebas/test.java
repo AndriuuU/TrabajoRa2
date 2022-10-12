@@ -3,7 +3,13 @@ package Pruebas;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+<<<<<<< Updated upstream
 import windows.RegisterStudent;
+=======
+import clases.Student;
+import connec.Connect;
+import windows.Register;
+>>>>>>> Stashed changes
 
 public class test {
 	static Statement statement;
@@ -21,7 +27,7 @@ public class test {
 		
 		//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
 		//Student a = new Student("31010101K","Perro","Sanche","perro@sanche.es","1990-10-5","sinFoto", 648950);
-		//ConnectarBD c=new ConnectarBD();
+		//Connect c=new Connect();
 		//c.insertStudent(a);
 //		String host = "jdbc:mysql://localhost:3306/trabajora2";
 //	    String user = "root";

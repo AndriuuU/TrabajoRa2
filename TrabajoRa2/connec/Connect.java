@@ -16,14 +16,19 @@ import clases.Teacher;
 public class Connect {
 	static Statement statement;
 	static Connection cc;
-	java.sql.PreparedStatement ps;
 	private String host = "jdbc:mysql://localhost/school";
+<<<<<<< Updated upstream
 	private String user = "root";
 	private String pass = "";
 	private Map<String, String> students;
 	private Map<String, String> teachers;
 
 	// To connect java with phpmyadmin
+=======
+	private String user = "admin";
+	private String pass = "admin";
+	
+>>>>>>> Stashed changes
 	public Connect() {
 		try {
 			cc = DriverManager.getConnection(host, user, pass);
@@ -33,6 +38,7 @@ public class Connect {
 			System.out.println("Connection failed!");
 		}
 	}
+<<<<<<< Updated upstream
 
 	// To insert a new alum, if dni already exist throw exception with a joptionpane
 	// error
@@ -47,6 +53,20 @@ public class Connect {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Ya existe una cuenta con ese DNI", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+=======
+	
+	// INSERT ALUMNO
+	public void insertStudent(Student s){
+	    try{
+	        String query = "INSERT INTO alumnos values('"+s.getDni()+"','"+s.getNombre()+"','"+s.getApellidos()+"','"+s.getEmail()+"','"+s.getFecha_nac()+"','"+s.getFoto()+"','"+s.getTelefono()+"');";
+	        System.out.println(query);
+	        statement.execute(query);
+	        System.out.println("Inserted");
+	        
+	    } catch(Exception e){
+	        System.out.println("Not Inserted");
+	    }
+>>>>>>> Stashed changes
 	}
 
 	// To insert a new teacher, if dni already exist throw exception with a

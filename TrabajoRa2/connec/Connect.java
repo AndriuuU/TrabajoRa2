@@ -7,28 +7,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.security.auth.Subject;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+
 import clases.Student;
 import clases.Teacher;
+import windows.SubjectsView;
 
 public class Connect {
 	static Statement statement;
 	static Connection cc;
 	private String host = "jdbc:mysql://localhost/school";
-<<<<<<< Updated upstream
 	private String user = "root";
 	private String pass = "";
 	private Map<String, String> students;
 	private Map<String, String> teachers;
-
-	// To connect java with phpmyadmin
-=======
-	private String user = "admin";
-	private String pass = "admin";
-	
->>>>>>> Stashed changes
+	public Map<String, String> subjectContent = new HashMap<String, String>();
 	public Connect() {
 		try {
 			cc = DriverManager.getConnection(host, user, pass);
@@ -38,7 +38,6 @@ public class Connect {
 			System.out.println("Connection failed!");
 		}
 	}
-<<<<<<< Updated upstream
 
 	// To insert a new alum, if dni already exist throw exception with a joptionpane
 	// error
@@ -47,26 +46,30 @@ public class Connect {
 			String query = "INSERT INTO alumnos values('" + s.getDni() + "','" + s.getNombre() + "','"
 					+ s.getApellidos() + "','" + s.getEmail() + "','" + s.getFecha_nac() + "','" + s.getFoto() + "','"
 					+ s.getTelefono() + "','" + s.getPassw() + "');";
-			// System.out.println(query);
 			statement.execute(query);
 			System.out.println("Inserted");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Ya existe una cuenta con ese DNI", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-=======
+	}
 	
-	// INSERT ALUMNO
-	public void insertStudent(Student s){
-	    try{
-	        String query = "INSERT INTO alumnos values('"+s.getDni()+"','"+s.getNombre()+"','"+s.getApellidos()+"','"+s.getEmail()+"','"+s.getFecha_nac()+"','"+s.getFoto()+"','"+s.getTelefono()+"');";
-	        System.out.println(query);
-	        statement.execute(query);
-	        System.out.println("Inserted");
-	        
-	    } catch(Exception e){
-	        System.out.println("Not Inserted");
-	    }
->>>>>>> Stashed changes
+	//Read the map(subjects) and compare with the array of checkbox to check wich one is selected
+	//if is selected inser dniStudent and idSubject
+	public void insertMatricula(String s) throws SQLException {
+		if (SubjectsView.jcSubjects.length > 0) {
+			for (JCheckBox c : SubjectsView.jcSubjects) {
+				Iterator<Entry<String, String>> iterator = subjectContent.entrySet().iterator();
+				if (c.isSelected()) {
+					while (iterator.hasNext()) {
+						Map.Entry<String, String> entry = iterator.next();
+						if (c.getText().toString().equalsIgnoreCase(entry.getValue())) {
+							String query = "INSERT INTO matricula values('" + s + "','" + entry.getKey() + "');";
+							statement.execute(query);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// To insert a new teacher, if dni already exist throw exception with a
@@ -120,7 +123,7 @@ public class Connect {
 			}
 		}
 		if (estado.equalsIgnoreCase("")) {
-			estado = checkTeacher(logDni,logPass);
+			estado = checkTeacher(logDni, logPass);
 		}
 
 		// The value returned will be :
@@ -132,7 +135,7 @@ public class Connect {
 	}
 
 	public String checkTeacher(String logDni, String logPass) {
-		String estado="";
+		String estado = "";
 		for (String key : teachers.keySet()) {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : teachers.values()) {
@@ -143,8 +146,18 @@ public class Connect {
 				}
 			}
 		}
-
 		return estado;
+	}
+
+	// Fill subjectContent(Map) with all of the subjects available in the bd
+	@SuppressWarnings("unchecked")
+	public Map<String, String> boxFiller() throws SQLException {
+		String querySubject = "select codAsig,nombre from asignatura";
+		ResultSet resultSubjects = statement.executeQuery(querySubject);
+		while (resultSubjects.next()) {
+			subjectContent.put(resultSubjects.getString("codAsig"), resultSubjects.getString("nombre"));
+		}
+		return subjectContent;
 	}
 
 	// TO VIEW DATA
@@ -173,7 +186,6 @@ public class Connect {
 			String insertquery = "select * from alumnos";
 			ResultSet result = statement.executeQuery(insertquery);
 			if (result.next()) {
-
 				Student studen = new Student(result.getString("dni"), result.getString("nombre"),
 						result.getString("apellidos"), result.getString("email"), result.getString("fecha_nac"),
 						result.getString("foto"), Integer.parseInt(result.getString("telefono")),

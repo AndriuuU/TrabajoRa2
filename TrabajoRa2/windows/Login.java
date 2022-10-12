@@ -115,7 +115,7 @@ public class Login extends JFrame {
 
 	}
 
-	// Driver to login
+	// Driver to Register
 	public class driverRegister implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

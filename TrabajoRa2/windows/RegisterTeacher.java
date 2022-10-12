@@ -110,8 +110,6 @@ public class RegisterTeacher extends JFrame {
 			String password = new String(jpPassword.getPassword());
 			Teacher t = new Teacher(dni, name, surname, email, password);
 			c.insertTeacher(t);
-
-
 		}
 
 	}

@@ -3,13 +3,9 @@ package Pruebas;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-<<<<<<< Updated upstream
-import windows.RegisterStudent;
-=======
-import clases.Student;
 import connec.Connect;
-import windows.Register;
->>>>>>> Stashed changes
+import windows.RegisterStudent;
+import windows.SubjectsView;
 
 public class test {
 	static Statement statement;
@@ -18,12 +14,14 @@ public class test {
 	public static void main(String[] args) throws SQLException {
 
 		//Login l = new Login();
-		//RaStudentView r = new RaStudentView();
+//		RaStudentView r = new RaStudentView();
+//		AdminWindow ad = new AdminWindow();
+//		SubjectsView s = new SubjectsView();
 		
 		RegisterStudent r = new RegisterStudent();
 //		RegisterTeacher rt = new RegisterTeacher();
 //		Connect c = new Connect();
-//		c.login();
+//		c.comboFiller();
 		
 		//String dni, String nombre, String apellidos, String email, String fecha_nac, String foto, int telefono
 		//Student a = new Student("31010101K","Perro","Sanche","perro@sanche.es","1990-10-5","sinFoto", 648950);

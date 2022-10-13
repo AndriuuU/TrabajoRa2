@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import clases.Asignatura;
 import clases.Student;
 import clases.Teacher;
+import windows.RaStudentView;
+import windows.StudentView;
 import windows.SubjectsView;
 
 public class Connect {
@@ -197,20 +199,6 @@ public class Connect {
 		return listStudents;
 	}
 
-	public void viewStudents(String dni) {
-		try {
-
-			String insertquery = "SELECT ";
-			ResultSet result = statement.executeQuery(insertquery);
-			if (result.next()) {
-
-			}
-		} catch (SQLException ex) {
-			System.out.println("Problem To Show Data");
-		}
-
-	}
-
 	public List<Asignatura> viewSubjects() {
 		List<Asignatura> listSubjects = new ArrayList<>();
 		try {
@@ -228,24 +216,45 @@ public class Connect {
 		return listSubjects;
 	}
 
-	public Map<String, String> viewStudentsRA(String dni) {
-		Map<String, String> ras = new HashMap<String, String>();
+public void viewStudents(String dni) {
+		
 		try {
-			// Falta terminar el view
-			String insertquery = "SELECT c.idRa, c.nota FROM califica c, matricula m, ra r WHERE '" + dni
-					+ "' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig;";
-
+			String insertquery = "SELECT r.codAsig,a.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' FROM califica c, matricula m, ra r,asignatura a WHERE '"+dni+"' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig GROUP BY r.codAsig;";
 			ResultSet result = statement.executeQuery(insertquery);
-			if (result.next()) {
-				ras.put(result.getString("idRa"), result.getString("nota"));
-				result.next();
-				System.out.println(result.getString("idRa"));
+			while(result.next()) {
+				Object[] data = { result.getString("codAsig"),result.getString("nombre"), result.getString("nota")};
+				StudentView.tablemodel.addRow(data);
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
-		return ras;
+		
 	}
+	
+	public void viewStudentsRA(String dni,String codAsig) {
+		
+		
+		try {
+			// Falta terminar el view
+			String insertquery = "SELECT c.idRa, r.nombre, c.nota, r.ponderacion FROM califica c, matricula m, ra r WHERE '"+dni+"' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig='"+codAsig+"' GROUP BY r.id;";
+			
+			ResultSet result = statement.executeQuery(insertquery);
+			
+			while(result.next()) {
+				
+				Object[] data = { result.getString("idRa"), result.getString("nombre"), result.getString("nota"),result.getString("ponderacion")};
+				
+				RaStudentView.tablemodel.addRow(data);
+				
+				
+			
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+		
+	}
+
 
 	// TO UPDATE DATA
 	public void update() {

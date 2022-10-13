@@ -1,10 +1,7 @@
 package windows;
 
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,38 +9,34 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import connec.Connect;
 
 
 @SuppressWarnings("serial")
 public class RaStudentView extends JFrame {
-	private TableModel model ;
+	
 	private String[] columNames ;
-	private JTable table;
+	static public JTable table;
+	static public DefaultTableModel tablemodel;
 	private JButton back;
 	private JLabel lblAlumno;
 
-
+	Connect mostrar=new Connect();
 	public RaStudentView() {
 
 		super("RaStudentView");
 		setSize(503, 400);
 		WindowPreset.preset(this);
 		setLayout(null);
+
+		columNames = new String[] {"Ra","Name","Grade","Percentage"};
+		tablemodel = new DefaultTableModel (columNames, 0);
+		setTabla(new JTable(tablemodel));
+		table = new JTable(tablemodel);
 		
-		Connect mostrar=new Connect();
-		Map<String,String> ras=mostrar.viewStudentsRA("123456789A");
-		
-		for (String key : ras.keySet()) {
-			System.out.println(key);
-			
-		}
-		
-		columNames = new String[] {"Ra","Name","Grade"};
-		model = new DefaultTableModel (columNames, 0);
-		table = new JTable(model);
+		String asig=StudentView.codMatricula;
+		mostrar.viewStudentsRA("123456789A",asig);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 301, 280);
@@ -63,7 +56,13 @@ public class RaStudentView extends JFrame {
 		setVisible(true);
 		
 	}
-	
+	public static JTable getTabla() {
+		return table;
+	}
+	private void setTabla(JTable jTable) {
+		this.table = jTable;
+		
+	}
 	public class ButtonManager implements ActionListener {
 
 		@Override

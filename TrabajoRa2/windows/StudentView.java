@@ -8,66 +8,89 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+
+import connec.Connect;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
 public class StudentView extends JFrame {
 
-	private TableModel model ;
-	private String[] columNames ;
-	private JTable table;
-	private JButton back ,btnLook;
+	private String[] columNames;
+	static public JTable table;
+	static public DefaultTableModel tablemodel;
+	private JButton back, btnLook;
 	private JLabel lblAlumno;
-	
+	static public String codMatricula;
+
+	Connect mostrar = new Connect();
+
 	public StudentView() {
 		super("StudentView");
-		setSize(530, 400);
+		setSize(600, 400);
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
-		
-		columNames = new String[] {"Subject","Grade"};
-		model = new DefaultTableModel (columNames, 0);
-		table = new JTable(model);
-		
+
+		columNames = new String[] { "Cod", "Subject", "Grade" };
+		tablemodel = new DefaultTableModel(columNames, 0);
+		setTabla(new JTable(tablemodel));
+		table = new JTable(tablemodel);
+
+		mostrar.viewStudents("123456789A");
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 63, 301, 258);
+		scrollPane.setBounds(27, 63, 393, 258);
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
-		
+
 		lblAlumno = new JLabel("(Nombre del alumno)");
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
-		
-		ButtonManager buttonMana =new ButtonManager();
-		
+
+		ButtonManager buttonMana = new ButtonManager();
+
 		btnLook = new JButton("Show Ra");
-		btnLook.setBounds(367, 100, 85, 21);
+		btnLook.setBounds(461, 101, 85, 21);
 		btnLook.addActionListener(buttonMana);
 		getContentPane().add(btnLook);
-		
+
 		back = new JButton("Return");
-		back.setBounds(367, 267, 85, 21);
+		back.setBounds(461, 268, 85, 21);
 		back.addActionListener(buttonMana);
 		getContentPane().add(back);
-		
+
 		setVisible(true);
 	}
-	
+
+	public static JTable getTabla() {
+		return table;
+	}
+
+	private void setTabla(JTable jTable) {
+		this.table = jTable;
+
+	}
+
 	private class ButtonManager implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			setVisible(false);
-			
-			if(e.getSource()==btnLook) {
-				new RaStudentView();
-				
-			}else if(e.getSource()==back) {
-				
-			}
+			int num = getTabla().getSelectedRow();
+
+			if (num >=0) {
+				setVisible(false);
+
+				if (e.getSource() == btnLook) {
+					codMatricula = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
+					System.out.println(codMatricula);
+					new RaStudentView();
+
+				} else if (e.getSource() == back) {
+
+				}
+			}else
+				JOptionPane.showMessageDialog(StudentView.this, "Debes seleccionar una asignaruta!!", "Asignatura no seleccionada", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }

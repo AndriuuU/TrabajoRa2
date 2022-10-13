@@ -22,56 +22,43 @@ public class RaProfessorView extends JFrame {
 	private JButton back;
 	private JLabel lblAlumno;
 	static public String codRa;
+	public boolean entra;
 
 	Connect mostrar = new Connect();
 	private JButton btnShow;
 
 	public RaProfessorView() {
 
-		super("RaProfesorView");
+		setTitle("RaProfesorView");
 		setSize(503, 400);
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
 
+		
+
+		columNames = new String[] { "Ra", "Name" };
+		tablemodel = new DefaultTableModel(columNames, 0);
+		setTabla(new JTable(tablemodel));
+		table = new JTable(tablemodel);
+
+		String asig = TeacherView.codAsigna;
+		mostrar.viewTeacherRa(asig);
+
+		lblAlumno = new JLabel(asig);
+		lblAlumno.setBounds(36, 29, 205, 13);
+		getContentPane().add(lblAlumno);
+
 		ButtonManager buttonMana = new ButtonManager();
 		
-		if(getTitle().equals("Final grade")) {
-			
-			columNames = new String[] { "Name", "note" };
-			tablemodel = new DefaultTableModel(columNames, 0);
-			setTabla(new JTable(tablemodel));
-			table = new JTable(tablemodel);
-
-			String asig = TeacherView.codAsigna;
-			mostrar.viewTeacherRa(asig);
-			
-		}else {
-			
-			columNames = new String[] { "Ra", "Name" };
-			tablemodel = new DefaultTableModel(columNames, 0);
-			setTabla(new JTable(tablemodel));
-			table = new JTable(tablemodel);
-
-			String asig = TeacherView.codAsigna;
-			mostrar.viewTeacherRa(asig);
-			
-			lblAlumno = new JLabel("(Nombre del profesor)");
-			lblAlumno.setBounds(36, 29, 205, 13);
-			getContentPane().add(lblAlumno);
-
-			btnShow = new JButton("Show");
-			btnShow.setBounds(367, 109, 85, 21);
-			btnShow.addActionListener(buttonMana);
-			getContentPane().add(btnShow);
-		}
-		
+		btnShow = new JButton("Show");
+		btnShow.setBounds(367, 109, 85, 21);
+		btnShow.addActionListener(buttonMana);
+		getContentPane().add(btnShow);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 301, 280);
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
-
-		
 
 		back = new JButton("Return");
 		back.setBounds(367, 267, 85, 21);

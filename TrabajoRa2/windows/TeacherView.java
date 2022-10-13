@@ -88,15 +88,15 @@ public class TeacherView extends JFrame {
 				
 			} else if (num >= 0) {
 				setVisible(false);
-
+				codAsigna = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
+				
 				if (e.getSource() == btnLook) {
-					codAsigna = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
-
 					new RaProfessorView();
 
 				} else if (e.getSource() == btnStudent) {
-					RaProfessorView notaFinal = new RaProfessorView();
-					notaFinal.setTitle("Final grade");
+					
+					new TeacherRaGrade();
+					
 					//notaFinal.columNames = new String[] { "Student", "Final" };
 
 				}

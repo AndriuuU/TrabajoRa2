@@ -12,65 +12,85 @@ import javax.swing.table.DefaultTableModel;
 
 import connec.Connect;
 
-
 @SuppressWarnings("serial")
 public class TeacherRaGrade extends JFrame {
-	
-	public String[] columNames  ;
+
+	public String[] columNames;
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
 	private JButton back;
 	private JLabel lblAlumno;
+	private boolean salir=false;
 
-	Connect mostrar=new Connect();
+	Connect mostrar = new Connect();
+
 	public TeacherRaGrade() {
 
-		super("TeacherRaGrade");
+		super("Teacher Grade");
 		setSize(503, 400);
 		WindowPreset.preset(this);
 		setLayout(null);
 
-		columNames = new String[] {"Name","Grade"};
-		tablemodel = new DefaultTableModel (columNames, 0);
+		columNames = new String[] { "Name", "Grade" };
+		tablemodel = new DefaultTableModel(columNames, 0);
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
+
+		
+		String ra = RaProfessorView.codRa;
+		if (ra != null) {
+			mostrar.viewTeacherRaGrade(ra);
+			
+			salir=true;
+			lblAlumno = new JLabel(ra);
+		}else {
+			String asig = TeacherView.codAsigna;
+			mostrar.viewTeacherFinalGrade(asig);
+			lblAlumno = new JLabel(asig);
+		}
+			
 		
 		
-		String ra=RaProfessorView.codRa;
-		mostrar.viewTeacherRaGrade(ra);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 301, 280);
 		add(scrollPane);
 		scrollPane.setViewportView(table);
+
 		
-		lblAlumno = new JLabel("(Nombre del RA)");
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
 		
 		back = new JButton("Return");
 		back.setBounds(367, 267, 85, 21);
-		ButtonManager buttonMana =new ButtonManager();
+		ButtonManager buttonMana = new ButtonManager();
 		back.addActionListener(buttonMana);
 		getContentPane().add(back);
-		
+
 		setVisible(true);
-		
+
 	}
+
 	public static JTable getTabla() {
 		return table;
 	}
+
 	private void setTabla(JTable jTable) {
 		this.table = jTable;
-		
+
 	}
+
 	public class ButtonManager implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new RaProfessorView();
+			if(salir) {
+				new RaProfessorView();
+			}else
+				new TeacherView();
+			
 			setVisible(false);
 		}
-		
+
 	}
 }

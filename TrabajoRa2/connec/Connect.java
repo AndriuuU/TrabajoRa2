@@ -18,9 +18,12 @@ import javax.swing.JOptionPane;
 import clases.Asignatura;
 import clases.Student;
 import clases.Teacher;
+import windows.RaProfessorView;
 import windows.RaStudentView;
 import windows.StudentView;
 import windows.SubjectsView;
+import windows.TeacherRaGrade;
+import windows.TeacherView;
 
 public class Connect {
 	static Statement statement;
@@ -235,7 +238,7 @@ public void viewStudents(String dni) {
 		
 		
 		try {
-			// Falta terminar el view
+			
 			String insertquery = "SELECT c.idRa, r.nombre, c.nota, r.ponderacion FROM califica c, matricula m, ra r WHERE '"+dni+"' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig='"+codAsig+"' GROUP BY r.id;";
 			
 			ResultSet result = statement.executeQuery(insertquery);
@@ -254,8 +257,84 @@ public void viewStudents(String dni) {
 		}
 		
 	}
+	
+	public void viewTeacher(String dniTeacher) {
+		try {
+			
+			String insertquery = "SELECT codAsig, nombre FROM asignatura WHERE '"+dniTeacher+"'=dniProfesor;";
+			
+			ResultSet result = statement.executeQuery(insertquery);
+			
+			while(result.next()) {
+				
+				Object[] data = { result.getString("codAsig"), result.getString("nombre")};
+				
+				TeacherView.tablemodel.addRow(data);
+			
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+	}
 
-
+	
+	public void viewTeacherRa(String codAsig) {
+		try {
+			
+			String insertquery = "SELECT id, nombre FROM ra WHERE '"+codAsig+"'=codAsig;";
+			
+			ResultSet result = statement.executeQuery(insertquery);
+			
+			while(result.next()) {
+				
+				Object[] data = { result.getString("id"), result.getString("nombre")};
+				
+				RaProfessorView.tablemodel.addRow(data);
+			
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+	}
+	
+	public void viewTeacherRaGrade(String codRa) {
+		try {
+			
+			String insertquery = "SELECT a.nombre, c.nota FROM alumnos a, califica c WHERE c.dniAlumno=a.dni AND c.idRa='"+codRa+"';";
+			
+			ResultSet result = statement.executeQuery(insertquery);
+			
+			while(result.next()) {
+				
+				Object[] data = { result.getString("nombre"), result.getString("nota")};
+				
+				TeacherRaGrade.tablemodel.addRow(data);
+			
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+	}
+	
+	public void viewTeacherFinalGrade(String codAsig) {
+		try {
+			
+			String insertquery = "SELECT r.codAsig,alu.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' FROM califica c, matricula m, ra r,asignatura a, alumnos alu WHERE '"+ codAsig+"'=m.codAsig AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig AND alu.dni=m.dniAlumno GROUP BY alu.dni;";
+			
+			ResultSet result = statement.executeQuery(insertquery);
+			
+			while(result.next()) {
+				
+				Object[] data = { result.getString("nombre"), result.getString("nota")};
+				
+				TeacherRaGrade.tablemodel.addRow(data);
+			
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+	}
+	
 	// TO UPDATE DATA
 	public void update() {
 		try {

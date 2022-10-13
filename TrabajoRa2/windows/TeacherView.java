@@ -15,45 +15,50 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial")
-public class StudentView extends JFrame {
+public class TeacherView extends JFrame {
 
 	private String[] columNames;
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
-	private JButton back, btnLook;
+	private JButton back, btnLook, btnStudent;
 	private JLabel lblAlumno;
-	static public String codMatricula;
+	static public String codAsigna;
 
 	Connect mostrar = new Connect();
 
-	public StudentView() {
-		super("StudentView");
+	public TeacherView() {
+		super("TeacherView");
 		setSize(600, 400);
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
 
-		columNames = new String[] { "Cod", "Subject", "Grade" };
+		columNames = new String[] { "Cod", "Subject" };
 		tablemodel = new DefaultTableModel(columNames, 0);
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
 
-		mostrar.viewStudents("123456789A");
+		mostrar.viewTeacher("74544252J");
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 393, 258);
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
 
-		lblAlumno = new JLabel("(Nombre del alumno)");
+		lblAlumno = new JLabel("(Nombre del profesor)");
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
 
 		ButtonManager buttonMana = new ButtonManager();
 
-		btnLook = new JButton("Show Ra");
+		btnLook = new JButton("SHOW");
 		btnLook.setBounds(461, 101, 85, 21);
 		btnLook.addActionListener(buttonMana);
 		getContentPane().add(btnLook);
+
+		btnStudent = new JButton("NOTE GRADE");
+		btnStudent.setBounds(452, 145, 107, 21);
+		btnStudent.addActionListener(buttonMana);
+		getContentPane().add(btnStudent);
 
 		back = new JButton("Return");
 		back.setBounds(461, 268, 85, 21);
@@ -77,20 +82,28 @@ public class StudentView extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int num = getTabla().getSelectedRow();
+			if (e.getSource() == back) {
 
-			if (num >=0) {
+				// Borrar profesor
+				
+			} else if (num >= 0) {
 				setVisible(false);
 
 				if (e.getSource() == btnLook) {
-					codMatricula = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
-					
-					new RaStudentView();
+					codAsigna = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
 
-				} else if (e.getSource() == back) {
+					new RaProfessorView();
+
+				} else if (e.getSource() == btnStudent) {
+					RaProfessorView notaFinal = new RaProfessorView();
+					notaFinal.setTitle("Final grade");
+					//notaFinal.columNames = new String[] { "Student", "Final" };
 
 				}
-			}else
-				JOptionPane.showMessageDialog(StudentView.this, "Debes seleccionar una asignaruta!!", "Asignatura no seleccionada", JOptionPane.WARNING_MESSAGE);
+			} else
+				JOptionPane.showMessageDialog(TeacherView.this, "Debes seleccionar una asignaruta!!",
+						"Asignatura no seleccionada", JOptionPane.WARNING_MESSAGE);
+
 		}
 	}
 }

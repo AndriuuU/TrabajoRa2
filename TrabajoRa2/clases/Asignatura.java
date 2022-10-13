@@ -2,24 +2,24 @@ package clases;
 
 public class Asignatura {
 
-	private String codAdig,nombre;
+	private String codAsig, nombre;
 	private int horas;
-	private Teacher dniProfesor;
-	
-	public Asignatura(String codAdig, String nombre, int horas, Teacher dniProfesor) {
+	private String dniProfesor;
+
+	public Asignatura(String codAsig, String nombre, int horas, String dniProfesor) {
 		super();
-		this.codAdig = codAdig;
+		this.codAsig = codAsig;
 		this.nombre = nombre;
 		this.horas = horas;
 		this.dniProfesor = dniProfesor;
 	}
 
-	public String getCodAdig() {
-		return codAdig;
+	public String getCodAsig() {
+		return codAsig;
 	}
 
-	public void setCodAdig(String codAdig) {
-		this.codAdig = codAdig;
+	public void setCodAsig(String codAsig) {
+		this.codAsig = codAsig;
 	}
 
 	public String getNombre() {
@@ -38,20 +38,18 @@ public class Asignatura {
 		this.horas = horas;
 	}
 
-	public Teacher getDniProfesor() {
+	public String getDniProfesor() {
 		return dniProfesor;
 	}
 
-	public void setDniProfesor(Teacher dniProfesor) {
+	public void setDniProfesor(String dniProfesor) {
 		this.dniProfesor = dniProfesor;
 	}
 
 	@Override
 	public String toString() {
-		return "Asignatura [codAdig=" + codAdig + ", nombre=" + nombre + ", horas=" + horas + ", dniProfesor="
+		return "Asignatura [codAsig=" + codAsig + ", nombre=" + nombre + ", horas=" + horas + ", dniProfesor="
 				+ dniProfesor + "]";
 	}
-	
-	
-	
+
 }

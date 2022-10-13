@@ -8,11 +8,15 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
+
+import clases.Asignatura;
+import clases.Student;
+import clases.Teacher;
+import connec.Connect;
 
 @SuppressWarnings("serial")
 public class AdminWindow extends JFrame {
@@ -25,9 +29,9 @@ public class AdminWindow extends JFrame {
 	// Table's Attributes.
 
 	private static String[] columnsName;
-	private static TableModel model;
 	private static JScrollPane scrollPane;
 	private static JTable jtable;
+	private static Connect c = new Connect();
 
 	public AdminWindow() {
 
@@ -104,21 +108,49 @@ public class AdminWindow extends JFrame {
 	}
 
 	public static void changeTable(int index) {
+		DefaultTableModel model = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
 		if (index == 0) {
 			columnsName = new String[] { "Code", "Name" };
-			model = new DefaultTableModel(columnsName, 0);
+			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
+			for (Asignatura as : c.viewSubjects()) {
+				Object[] row = new Object[2];
+				row[0] = as.getCodAsig();
+				row[1] = as.getNombre();
+				model.addRow(row);
+			}
 		} else if (index == 1) {
 			columnsName = new String[] { "NIF", "Name", "Surname" };
-			model = new DefaultTableModel(columnsName, 0);
+			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
+			for (Teacher t : c.viewTeacher()) {
+				Object[] row = new Object[3];
+				row[0] = t.getDni();
+				row[1] = t.getNombre();
+				row[2] = t.getApellidos();
+				model.addRow(row);
+			}
 		} else if (index == 2) {
 			columnsName = new String[] { "NIF", "Name", "Surname" };
-			model = new DefaultTableModel(columnsName, 0);
+			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
+			for (Student s : c.viewStudents()) {
+				Object[] row = new Object[3];
+				row[0] = s.getDni();
+				row[1] = s.getNombre();
+				row[2] = s.getApellidos();
+				model.addRow(row);
+			}
 		}
 	}
 }

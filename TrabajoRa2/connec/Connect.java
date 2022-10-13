@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.security.auth.Subject;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
+import clases.Asignatura;
 import clases.Student;
 import clases.Teacher;
 import windows.SubjectsView;
@@ -29,6 +29,7 @@ public class Connect {
 	private Map<String, String> students;
 	private Map<String, String> teachers;
 	public Map<String, String> subjectContent = new HashMap<String, String>();
+
 	public Connect() {
 		try {
 			cc = DriverManager.getConnection(host, user, pass);
@@ -52,9 +53,10 @@ public class Connect {
 			JOptionPane.showMessageDialog(null, "Ya existe una cuenta con ese DNI", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
-	//Read the map(subjects) and compare with the array of checkbox to check wich one is selected
-	//if is selected inser dniStudent and idSubject
+
+	// Read the map(subjects) and compare with the array of checkbox to check wich
+	// one is selected
+	// if is selected inser dniStudent and idSubject
 	public void insertMatricula(String s) throws SQLException {
 		if (SubjectsView.jcSubjects.length > 0) {
 			for (JCheckBox c : SubjectsView.jcSubjects) {
@@ -150,7 +152,6 @@ public class Connect {
 	}
 
 	// Fill subjectContent(Map) with all of the subjects available in the bd
-	@SuppressWarnings("unchecked")
 	public Map<String, String> boxFiller() throws SQLException {
 		String querySubject = "select codAsig,nombre from asignatura";
 		ResultSet resultSubjects = statement.executeQuery(querySubject);
@@ -161,43 +162,39 @@ public class Connect {
 	}
 
 	// TO VIEW DATA
-	public void viewTeacher() {
+	public List<Teacher> viewTeacher() {
 		List<Teacher> listTeacher = new ArrayList<>();
 		try {
 			String insertquery = "select * from profesor";
 			ResultSet result = statement.executeQuery(insertquery);
-			if (result.next()) {
+			while (result.next()) {
 				Teacher teacher = new Teacher(result.getString("dni"), result.getString("nombre"),
 						result.getString("apellidos"), result.getString("email"), result.getString("pass"));
 				listTeacher.add(teacher);
 			}
-			for (Teacher t : listTeacher) {
-				System.out.println(t);
-			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
+		return listTeacher;
 	}
 
 	// TO VIEW DATA
-	public void viewStudents() {
+	public List<Student> viewStudents() {
 		List<Student> listStudents = new ArrayList<>();
 		try {
 			String insertquery = "select * from alumnos";
 			ResultSet result = statement.executeQuery(insertquery);
-			if (result.next()) {
+			while (result.next()) {
 				Student studen = new Student(result.getString("dni"), result.getString("nombre"),
 						result.getString("apellidos"), result.getString("email"), result.getString("fecha_nac"),
 						result.getString("foto"), Integer.parseInt(result.getString("telefono")),
 						result.getString("pass"));
 				listStudents.add(studen);
 			}
-			for (Student s : listStudents) {
-				System.out.println(s);
-			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
+		return listStudents;
 	}
 
 	public void viewStudents(String dni) {
@@ -212,6 +209,23 @@ public class Connect {
 			System.out.println("Problem To Show Data");
 		}
 
+	}
+
+	public List<Asignatura> viewSubjects() {
+		List<Asignatura> listSubjects = new ArrayList<>();
+		try {
+			String insertquery = "select * from asignatura";
+			ResultSet result = statement.executeQuery(insertquery);
+			while (result.next()) {
+				Asignatura as = new Asignatura(result.getString("codAsig"), result.getString("nombre"),
+						Integer.parseInt(result.getString("horas")), result.getString("dniProfesor"));
+				listSubjects.add(as);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println("Problem To Show Data");
+		}
+		return listSubjects;
 	}
 
 	public Map<String, String> viewStudentsRA(String dni) {

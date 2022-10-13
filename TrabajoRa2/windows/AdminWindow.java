@@ -1,6 +1,8 @@
 package windows;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -25,6 +27,8 @@ public class AdminWindow extends JFrame {
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
 	private String[] options = { "Courses", "Professors", "Students" };
+	@SuppressWarnings("unused")
+	private static Object o;
 
 	// Table's Attributes.
 
@@ -84,12 +88,22 @@ public class AdminWindow extends JFrame {
 		jbDetails = new JButton("Details");
 		jbDetails.setBounds(10, 87, 100, 20);
 		WindowPreset.buttonPreset(jbDetails, "Detail selected row.");
-		jbUpdate = new JButton("Modify");
+		jbUpdate = new JButton("Update");
 		jbUpdate.setBounds(10, 118, 100, 20);
 		WindowPreset.buttonPreset(jbUpdate, "Modify selected row.");
 		jbDis = new JButton("Disconnect");
 		jbDis.setBounds(10, 198, 100, 20);
 		WindowPreset.buttonPreset(jbDis, "Go to Login.");
+		jbDis.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				@SuppressWarnings("unused")
+				Login l = new Login();
+
+			}
+		});
 		jptable.setLayout(null);
 
 		jpButton.setLayout(null);
@@ -117,6 +131,7 @@ public class AdminWindow extends JFrame {
 
 		};
 		if (index == 0) {
+			o = new Asignatura();
 			columnsName = new String[] { "Code", "Name" };
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
@@ -128,6 +143,7 @@ public class AdminWindow extends JFrame {
 				model.addRow(row);
 			}
 		} else if (index == 1) {
+			o = new Teacher();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
@@ -140,6 +156,7 @@ public class AdminWindow extends JFrame {
 				model.addRow(row);
 			}
 		} else if (index == 2) {
+			o = new Student();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
@@ -152,5 +169,55 @@ public class AdminWindow extends JFrame {
 				model.addRow(row);
 			}
 		}
+	}
+
+	class ButtonManager implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			String selector = o.getClass().toString();
+			JButton b = (JButton) e.getSource();
+
+			if (selector.equals("class clases.Asignatura")) {
+				if (b.getName().equals("Insert")) {
+
+				} else if (b.getName().equals("Delete")) {
+
+				} else if (b.getName().equals("Details")) {
+
+				} else if (b.getName().equals("Update")) {
+
+				} else {
+					System.out.println("Error");
+				}
+			} else if (selector.equals("class clases.Teacher")) {
+				if (b.getName().equals("Insert")) {
+
+				} else if (b.getName().equals("Delete")) {
+
+				} else if (b.getName().equals("Details")) {
+
+				} else if (b.getName().equals("Update")) {
+
+				} else {
+					System.out.println("Error");
+				}
+			} else if (selector.equals("class classes.Student")) {
+				if (b.getName().equals("Insert")) {
+
+				} else if (b.getName().equals("Delete")) {
+
+				} else if (b.getName().equals("Details")) {
+
+				} else if (b.getName().equals("Update")) {
+
+				} else {
+					System.out.println("Error");
+				}
+			}
+
+		}
+
 	}
 }

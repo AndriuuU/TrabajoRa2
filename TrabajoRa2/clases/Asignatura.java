@@ -14,6 +14,11 @@ public class Asignatura {
 		this.dniProfesor = dniProfesor;
 	}
 
+	public Asignatura() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCodAsig() {
 		return codAsig;
 	}

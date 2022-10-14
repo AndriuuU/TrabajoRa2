@@ -5,20 +5,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
-import java.text.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.List;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -26,13 +27,12 @@ import com.toedter.calendar.JDateChooser;
 
 import clases.Student;
 import connec.Connect;
-import javax.swing.JPasswordField;
 
 
 @SuppressWarnings("serial")
 public class RegisterStudent extends JFrame {
-	private JTextField jtDni;
-	private JTextField jtName;
+	public static JTextField jtDni;
+	public static JTextField jtName;
 	private JTextField jtSurname;
 	private JTextField jtEmail;
 	private JTextField jtTelefono;
@@ -41,7 +41,7 @@ public class RegisterStudent extends JFrame {
 	private JButton btnAgregar;
 	private JButton btnSubjectsView;
 	private JDateChooser date;
-
+	public File destination;
 	private JLabel lblImg;
 	private JLabel lblTlf;
 	private JLabel lblDate;
@@ -49,7 +49,7 @@ public class RegisterStudent extends JFrame {
 	private JLabel lblSurnames;
 	private JLabel lblName;
 	private JLabel lblDni;
-	private JLabel lblFoto;
+	public static JLabel lblFoto;
 	private JLabel lblPass;
 	private JPasswordField jtPass;
 
@@ -57,7 +57,7 @@ public class RegisterStudent extends JFrame {
 	public RegisterStudent() throws SQLException {
 
 		super("Register");
-		setSize(630, 430);
+		setSize(630, 450);
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
 
@@ -139,21 +139,21 @@ public class RegisterStudent extends JFrame {
 		lblImg.setBounds(470, 251, 92, 14);
 		getContentPane().add(lblImg);
 
-		btnImg = new JButton("Picture");
-		btnImg.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnImg = new JButton("PICTURE");
+		btnImg.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		WindowPreset.buttonPreset(btnImg, "Add your pic");
 		btnImg.setBounds(470, 276, 89, 23);
 		getContentPane().add(btnImg);
 
-		btnAgregar = new JButton("Agregar");
+		btnAgregar = new JButton("ADD");
 		WindowPreset.buttonPreset(btnAgregar, "Add the new student to the database");
-		btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAgregar.setBounds(251, 367, 110, 23);
 		getContentPane().add(btnAgregar);
 
 		lblFoto = new JLabel("Foto");
 		lblFoto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFoto.setBounds(456, 84, 128, 156);
+		lblFoto.setBounds(456, 86, 128, 156);
 		lblFoto.setBorder(BorderFactory.createLineBorder(Color.black));
 		getContentPane().add(lblFoto);
 
@@ -180,21 +180,52 @@ public class RegisterStudent extends JFrame {
 		driverSubjects dSubjects = new driverSubjects();
 		btnSubjectsView.addActionListener(dSubjects);
 		setVisible(true);
+		
+		driverImage dImage = new driverImage();
+		btnImg.addActionListener(dImage);
+		
+		
+		//To delete de temp img created to show de picture in the lblImage
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        File file = new File("files/tempSelfies/imgTemp"+fileChooser.extension);
+		        if(file.exists()) 
+		        	file.delete();
+		    }
+		});
 	}
 
-	// Add the new user if all of the jtextfields are filled
+	// Add the new user if all of the jtextfields are fiWwlled
 	public class driverAdd implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 			String dni = jtDni.getText().toString();
 			String name = jtName.getText().toString();
+			
+			File imagenes = new File("files/tempSelfies/imgTemp"+fileChooser.extension);
+			File sourcer = new File(imagenes.toPath().toString());
+			destination = new File("files/selfies/"+dni.toString()+name.toString().replace(" ", "")+fileChooser.extension.toString());
+			try {
+				Files.copy(sourcer.toPath(), destination.toPath());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				Files.delete(sourcer.toPath());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
 			String surnames = jtSurname.getText().toString();
 			String email = jtEmail.getText().toString();
 			String date_birth = date.getDateFormatString();
-			String pic = "foto";
+			String pic = destination.toString().replace("\\","/");
+			System.out.println(pic);
 			String valorPass = new String(jtPass.getPassword());
 			String telefono = jtTelefono.getText().toString();
+			
 			if (emptyDetector(dni, name, surnames, email, date_birth, pic, valorPass, telefono) == true) {
 				date_birth = sdf.format(date.getDate());
 				Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
@@ -203,7 +234,6 @@ public class RegisterStudent extends JFrame {
 				try {
 					c.insertMatricula(dni);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else {
@@ -213,6 +243,14 @@ public class RegisterStudent extends JFrame {
 
 		}
 	}
+	
+	public class driverImage implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			fileChooser.start();
+		}
+	}
+	
 
 	// To call the subjectview frame
 	public class driverSubjects implements ActionListener {

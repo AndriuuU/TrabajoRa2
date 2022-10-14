@@ -319,7 +319,10 @@ public void viewStudents(String dni) {
 	public void viewTeacherFinalGrade(String codAsig) {
 		try {
 			
-			String insertquery = "SELECT r.codAsig,alu.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' FROM califica c, matricula m, ra r,asignatura a, alumnos alu WHERE '"+ codAsig+"'=m.codAsig AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig AND alu.dni=m.dniAlumno GROUP BY alu.dni;";
+			String insertquery = "SELECT r.codAsig,alu.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' "
+					+ "FROM califica c, matricula m, ra r,asignatura a, alumnos alu "
+					+ "WHERE '"+ codAsig+"'=m.codAsig AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig AND alu.dni=m.dniAlumno "
+							+ "GROUP BY alu.dni;";
 			
 			ResultSet result = statement.executeQuery(insertquery);
 			
@@ -333,6 +336,18 @@ public void viewStudents(String dni) {
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
+	}
+	
+	public Student getInfoStudent(String dni,List<Student> lista) {
+		Student s;
+		for(Student a:lista) {
+			if(a.getDni().equals(dni)) {
+				s=new Student(a.getDni(),a.getNombre(),a.getApellidos(),a.getEmail(),a.getFecha_nac(),a.getFoto(),a.getTelefono(),a.getPassw());
+				return s;
+			}
+		}
+		return null;
+		
 	}
 	
 	// TO UPDATE DATA

@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,7 +41,7 @@ public class RegisterStudent extends JFrame {
 	private Connect c = new Connect();
 	private JButton btnImg;
 	private JButton btnAgregar;
-	private JButton btnSubjectsView;
+	private JButton btnSubjectsView, btnReturnStudent;
 	private JDateChooser date;
 	public File destination;
 	private JLabel lblImg;
@@ -52,9 +54,10 @@ public class RegisterStudent extends JFrame {
 	public static JLabel lblFoto;
 	private JLabel lblPass;
 	private JPasswordField jtPass;
+	static public Student student;
 
 	public static List<String> listOfSubjects = new ArrayList<String>();
-	public RegisterStudent() throws SQLException {
+	public RegisterStudent() throws SQLException, ParseException {
 
 		super("Register");
 		setSize(630, 450);
@@ -184,6 +187,33 @@ public class RegisterStudent extends JFrame {
 		driverImage dImage = new driverImage();
 		btnImg.addActionListener(dImage);
 		
+		if(student!=null) {
+			setTitle("Modify");
+			jtDni.setText(student.getDni());
+			jtDni.setEditable(false);
+			jtName.setText(student.getNombre());
+			jtSurname.setText(student.getApellidos());
+			jtEmail.setText(student.getEmail());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy/dd/MM");
+			date.setDate(formato.parse(student.getFecha_nac().replace("-", "/")));
+			jtTelefono.setText(String.valueOf(student.getTelefono()));
+			jtPass.setText(student.getPassw());
+			
+			driverModify dModify = new driverModify();
+			btnAgregar.setText("Modify");
+			btnAgregar.setBounds(310, 367, 110, 23);
+			btnAgregar.addActionListener(dModify);
+			
+			btnReturnStudent=new JButton("Return");
+			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student");
+			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnReturnStudent.setBounds(185, 367, 110, 23);
+			btnReturnStudent.addActionListener(dModify);
+			getContentPane().add(btnReturnStudent);
+			
+			
+			student=null;
+		}
 		
 		//To delete de temp img created to show de picture in the lblImage
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -206,6 +236,7 @@ public class RegisterStudent extends JFrame {
 			
 			File imagenes = new File("files/tempSelfies/imgTemp"+fileChooser.extension);
 			File sourcer = new File(imagenes.toPath().toString());
+			
 			destination = new File("files/selfies/"+dni.toString()+name.toString().replace(" ", "")+fileChooser.extension.toString());
 			try {
 				Files.copy(sourcer.toPath(), destination.toPath());
@@ -241,6 +272,13 @@ public class RegisterStudent extends JFrame {
 			}
 			
 
+		}
+	}
+	
+	public class driverModify implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
 		}
 	}
 	

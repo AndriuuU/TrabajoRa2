@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Student;
 import connec.Connect;
 
 
@@ -21,10 +22,11 @@ public class RaStudentView extends JFrame {
 	static public DefaultTableModel tablemodel;
 	private JButton back;
 	private JLabel lblAlumno;
+	private Student s;
 
 	Connect mostrar=new Connect();
-	public RaStudentView() {
-
+	public RaStudentView(String dni) {
+	
 		super("RaStudentView");
 		setSize(503, 400);
 		WindowPreset.preset(this);
@@ -36,14 +38,15 @@ public class RaStudentView extends JFrame {
 		table = new JTable(tablemodel);
 		
 		String asig=StudentView.codMatricula;
-		mostrar.viewStudentsRA("123456789A",asig);
+		mostrar.viewStudentsRA(dni,asig);
+		s= mostrar.getInfoStudent(dni, mostrar.viewStudents());
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 301, 280);
 		add(scrollPane);
 		scrollPane.setViewportView(table);
 		
-		lblAlumno = new JLabel("(Nombre del alumno)");
+		lblAlumno = new JLabel();
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
 		
@@ -67,7 +70,7 @@ public class RaStudentView extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new StudentView();
+			new StudentView(s.getDni());
 			setVisible(false);
 		}
 		

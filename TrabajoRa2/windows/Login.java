@@ -98,7 +98,7 @@ public class Login extends JFrame {
 			}
 			try {
 				if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("studentaccepted")) {
-					new RaStudentView();
+					new StudentView(jtUser.getText().toString());
 					getContentPane().hide();
 				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("teacheraccepted")) {
 					new RaProfessorView();

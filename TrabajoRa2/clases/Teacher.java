@@ -2,17 +2,17 @@ package clases;
 
 public class Teacher {
 
-	private String dni, nombre,apellidos,email,passwd;
+	private String dni, name, surname, email, passwd;
 
-	public Teacher(String dni, String nombre, String apellidos, String email,String passwd) {
+	public Teacher(String dni, String name, String surname, String email, String passwd) {
 		super();
 		this.dni = dni;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
+		this.name = name;
+		this.surname = surname;
 		this.email = email;
 		this.passwd = passwd;
 	}
-		
+
 	public Teacher() {
 		super();
 	}
@@ -25,20 +25,20 @@ public class Teacher {
 		this.dni = dni;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getApellidos() {
-		return apellidos;
+	public String getSurname() {
+		return surname;
 	}
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getEmail() {
@@ -48,7 +48,6 @@ public class Teacher {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
 	public String getPasswd() {
 		return passwd;
@@ -60,8 +59,7 @@ public class Teacher {
 
 	@Override
 	public String toString() {
-		return "Profesor [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email + "]";
+		return "Profesor [dni=" + dni + ", name=" + name + ", surnames=" + surname + ", email=" + email + "]";
 	}
-	
-	
+
 }

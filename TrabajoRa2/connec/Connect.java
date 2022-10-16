@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import clases.Asignatura;
+import clases.Subjects;
 import clases.Student;
 import clases.Teacher;
 import windows.RaProfessorView;
@@ -49,13 +49,14 @@ public class Connect {
 	// error
 	public void insertStudent(Student s) {
 		try {
-			String query = "INSERT INTO alumnos values('" + s.getDni() + "','" + s.getNombre() + "','"
-					+ s.getApellidos() + "','" + s.getEmail() + "','" + s.getFecha_nac() + "','" + s.getFoto() + "','"
-					+ s.getTelefono() + "','" + s.getPassw() + "');";
+			String query = "INSERT INTO alumnos values('" + s.getDni() + "','" + s.getName() + "','" + s.getSurname()
+					+ "','" + s.getEmail() + "','" + s.getB_date() + "','" + s.getPhoto() + "','" + s.getPhone() + "','"
+					+ s.getPassw() + "');";
 			statement.execute(query);
 			System.out.println("Inserted");
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Ya existe una cuenta con ese DNI", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "You are trying to insert an existing account", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -84,14 +85,15 @@ public class Connect {
 	public void insertTeacher(Teacher t) {
 		try {
 			// String dni, String nombre, String apellidos, String email
-			String query = "INSERT INTO profesor values('" + t.getDni() + "','" + t.getNombre() + "','"
-					+ t.getApellidos() + "','" + t.getEmail() + "','" + t.getPasswd() + "');";
+			String query = "INSERT INTO profesor values('" + t.getDni() + "','" + t.getName() + "','" + t.getSurname()
+					+ "','" + t.getEmail() + "','" + t.getPasswd() + "');";
 			System.out.println(query);
 			statement.execute(query);
 			System.out.println("Inserted");
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Ya existe una cuenta con ese DNI", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "You are trying to insert an existing account", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -118,19 +120,19 @@ public class Connect {
 
 		// Test if the user exist, and if exist check password,
 		// The return value will depend on if the user is a student or teacher
-		String estado = "";
+		String state = "";
 		for (String key : students.keySet()) {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : students.values()) {
 					if (logPass.equalsIgnoreCase(valor))
-						estado = "studentaccepted";
+						state = "studentaccepted";
 					else
-						estado = "notaccepted";
+						state = "notaccepted";
 				}
 			}
 		}
-		if (estado.equalsIgnoreCase("")) {
-			estado = checkTeacher(logDni, logPass);
+		if (state.equalsIgnoreCase("")) {
+			state = checkTeacher(logDni, logPass);
 		}
 
 		// The value returned will be :
@@ -138,22 +140,22 @@ public class Connect {
 		// "notaccepted" -> if the password is wrong
 		// "studentaccepted" or "teacheraccepted" if the user and the password is
 		// correct
-		return estado;
+		return state;
 	}
 
 	public String checkTeacher(String logDni, String logPass) {
-		String estado = "";
+		String state = "";
 		for (String key : teachers.keySet()) {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : teachers.values()) {
 					if (logPass.equalsIgnoreCase(valor))
-						estado = "teacheraccepted";
+						state = "teacheraccepted";
 					else
-						estado = "notaccepted";
+						state = "notaccepted";
 				}
 			}
 		}
-		return estado;
+		return state;
 	}
 
 	// Fill subjectContent(Map) with all of the subjects available in the bd
@@ -202,13 +204,13 @@ public class Connect {
 		return listStudents;
 	}
 
-	public List<Asignatura> viewSubjects() {
-		List<Asignatura> listSubjects = new ArrayList<>();
+	public List<Subjects> viewSubjects() {
+		List<Subjects> listSubjects = new ArrayList<>();
 		try {
 			String insertquery = "select * from asignatura";
 			ResultSet result = statement.executeQuery(insertquery);
 			while (result.next()) {
-				Asignatura as = new Asignatura(result.getString("codAsig"), result.getString("nombre"),
+				Subjects as = new Subjects(result.getString("codAsig"), result.getString("nombre"),
 						Integer.parseInt(result.getString("horas")), result.getString("dniProfesor"));
 				listSubjects.add(as);
 			}
@@ -344,8 +346,8 @@ public class Connect {
 		Student s;
 		for (Student a : lista) {
 			if (a.getDni().equals(dni)) {
-				s = new Student(a.getDni(), a.getNombre(), a.getApellidos(), a.getEmail(), a.getFecha_nac(),
-						a.getFoto(), a.getTelefono(), a.getPassw());
+				s = new Student(a.getDni(), a.getName(), a.getSurname(), a.getEmail(), a.getB_date(), a.getPhoto(),
+						a.getPhone(), a.getPassw());
 				return s;
 			}
 		}
@@ -355,15 +357,11 @@ public class Connect {
 
 	// TO UPDATE DATA
 	public void updateStudent(Student s) throws SQLException {
-		String insertquery = "UPDATE alumnos set nombre = '" + s.getNombre() + ""
-				+ "', apellidos= '" + s.getApellidos() + ""
-				+ "', email= '" + s.getEmail() + ""
-				+ "', fecha_nac='" + s.getFecha_nac() + ""
-				+ "', foto='" + s.getFoto() + ""
-				+ "', telefono='" +s.getTelefono() + ""
-				+ "', pass='"+s.getPassw() + ""
-				+ "' where dni = '" +s.getDni() + "';";
-				
+		String insertquery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '" + s.getSurname()
+				+ "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + "" + "', foto='"
+				+ s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw() + ""
+				+ "' where dni = '" + s.getDni() + "';";
+
 		System.out.println(insertquery);
 		statement.executeUpdate(insertquery);
 		System.out.println("Updated");

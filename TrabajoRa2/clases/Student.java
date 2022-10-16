@@ -1,21 +1,20 @@
 package clases;
 
 public class Student {
-	private String dni, nombre, apellidos,email,fecha_nac,passw,foto;
-	private int telefono;
-	
-	
-	public Student(String dni, String nombre, String apellidos, String email, String fecha_nac,
-			String foto, int telefono, String passw) {
+	private String dni, name, surname, email, b_date, passw, photo;
+	private int phone;
+
+	public Student(String dni, String name, String surname, String email, String b_date, String photo, int phone,
+			String passw) {
 		super();
 		this.dni = dni;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
+		this.name = name;
+		this.surname = surname;
 		this.email = email;
-		this.fecha_nac = fecha_nac;
+		this.b_date = b_date;
+		this.photo = photo;
+		this.phone = phone;
 		this.passw = passw;
-		this.foto = foto;
-		this.telefono = telefono;
 	}
 
 	public Student() {
@@ -30,20 +29,20 @@ public class Student {
 		this.dni = dni;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getApellidos() {
-		return apellidos;
+	public String getSurname() {
+		return surname;
 	}
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getEmail() {
@@ -54,29 +53,28 @@ public class Student {
 		this.email = email;
 	}
 
-
-	public String getFecha_nac() {
-		return fecha_nac;
+	public String getB_date() {
+		return b_date;
 	}
 
-	public void setFecha_nac(String fecha_nac) {
-		this.fecha_nac = fecha_nac;
+	public void setB_date(String b_date) {
+		this.b_date = b_date;
 	}
 
-	public String getFoto() {
-		return foto;
+	public String getPhoto() {
+		return photo;
 	}
 
-	public void setFoto(String foto) {
-		this.foto = foto;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
-	public int getTelefono() {
-		return telefono;
+	public int getPhone() {
+		return phone;
 	}
 
-	public void setTelefono(int telefono) {
-		this.telefono = telefono;
+	public void setPhone(int phone) {
+		this.phone = phone;
 	}
 
 	public String getPassw() {
@@ -89,17 +87,8 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
-				+ ", fecha_nac=" + fecha_nac + ", foto=" + foto + ", telefono=" + telefono+ ", passw=" + passw + "]";
+		return "Student [dni=" + dni + ", name=" + name + ", surname=" + surname + ", email=" + email + ", b_date="
+				+ b_date + ", photo=" + photo + ", phone=" + phone + ", passw=" + passw + "]";
 	}
-	
 
-	
-	
-
-
-	
-	
-	
-	
 }

@@ -3,7 +3,7 @@ package Pruebas;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import windows.RegisterStudent;
+import windows.AdminWindow;
 
 public class test {
 	static Statement statement;
@@ -13,10 +13,9 @@ public class test {
 
 		// Login l = new Login();
 //		RaStudentView r = new RaStudentView();
-//		AdminWindow ad = new AdminWindow();
+		AdminWindow ad = new AdminWindow();
 //		SubjectsView s = new SubjectsView();
-//		AdminWindow aw = new AdminWindow();
-		RegisterStudent r = new RegisterStudent();
+//		RegisterStudent r = new RegisterStudent();
 //		RegisterTeacher rt = new RegisterTeacher();
 //		Connect c = new Connect();
 //		c.comboFiller();

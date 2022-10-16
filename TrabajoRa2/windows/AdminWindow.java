@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import clases.Asignatura;
+import clases.Subjects;
 import clases.Student;
 import clases.Teacher;
 import connec.Connect;
@@ -27,7 +27,6 @@ public class AdminWindow extends JFrame {
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
 	private String[] options = { "Courses", "Professors", "Students" };
-	@SuppressWarnings("unused")
 	private static Object o;
 
 	// Table's Attributes.
@@ -131,15 +130,15 @@ public class AdminWindow extends JFrame {
 
 		};
 		if (index == 0) {
-			o = new Asignatura();
+			o = new Subjects();
 			columnsName = new String[] { "Code", "Name" };
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
-			for (Asignatura as : c.viewSubjects()) {
+			for (Subjects as : c.viewSubjects()) {
 				Object[] row = new Object[2];
-				row[0] = as.getCodAsig();
-				row[1] = as.getNombre();
+				row[0] = as.getCodSubject();
+				row[1] = as.getName();
 				model.addRow(row);
 			}
 		} else if (index == 1) {
@@ -151,8 +150,8 @@ public class AdminWindow extends JFrame {
 			for (Teacher t : c.viewTeacher()) {
 				Object[] row = new Object[3];
 				row[0] = t.getDni();
-				row[1] = t.getNombre();
-				row[2] = t.getApellidos();
+				row[1] = t.getName();
+				row[2] = t.getSurname();
 				model.addRow(row);
 			}
 		} else if (index == 2) {
@@ -164,8 +163,8 @@ public class AdminWindow extends JFrame {
 			for (Student s : c.viewStudents()) {
 				Object[] row = new Object[3];
 				row[0] = s.getDni();
-				row[1] = s.getNombre();
-				row[2] = s.getApellidos();
+				row[1] = s.getName();
+				row[2] = s.getSurname();
 				model.addRow(row);
 			}
 		}

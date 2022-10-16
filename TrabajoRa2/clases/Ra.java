@@ -1,18 +1,18 @@
 package clases;
 
 public class Ra {
-	
-	private String id, nombre,descripcion;
-	private float ponderacion;
-	private Asignatura codAsig;
-	
-	public Ra(String id, String nombre, String descripcion, float ponderacion, Asignatura codAsig) {
+
+	private String id, name, description;
+	private float weighting;
+	private Subjects codSubject;
+
+	public Ra(String id, String name, String description, float weighting, Subjects codSubject) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.ponderacion = ponderacion;
-		this.codAsig = codAsig;
+		this.name = name;
+		this.description = description;
+		this.weighting = weighting;
+		this.codSubject = codSubject;
 	}
 
 	public String getId() {
@@ -23,44 +23,42 @@ public class Ra {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public float getPonderacion() {
-		return ponderacion;
+	public float getWeighting() {
+		return weighting;
 	}
 
-	public void setPonderacion(float ponderacion) {
-		this.ponderacion = ponderacion;
+	public void setWeighting(float weighting) {
+		this.weighting = weighting;
 	}
 
-	public Asignatura getCodAsig() {
-		return codAsig;
+	public Subjects getCodSubject() {
+		return codSubject;
 	}
 
-	public void setCodAsig(Asignatura codAsig) {
-		this.codAsig = codAsig;
+	public void setCodSubject(Subjects codSubject) {
+		this.codSubject = codSubject;
 	}
 
 	@Override
 	public String toString() {
-		return "Ra [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", ponderacion=" + ponderacion
-				+ ", codAsig=" + codAsig + "]";
+		return "Ra [id=" + id + ", name=" + name + ", description=" + description + ", weighting=" + weighting
+				+ ", codSubject=" + codSubject + "]";
 	}
-	
-	
-	
+
 }

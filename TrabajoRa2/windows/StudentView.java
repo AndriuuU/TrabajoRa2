@@ -29,8 +29,8 @@ public class StudentView extends JFrame {
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
 	private JButton back, btnCrud, btnLook;
-	private JLabel lblAlumno, lblFoto;
-	static public String codMatricula;
+	private JLabel lblStudent, name;
+	static public String codEnrolment;
 	private Student s;
 
 	Connect mostrar = new Connect();
@@ -54,10 +54,10 @@ public class StudentView extends JFrame {
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
 
-		lblAlumno = new JLabel(s.getNombre() + " " + s.getApellidos());
-		lblAlumno.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblAlumno.setBounds(36, 29, 205, 13);
-		getContentPane().add(lblAlumno);
+		lblStudent = new JLabel(s.getName() + " " + s.getSurname());
+		lblStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblStudent.setBounds(36, 29, 205, 13);
+		getContentPane().add(lblStudent);
 
 		ButtonManager buttonMana = new ButtonManager();
 
@@ -79,17 +79,17 @@ public class StudentView extends JFrame {
 		WindowPreset.buttonPreset(back, "Back to menu");
 		getContentPane().add(back);
 
-		lblFoto = new JLabel();
-		lblFoto.setBounds(456, 35, 97, 90);
-		lblFoto.setBorder(BorderFactory.createLineBorder(Color.black));
+		name = new JLabel();
+		name.setBounds(456, 35, 97, 90);
+		name.setBorder(BorderFactory.createLineBorder(Color.black));
 		insertFoto();
-		getContentPane().add(lblFoto);
+		getContentPane().add(name);
 
 		setVisible(true);
 	}
 
 	private void insertFoto() {
-		ImageIcon imageIcon = new ImageIcon(s.getFoto().toString());
+		ImageIcon imageIcon = new ImageIcon(s.getPhoto().toString());
 		if (imageIcon.getImage() != null) {
 			imageIcon = new ImageIcon("files/Perfil.png");
 		}
@@ -97,7 +97,7 @@ public class StudentView extends JFrame {
 		Image newimg = image.getScaledInstance(94, 110, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon imageIcon2 = new ImageIcon(newimg);
 
-		lblFoto.setIcon(imageIcon2);
+		name.setIcon(imageIcon2);
 	}
 
 	public static JTable getTabla() {
@@ -105,7 +105,7 @@ public class StudentView extends JFrame {
 	}
 
 	private void setTabla(JTable jTable) {
-		this.table = jTable;
+		StudentView.table = jTable;
 
 	}
 
@@ -117,9 +117,8 @@ public class StudentView extends JFrame {
 			if (e.getSource() == btnCrud) {
 				try {
 
-					RegisterStudent.student=s;
+					RegisterStudent.student = s;
 					new RegisterStudent();
-					
 
 				} catch (SQLException | ParseException e1) {
 
@@ -130,7 +129,7 @@ public class StudentView extends JFrame {
 				setVisible(false);
 
 				if (e.getSource() == btnLook) {
-					codMatricula = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
+					codEnrolment = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
 
 					new RaStudentView(s.getDni());
 
@@ -138,8 +137,8 @@ public class StudentView extends JFrame {
 					new Login();
 				}
 			} else
-				JOptionPane.showMessageDialog(StudentView.this, "Debes seleccionar una asignaruta!!",
-						"Asignatura no seleccionada", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(StudentView.this, "You must select a subject!!", "Unselected subject",
+						JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }

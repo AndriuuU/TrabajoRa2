@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -190,12 +188,12 @@ public class RegisterStudent extends JFrame {
 			setTitle("Modify");
 			jtDni.setText(student.getDni());
 			jtDni.setEditable(false);
-			jtName.setText(student.getNombre());
-			jtSurname.setText(student.getApellidos());
+			jtName.setText(student.getName());
+			jtSurname.setText(student.getSurname());
 			jtEmail.setText(student.getEmail());
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy/dd/MM");
-			date.setDate(formato.parse(student.getFecha_nac().replace("-", "/")));
-			jtTelefono.setText(String.valueOf(student.getTelefono()));
+			date.setDate(formato.parse(student.getB_date().replace("-", "/")));
+			jtTelefono.setText(String.valueOf(student.getPhone()));
 			jtPass.setText(student.getPassw());
 
 			driverModify dModify = new driverModify();

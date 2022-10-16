@@ -1,6 +1,5 @@
 package windows;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -30,7 +29,6 @@ import com.toedter.calendar.JDateChooser;
 import clases.Student;
 import connec.Connect;
 
-
 @SuppressWarnings("serial")
 public class RegisterStudent extends JFrame {
 	public static JTextField jtDni;
@@ -57,6 +55,7 @@ public class RegisterStudent extends JFrame {
 	static public Student student;
 
 	public static List<String> listOfSubjects = new ArrayList<String>();
+
 	public RegisterStudent() throws SQLException, ParseException {
 
 		super("Register");
@@ -183,11 +182,11 @@ public class RegisterStudent extends JFrame {
 		driverSubjects dSubjects = new driverSubjects();
 		btnSubjectsView.addActionListener(dSubjects);
 		setVisible(true);
-		
+
 		driverImage dImage = new driverImage();
 		btnImg.addActionListener(dImage);
-		
-		if(student!=null) {
+
+		if (student != null) {
 			setTitle("Modify");
 			jtDni.setText(student.getDni());
 			jtDni.setEditable(false);
@@ -198,31 +197,30 @@ public class RegisterStudent extends JFrame {
 			date.setDate(formato.parse(student.getFecha_nac().replace("-", "/")));
 			jtTelefono.setText(String.valueOf(student.getTelefono()));
 			jtPass.setText(student.getPassw());
-			
+
 			driverModify dModify = new driverModify();
 			btnAgregar.setText("Modify");
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
-			
-			btnReturnStudent=new JButton("Return");
+
+			btnReturnStudent = new JButton("Return");
 			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student");
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnReturnStudent.setBounds(185, 367, 110, 23);
-			btnReturnStudent.addActionListener(dModify);
+			btnReturnStudent.addActionListener(null);
 			getContentPane().add(btnReturnStudent);
-			
-			
-			student=null;
+
+			student = null;
 		}
-		
-		//To delete de temp img created to show de picture in the lblImage
+
+		// To delete de temp img created to show de picture in the lblImage
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent e) {
-		        File file = new File("files/tempSelfies/imgTemp"+fileChooser.extension);
-		        if(file.exists()) 
-		        	file.delete();
-		    }
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				File file = new File("files/tempSelfies/imgTemp" + fileChooser.extension);
+				if (file.exists())
+					file.delete();
+			}
 		});
 	}
 
@@ -230,65 +228,95 @@ public class RegisterStudent extends JFrame {
 	public class driverAdd implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
-			String dni = jtDni.getText().toString();
-			String name = jtName.getText().toString();
-			
-			File imagenes = new File("files/tempSelfies/imgTemp"+fileChooser.extension);
-			File sourcer = new File(imagenes.toPath().toString());
-			
-			destination = new File("files/selfies/"+dni.toString()+name.toString().replace(" ", "")+fileChooser.extension.toString());
-			try {
-				Files.copy(sourcer.toPath(), destination.toPath());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				Files.delete(sourcer.toPath());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			String surnames = jtSurname.getText().toString();
-			String email = jtEmail.getText().toString();
-			String date_birth = date.getDateFormatString();
-			String pic = destination.toString().replace("\\","/");
-			System.out.println(pic);
-			String valorPass = new String(jtPass.getPassword());
-			String telefono = jtTelefono.getText().toString();
-			
-			if (emptyDetector(dni, name, surnames, email, date_birth, pic, valorPass, telefono) == true) {
-				date_birth = sdf.format(date.getDate());
-				Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
-						valorPass);
-				c.insertStudent(s);
+			if (e.getActionCommand().equalsIgnoreCase("ADD")) {
+				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
+				String dni = jtDni.getText().toString();
+				String name = jtName.getText().toString();
+
+				File imagenes = new File("files/tempSelfies/imgTemp" + fileChooser.extension);
+				File sourcer = new File(imagenes.toPath().toString());
+
+				// Move the temp pic to files
+				// In case the user change the dni of the name after selecting the pic, the pic
+				// will be saved with all of the changes
+				destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
+						+ fileChooser.extension.toString());
 				try {
-					c.insertMatricula(dni);
-				} catch (SQLException e1) {
+					Files.copy(sourcer.toPath(), destination.toPath());
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-			} else {
-				JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			
+				try {
+					Files.delete(sourcer.toPath());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 
+				String surnames = jtSurname.getText().toString();
+				String email = jtEmail.getText().toString();
+				String date_birth = date.getDateFormatString();
+				String pic = destination.toString().replace("\\", "/");
+				System.out.println(pic);
+				String valorPass = new String(jtPass.getPassword());
+				String telefono = jtTelefono.getText().toString();
+
+				if (emptyDetector(dni, name, surnames, email, date_birth, pic, valorPass, telefono) == true) {
+					date_birth = sdf.format(date.getDate());
+					Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
+							valorPass);
+					c.insertStudent(s);
+					try {
+						c.insertMatricula(dni);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
 		}
 	}
-	
+
 	public class driverModify implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			if (e.getActionCommand().equalsIgnoreCase("Modify")) {
+				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
+				String dni = jtDni.getText().toString();
+				String name = jtName.getText().toString();
+				String surnames = jtSurname.getText().toString();
+				String email = jtEmail.getText().toString();
+				String date_birth = date.getDateFormatString();
+				date_birth = sdf.format(date.getDate());
+				String pic = "nopic";
+				if (destination != null) {
+					pic = destination.toString().replace("\\", "/");
+				}
+				System.out.println(pic);
+				String valorPass = new String(jtPass.getPassword());
+				String telefono = jtTelefono.getText().toString();
+				Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
+						valorPass);
+				try {
+					c.updateStudent(s);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
 		}
+
 	}
-	
-	public class driverImage implements ActionListener{
+
+	public class driverImage implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			fileChooser.start();
 		}
 	}
-	
 
 	// To call the subjectview frame
 	public class driverSubjects implements ActionListener {

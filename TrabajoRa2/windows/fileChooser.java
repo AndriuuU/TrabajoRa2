@@ -29,6 +29,8 @@ public class fileChooser {
 		fileChooser.setFileFilter(soloImg);
 		fileChooser.showSaveDialog(null);
 
+		
+		//Create a temp img to show the pic in the register student
 		if (fileChooser.getSelectedFile() != null) {
 			extension = fileChooser.getSelectedFile().toString()
 					.substring(fileChooser.getSelectedFile().toString().lastIndexOf('.'));

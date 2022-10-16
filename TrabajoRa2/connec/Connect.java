@@ -219,146 +219,154 @@ public class Connect {
 		return listSubjects;
 	}
 
-public void viewStudents(String dni) {
-		
+	public void viewStudents(String dni) {
+
 		try {
-			String insertquery = "SELECT r.codAsig,a.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' FROM califica c, matricula m, ra r,asignatura a WHERE '"+dni+"' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig GROUP BY r.codAsig;";
+			String insertquery = "SELECT r.codAsig,a.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' FROM califica c, matricula m, ra r,asignatura a WHERE '"
+					+ dni
+					+ "' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig GROUP BY r.codAsig;";
 			ResultSet result = statement.executeQuery(insertquery);
-			while(result.next()) {
-				Object[] data = { result.getString("codAsig"),result.getString("nombre"), result.getString("nota")};
+			while (result.next()) {
+				Object[] data = { result.getString("codAsig"), result.getString("nombre"), result.getString("nota") };
 				StudentView.tablemodel.addRow(data);
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
-		
+
 	}
-	
-	public void viewStudentsRA(String dni,String codAsig) {
-		
-		
+
+	public void viewStudentsRA(String dni, String codAsig) {
+
 		try {
-			
-			String insertquery = "SELECT c.idRa, r.nombre, c.nota, r.ponderacion FROM califica c, matricula m, ra r WHERE '"+dni+"' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig='"+codAsig+"' GROUP BY r.id;";
-			
+
+			String insertquery = "SELECT c.idRa, r.nombre, c.nota, r.ponderacion FROM califica c, matricula m, ra r WHERE '"
+					+ dni + "' = m.dniAlumno AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig='" + codAsig
+					+ "' GROUP BY r.id;";
+
 			ResultSet result = statement.executeQuery(insertquery);
-			
-			while(result.next()) {
-				
-				Object[] data = { result.getString("idRa"), result.getString("nombre"), result.getString("nota"),result.getString("ponderacion")};
-				
+
+			while (result.next()) {
+
+				Object[] data = { result.getString("idRa"), result.getString("nombre"), result.getString("nota"),
+						result.getString("ponderacion") };
+
 				RaStudentView.tablemodel.addRow(data);
-				
-				
-			
+
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
-		
+
 	}
-	
+
 	public void viewTeacher(String dniTeacher) {
 		try {
-			
-			String insertquery = "SELECT codAsig, nombre FROM asignatura WHERE '"+dniTeacher+"'=dniProfesor;";
-			
+
+			String insertquery = "SELECT codAsig, nombre FROM asignatura WHERE '" + dniTeacher + "'=dniProfesor;";
+
 			ResultSet result = statement.executeQuery(insertquery);
-			
-			while(result.next()) {
-				
-				Object[] data = { result.getString("codAsig"), result.getString("nombre")};
-				
+
+			while (result.next()) {
+
+				Object[] data = { result.getString("codAsig"), result.getString("nombre") };
+
 				TeacherView.tablemodel.addRow(data);
-			
+
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
 	}
 
-	
 	public void viewTeacherRa(String codAsig) {
 		try {
-			
-			String insertquery = "SELECT id, nombre FROM ra WHERE '"+codAsig+"'=codAsig;";
-			
+
+			String insertquery = "SELECT id, nombre FROM ra WHERE '" + codAsig + "'=codAsig;";
+
 			ResultSet result = statement.executeQuery(insertquery);
-			
-			while(result.next()) {
-				
-				Object[] data = { result.getString("id"), result.getString("nombre")};
-				
+
+			while (result.next()) {
+
+				Object[] data = { result.getString("id"), result.getString("nombre") };
+
 				RaProfessorView.tablemodel.addRow(data);
-			
+
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
 	}
-	
+
 	public void viewTeacherRaGrade(String codRa) {
 		try {
-			
-			String insertquery = "SELECT a.nombre, c.nota FROM alumnos a, califica c WHERE c.dniAlumno=a.dni AND c.idRa='"+codRa+"';";
-			
+
+			String insertquery = "SELECT a.nombre, c.nota FROM alumnos a, califica c WHERE c.dniAlumno=a.dni AND c.idRa='"
+					+ codRa + "';";
+
 			ResultSet result = statement.executeQuery(insertquery);
-			
-			while(result.next()) {
-				
-				Object[] data = { result.getString("nombre"), result.getString("nota")};
-				
+
+			while (result.next()) {
+
+				Object[] data = { result.getString("nombre"), result.getString("nota") };
+
 				TeacherRaGrade.tablemodel.addRow(data);
-			
+
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
 	}
-	
+
 	public void viewTeacherFinalGrade(String codAsig) {
 		try {
-			
+
 			String insertquery = "SELECT r.codAsig,alu.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' "
-					+ "FROM califica c, matricula m, ra r,asignatura a, alumnos alu "
-					+ "WHERE '"+ codAsig+"'=m.codAsig AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig AND alu.dni=m.dniAlumno "
-							+ "GROUP BY alu.dni;";
-			
+					+ "FROM califica c, matricula m, ra r,asignatura a, alumnos alu " + "WHERE '" + codAsig
+					+ "'=m.codAsig AND m.dniAlumno =c.dniAlumno AND r.id=c.idRa AND r.codAsig=m.codAsig AND a.codAsig =r.codAsig AND alu.dni=m.dniAlumno "
+					+ "GROUP BY alu.dni;";
+
 			ResultSet result = statement.executeQuery(insertquery);
-			
-			while(result.next()) {
-				
-				Object[] data = { result.getString("nombre"), result.getString("nota")};
-				
+
+			while (result.next()) {
+
+				Object[] data = { result.getString("nombre"), result.getString("nota") };
+
 				TeacherRaGrade.tablemodel.addRow(data);
-			
+
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
 	}
-	
-	public Student getInfoStudent(String dni,List<Student> lista) {
+
+	public Student getInfoStudent(String dni, List<Student> lista) {
 		Student s;
-		for(Student a:lista) {
-			if(a.getDni().equals(dni)) {
-				s=new Student(a.getDni(),a.getNombre(),a.getApellidos(),a.getEmail(),a.getFecha_nac(),a.getFoto(),a.getTelefono(),a.getPassw());
+		for (Student a : lista) {
+			if (a.getDni().equals(dni)) {
+				s = new Student(a.getDni(), a.getNombre(), a.getApellidos(), a.getEmail(), a.getFecha_nac(),
+						a.getFoto(), a.getTelefono(), a.getPassw());
 				return s;
 			}
 		}
 		return null;
-		
+
 	}
-	
+
 	// TO UPDATE DATA
-	public void update() {
-		try {
-			String insertquery = "UPDATE `table_name` set `field`='value',`field2`='value2' WHERE field = 'value'";
-			statement.executeUpdate(insertquery);
-			System.out.println("Updated");
-		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
-		}
+	public void updateStudent(Student s) throws SQLException {
+		String insertquery = "UPDATE alumnos set nombre = '" + s.getNombre() + ""
+				+ "', apellidos= '" + s.getApellidos() + ""
+				+ "', email= '" + s.getEmail() + ""
+				+ "', fecha_nac='" + s.getFecha_nac() + ""
+				+ "', foto='" + s.getFoto() + ""
+				+ "', telefono='" +s.getTelefono() + ""
+				+ "', pass='"+s.getPassw() + ""
+				+ "' where dni = '" +s.getDni() + "';";
+				
+		System.out.println(insertquery);
+		statement.executeUpdate(insertquery);
+		System.out.println("Updated");
 	}
 
 	// TO DELETE DATA

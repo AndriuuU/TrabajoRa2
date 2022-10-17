@@ -18,7 +18,9 @@ import connec.Connect;
 @SuppressWarnings("serial")
 public class Login extends JFrame {
 
-	private JLabel jlUser, jlPassword, lblIncorrect, lblUserNotFound;
+	private JLabel jlUser, jlPassword;
+	public static JLabel lblIncorrect;
+	private JLabel lblUserNotFound;
 	private JTextField jtUser;
 	private JPasswordField jpPassword;
 	private JButton jbLogin, jbRegister;

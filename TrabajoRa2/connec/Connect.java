@@ -367,25 +367,38 @@ public class Connect {
 	// TO UPDATE DATA
 	public void updateStudent(Student s) {
 		try {
-			String insertquery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '" + s.getSurname()
+			String studentQuery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '" + s.getSurname()
 			+ "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + "" + "', foto='"
 			+ s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw() + ""
 			+ "' where dni = '" + s.getDni() + "';";
 //			System.out.println(insertquery);
-			statement.executeUpdate(insertquery);
+			statement.executeUpdate(studentQuery);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Insert Error");
+			JOptionPane.showMessageDialog(null, "Update Error");
 			e.printStackTrace();
 		}
 		System.out.println("Updated");
 	}
+	
+	public void updateTeacher(Teacher t) {
+		try {
+			String teacherQuery = "UPDATE alumnos set nombre = '" + t.getName() + "" + "', apellidos= '" + t.getSurname()
+			+ "" + "', email= '" + t.getEmail() + "" + "', fecha_nac='" +t.getPasswd()+ "';";
+			statement.executeUpdate(teacherQuery);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Update Error");
+			e.printStackTrace();
+		}
+	}
 
+	
+	// TO DELETE DATAº
 	public void deleteTeacher(String dni) {
 		try {
 			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
 					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (output == JOptionPane.YES_OPTION) {
-				String updateSubject = "UPDATE alumnos set dni = NULL WHERE dniProfesor = '" + dni + "'";
+				String updateSubject = "UPDATE asignatura set dni = NULL WHERE dniProfesor = '" + dni + "'";
 				statement.executeUpdate(updateSubject);
 				String deleteTeacher = "DELETE FROM profesor WHERE dni = '" + dni + "'";
 				statement.execute(deleteTeacher);
@@ -395,8 +408,25 @@ public class Connect {
 			e.printStackTrace();
 		}
 	}
-
-	// TO DELETE DATA
+	
+	public void deleteStudent(String dni) {
+		try {
+			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
+					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (output == JOptionPane.YES_OPTION) {
+				String updateSubject = "DELETE matricula WHERE dniAlumno = '" + dni + "'";
+				statement.executeUpdate(updateSubject);
+				String updateCalificate = "DELETE califica  WHERE dniAlumno = '" + dni + "'";
+				statement.executeUpdate(updateCalificate);
+				String deleteStudent = "DELETE FROM profesor WHERE dni = '" + dni + "'";
+				statement.execute(deleteStudent);
+			}
+		} catch (SQLException e) {
+			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
+			e.printStackTrace();
+		}
+	}
+	
 	public void delete() {
 		try {
 			String insertquery = "DELETE FROM `table_name` WHERE field = 'value'";

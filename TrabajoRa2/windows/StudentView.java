@@ -61,22 +61,22 @@ public class StudentView extends JFrame {
 
 		ButtonManager buttonMana = new ButtonManager();
 
-		btnCrud = new JButton("Modify");
-		btnCrud.setBounds(461, 166, 85, 21);
-		WindowPreset.buttonPreset(btnCrud, "Modify information");
+		btnCrud = new JButton();
+		btnCrud.setBounds(461, 166, 26, 26);
+		WindowPreset.buttonPreset(btnCrud, "Update information", "files\\update.png");
 		btnCrud.addActionListener(buttonMana);
 		getContentPane().add(btnCrud);
 
-		btnLook = new JButton("Show Ra");
-		btnLook.setBounds(461, 196, 85, 21);
-		WindowPreset.buttonPreset(btnLook, "Show all grade RA");
+		btnLook = new JButton();
+		btnLook.setBounds(461, 196, 26, 26);
+		WindowPreset.buttonPreset(btnLook, "Show all grade RA", "files\\showMore.png");
 		btnLook.addActionListener(buttonMana);
 		getContentPane().add(btnLook);
 
-		back = new JButton("Return");
-		back.setBounds(461, 268, 85, 21);
+		back = new JButton();
+		back.setBounds(461, 268, 26, 26);
 		back.addActionListener(buttonMana);
-		WindowPreset.buttonPreset(back, "Back to menu");
+		WindowPreset.buttonPreset(back, "Back to menu", "files\\return.png");
 		getContentPane().add(back);
 
 		name = new JLabel();

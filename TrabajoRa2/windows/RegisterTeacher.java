@@ -3,7 +3,6 @@ package windows;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +14,7 @@ import javax.swing.SwingConstants;
 import clases.Teacher;
 import connec.Connect;
 
+@SuppressWarnings("serial")
 public class RegisterTeacher extends JFrame {
 	private JTextField jtDni;
 	private JTextField jtName;
@@ -25,12 +25,12 @@ public class RegisterTeacher extends JFrame {
 
 	public RegisterTeacher() {
 
-		super("Register ");
+		super("Register");
 		setSize(500, 400);
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
 
-		JLabel lblDni = new JLabel("DNI");
+		JLabel lblDni = new JLabel("DNI:");
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDni.setBounds(76, 44, 82, 14);
@@ -42,7 +42,7 @@ public class RegisterTeacher extends JFrame {
 		getContentPane().add(jtDni);
 		jtDni.setColumns(10);
 
-		JLabel lblNombre = new JLabel("NOMBRE");
+		JLabel lblNombre = new JLabel("NAME:");
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNombre.setBounds(76, 95, 82, 14);
@@ -54,7 +54,7 @@ public class RegisterTeacher extends JFrame {
 		getContentPane().add(jtName);
 		jtName.setColumns(10);
 
-		JLabel lblApellidos = new JLabel("APELLIDOS");
+		JLabel lblApellidos = new JLabel("SURNAMES:");
 		lblApellidos.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblApellidos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblApellidos.setBounds(76, 148, 82, 14);
@@ -66,7 +66,7 @@ public class RegisterTeacher extends JFrame {
 		getContentPane().add(jtSurname);
 		jtSurname.setColumns(10);
 
-		JLabel lblPassword = new JLabel("PASSWORD");
+		JLabel lblPassword = new JLabel("PASSWORD:");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblPassword.setBounds(76, 259, 82, 14);
@@ -77,7 +77,7 @@ public class RegisterTeacher extends JFrame {
 		jpPassword.setBounds(190, 258, 124, 20);
 		getContentPane().add(jpPassword);
 
-		JLabel lblEmail = new JLabel("EMAIL");
+		JLabel lblEmail = new JLabel("EMAIL:");
 		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblEmail.setBounds(76, 201, 82, 14);
@@ -89,9 +89,10 @@ public class RegisterTeacher extends JFrame {
 		getContentPane().add(jtEmail);
 		jtEmail.setColumns(10);
 
-		JButton btnRegister = new JButton("REGISTRAR");
-		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnRegister.setBounds(190, 301, 124, 33);
+		JButton btnRegister = new JButton();
+		WindowPreset.buttonPreset(btnRegister, "Confirm", "files\\confirm.png");
+		// btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnRegister.setBounds(237, 301, 26, 26);
 		getContentPane().add(btnRegister);
 
 		driverRegister dvRegister = new driverRegister();

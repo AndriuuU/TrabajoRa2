@@ -5,18 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import clases.Subjects;
 import clases.Student;
+import clases.Subjects;
 import clases.Teacher;
 import connec.Connect;
 
@@ -26,8 +29,8 @@ public class AdminWindow extends JFrame {
 	private JComboBox<String> comboBox;
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
-	private String[] options = { "Courses", "Professors", "Students" };
-	private static Object o;
+	private String[] options = { "Subjects", "Professors", "Students" };
+	private static Object o = new Subjects();
 
 	// Table's Attributes.
 
@@ -39,7 +42,7 @@ public class AdminWindow extends JFrame {
 	public AdminWindow() {
 
 		super("AdminWindow");
-		setSize(450, 300);
+		setSize(700, 500);
 		WindowPreset.preset(this);
 
 		// añadir (options) como parametro del constructor, una vez metido no deja abrir
@@ -47,10 +50,10 @@ public class AdminWindow extends JFrame {
 		comboBox = new JComboBox<String>(options);
 		comboBox.setMaximumRowCount(3);
 		comboBox.setToolTipText("Selector");
-		comboBox.setBounds(10, 10, 130, 20);
+		comboBox.setBounds(40, 20, 130, 20);
 		comboBox.setSelectedIndex(0);
 		comboBox.setBackground(Color.LIGHT_GRAY);
-		getContentPane().add(comboBox);
+		add(comboBox);
 		comboBox.addItemListener(new ItemListener() {
 
 			@Override
@@ -63,14 +66,15 @@ public class AdminWindow extends JFrame {
 		});
 
 		jptable = new JPanel();
-		jptable.setBounds(10, 35, 290, 220);
+		jptable.setBounds(21, 46, 510, 400);
 		jpButton = new JPanel();
-		jpButton.setBounds(309, 24, 117, 229);
+		jpButton.setBackground(Color.LIGHT_GRAY);
+		jpButton.setBounds(540, 46, 136, 400);
 
 		jtable = new JTable();
 		jtable.setBounds(148, 6, 0, 0);
 		scrollPane = new JScrollPane(jtable);
-		scrollPane.setBounds(0, 0, 290, 220);
+		scrollPane.setBounds(10, 10, 489, 380);
 		jptable.add(scrollPane);
 
 		JScrollBar scrollBar = new JScrollBar();
@@ -78,21 +82,21 @@ public class AdminWindow extends JFrame {
 
 		changeTable(comboBox.getSelectedIndex());
 
-		jbInsert = new JButton("Insert");
-		jbInsert.setBounds(10, 25, 100, 20);
-		WindowPreset.buttonPreset(jbInsert, "Insert new row.");
-		jbDelete = new JButton("Delete");
-		jbDelete.setBounds(10, 56, 100, 20);
-		WindowPreset.buttonPreset(jbDelete, "Delete selected row.");
-		jbDetails = new JButton("Details");
-		jbDetails.setBounds(10, 87, 100, 20);
-		WindowPreset.buttonPreset(jbDetails, "Detail selected row.");
-		jbUpdate = new JButton("Update");
-		jbUpdate.setBounds(10, 118, 100, 20);
-		WindowPreset.buttonPreset(jbUpdate, "Modify selected row.");
-		jbDis = new JButton("Disconnect");
-		jbDis.setBounds(10, 198, 100, 20);
-		WindowPreset.buttonPreset(jbDis, "Go to Login.");
+		jbInsert = new JButton();
+		jbInsert.setBounds(55, 50, 26, 26);
+		WindowPreset.buttonPreset(jbInsert, "Insert New Row.", "files\\insert.png");
+		jbDelete = new JButton();
+		jbDelete.setBounds(55, 100, 26, 26);
+		WindowPreset.buttonPreset(jbDelete, "Delete Selected Row.", "files\\delete.png");
+		jbDetails = new JButton();
+		jbDetails.setBounds(55, 150, 26, 26);
+		WindowPreset.buttonPreset(jbDetails, "Detail of the Selected Row.", "files\\details.png");
+		jbUpdate = new JButton();
+		jbUpdate.setBounds(55, 200, 26, 26);
+		WindowPreset.buttonPreset(jbUpdate, "Update Selected Row.", "files\\update.png");
+		jbDis = new JButton();
+		jbDis.setBounds(55, 330, 26, 26);
+		WindowPreset.buttonPreset(jbDis, "Go to Login.", "files\\disconnect.png");
 		jbDis.addActionListener(new ActionListener() {
 
 			@Override
@@ -116,6 +120,11 @@ public class AdminWindow extends JFrame {
 		getContentPane().add(jptable);
 		getContentPane().add(jpButton);
 
+		ButtonManager bm = new ButtonManager();
+		jbInsert.addActionListener(bm);
+		jbDelete.addActionListener(bm);
+		jbDetails.addActionListener(bm);
+		jbUpdate.addActionListener(bm);
 		setVisible(true);
 
 	}
@@ -175,44 +184,60 @@ public class AdminWindow extends JFrame {
 
 	class ButtonManager implements ActionListener {
 
+		@SuppressWarnings("unused")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			String selector = o.getClass().toString();
 			JButton b = (JButton) e.getSource();
+			String insert = "Insert New Row.";
+			String delete = "Delete Selected Row.";
+			String details = "Detail of the Selected Row.";
+			String update = "Update Selected Row.";
 
-			if (selector.equals("class clases.Asignatura")) {
-				if (b.getName().equals("Insert")) {
+			if (selector.equals("class clases.Subjects")) {
+				if (b.getToolTipText().equals(insert)) {
+					System.out.println("Insert Subject");
+				} else if (b.getToolTipText().equals(delete)) {
+					AdminWindow.jtable.getSelectedRow();
+					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a subject, are you sure?");
+				} else if (b.getToolTipText().equals(details)) {
 
-				} else if (b.getName().equals("Delete")) {
-
-				} else if (b.getName().equals("Details")) {
-
-				} else if (b.getName().equals("Update")) {
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");
 				}
 			} else if (selector.equals("class clases.Teacher")) {
-				if (b.getName().equals("Insert")) {
+				if (b.getToolTipText().equals(insert)) {
+					RegisterTeacher rt = new RegisterTeacher();
+				} else if (b.getToolTipText().equals(delete)) {
+					AdminWindow.jtable.getSelectedRow();
+					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a professor, are you sure?");
 
-				} else if (b.getName().equals("Delete")) {
+				} else if (b.getToolTipText().equals(details)) {
 
-				} else if (b.getName().equals("Details")) {
-
-				} else if (b.getName().equals("Update")) {
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");
 				}
-			} else if (selector.equals("class classes.Student")) {
-				if (b.getName().equals("Insert")) {
+			} else if (selector.equals("class clases.Student")) {
+				if (b.getToolTipText().equals(insert)) {
+					try {
+						RegisterStudent rs = new RegisterStudent();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+				} else if (b.getToolTipText().equals(delete)) {
+					AdminWindow.jtable.getSelectedRow();
+					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a student, are you sure?");
 
-				} else if (b.getName().equals("Delete")) {
+				} else if (b.getToolTipText().equals(details)) {
 
-				} else if (b.getName().equals("Details")) {
-
-				} else if (b.getName().equals("Update")) {
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");

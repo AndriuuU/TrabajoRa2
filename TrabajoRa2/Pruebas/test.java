@@ -11,7 +11,7 @@ public class test {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws SQLException {
 
-		 Login l = new Login();
+		Login l = new Login();
 //		RaStudentView r = new RaStudentView();
 //		AdminWindow ad = new AdminWindow();
 //		SubjectsView s = new SubjectsView();

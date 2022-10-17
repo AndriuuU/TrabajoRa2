@@ -139,16 +139,16 @@ public class RegisterStudent extends JFrame {
 		lblImg.setBounds(470, 251, 92, 14);
 		getContentPane().add(lblImg);
 
-		btnImg = new JButton("PICTURE");
+		btnImg = new JButton();
 		btnImg.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		WindowPreset.buttonPreset(btnImg, "Add your pic");
-		btnImg.setBounds(470, 276, 89, 23);
+		WindowPreset.buttonPreset(btnImg, "Add your pic", "files\\image.png");
+		btnImg.setBounds(470, 276, 26, 26);
 		getContentPane().add(btnImg);
 
 		btnAgregar = new JButton("ADD");
-		WindowPreset.buttonPreset(btnAgregar, "Add the new student to the database");
+		WindowPreset.buttonPreset(btnAgregar, "Add the new student to the database", "files\\insert.png");
 		btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAgregar.setBounds(251, 367, 110, 23);
+		btnAgregar.setBounds(251, 367, 26, 26);
 		getContentPane().add(btnAgregar);
 
 		lblFoto = new JLabel("Foto");
@@ -168,10 +168,10 @@ public class RegisterStudent extends JFrame {
 		jtPass.setBounds(133, 263, 189, 20);
 		getContentPane().add(jtPass);
 
-		btnSubjectsView = new JButton("SELECCIONAR ASIGNATURAS");
-		WindowPreset.buttonPreset(btnSubjectsView, "Select your subjects");
+		btnSubjectsView = new JButton();
+		WindowPreset.buttonPreset(btnSubjectsView, "Select your subjects", "files\\note.png");
 		btnSubjectsView.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSubjectsView.setBounds(22, 307, 223, 23);
+		btnSubjectsView.setBounds(22, 307, 26, 26);
 		getContentPane().add(btnSubjectsView);
 
 		driverAdd dAgregar = new driverAdd();
@@ -201,10 +201,10 @@ public class RegisterStudent extends JFrame {
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
-			btnReturnStudent = new JButton("Return");
-			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student");
+			btnReturnStudent = new JButton();
+			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", "files\\return.png");
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			btnReturnStudent.setBounds(185, 367, 110, 23);
+			btnReturnStudent.setBounds(185, 367, 26, 26);
 			btnReturnStudent.addActionListener(null);
 			getContentPane().add(btnReturnStudent);
 

@@ -122,25 +122,27 @@ public class AdminWindow extends JFrame {
 
 	public static void changeTable(int index) {
 		DefaultTableModel model = new DefaultTableModel() {
-
+			
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-
+			
 		};
+		
 		if (index == 0) {
 			o = new Subjects();
-			columnsName = new String[] { "Code", "Name" };
+			columnsName = new String[] { "Name", "dniProfesor" };
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
 			for (Subjects as : c.viewSubjects()) {
 				Object[] row = new Object[2];
-				row[0] = as.getCodSubject();
-				row[1] = as.getName();
+				row[0] = as.getName();
+				row[1] = as.getDniProfessor();
 				model.addRow(row);
 			}
+			
 		} else if (index == 1) {
 			o = new Teacher();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
@@ -154,6 +156,7 @@ public class AdminWindow extends JFrame {
 				row[2] = t.getSurname();
 				model.addRow(row);
 			}
+			
 		} else if (index == 2) {
 			o = new Student();
 			columnsName = new String[] { "NIF", "Name", "Surname" };

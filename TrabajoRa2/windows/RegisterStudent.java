@@ -297,13 +297,7 @@ public class RegisterStudent extends JFrame {
 				String telefono = jtTelefono.getText().toString();
 				Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
 						valorPass);
-				try {
-					c.updateStudent(s);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+				c.updateStudent(s);
 			}
 		}
 

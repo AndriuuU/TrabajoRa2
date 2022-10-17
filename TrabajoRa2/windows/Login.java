@@ -18,7 +18,9 @@ import java.awt.Font;
 @SuppressWarnings("serial")
 public class Login extends JFrame {
 
-	private JLabel jlUser, jlPassword, lblIncorrect, lblUserNotFound;
+	public JLabel jlUser, jlPassword;
+	public static JLabel lblIncorrect;
+	public JLabel lblUserNotFound;
 	private JTextField jtUser;
 	private JPasswordField jpPassword;
 	private JButton jbLogin, jbRegister;
@@ -91,23 +93,13 @@ public class Login extends JFrame {
 			String password = new String(jpPassword.getPassword());
 			lblIncorrect.hide();
 			lblUserNotFound.hide();
+			
 			try {
-				c.searchUser(jtUser.getText().toString(), password);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("studentaccepted")) {
-					new StudentView(jtUser.getText().toString());
-					getContentPane().hide();
-				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("teacheraccepted")) {
-					new RaProfessorView();
-					getContentPane().hide();
-				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("notaccepted")) {
-					lblIncorrect.show();
-				}else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("")) {
+				String status = c.searchUser(jtUser.getText().toString(), password);
+				if (status.equalsIgnoreCase("")) 
 					lblUserNotFound.show();
-				}
+				if(status.equalsIgnoreCase("loged"))
+					setVisible(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

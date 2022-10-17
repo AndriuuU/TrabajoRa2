@@ -15,9 +15,10 @@ import java.util.Map.Entry;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import clases.Subjects;
 import clases.Student;
+import clases.Subjects;
 import clases.Teacher;
+import windows.Login;
 import windows.RaProfessorView;
 import windows.RaStudentView;
 import windows.StudentView;
@@ -124,10 +125,14 @@ public class Connect {
 		for (String key : students.keySet()) {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : students.values()) {
-					if (logPass.equalsIgnoreCase(valor))
-						state = "studentaccepted";
-					else
-						state = "notaccepted";
+					if (logPass.equalsIgnoreCase(valor)) {
+						state = "loged";
+						new StudentView(logDni);
+					}
+					else {
+						state = "notloged";
+						Login.lblIncorrect.show();
+					}
 				}
 			}
 		}
@@ -148,10 +153,14 @@ public class Connect {
 		for (String key : teachers.keySet()) {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : teachers.values()) {
-					if (logPass.equalsIgnoreCase(valor))
-						state = "teacheraccepted";
-					else
-						state = "notaccepted";
+					if (logPass.equalsIgnoreCase(valor)) {
+						state = "loged";
+						new TeacherView();
+					}
+					else {
+						state = "notloged";
+						Login.lblIncorrect.show();
+					}
 				}
 			}
 		}
@@ -356,15 +365,35 @@ public class Connect {
 	}
 
 	// TO UPDATE DATA
-	public void updateStudent(Student s) throws SQLException {
-		String insertquery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '" + s.getSurname()
-				+ "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + "" + "', foto='"
-				+ s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw() + ""
-				+ "' where dni = '" + s.getDni() + "';";
-
-		System.out.println(insertquery);
-		statement.executeUpdate(insertquery);
+	public void updateStudent(Student s) {
+		try {
+			String insertquery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '" + s.getSurname()
+			+ "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + "" + "', foto='"
+			+ s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw() + ""
+			+ "' where dni = '" + s.getDni() + "';";
+//			System.out.println(insertquery);
+			statement.executeUpdate(insertquery);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Insert Error");
+			e.printStackTrace();
+		}
 		System.out.println("Updated");
+	}
+
+	public void deleteTeacher(String dni) {
+		try {
+			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
+					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (output == JOptionPane.YES_OPTION) {
+				String updateSubject = "UPDATE alumnos set dni = NULL WHERE dniProfesor = '" + dni + "'";
+				statement.executeUpdate(updateSubject);
+				String deleteTeacher = "DELETE FROM profesor WHERE dni = '" + dni + "'";
+				statement.execute(deleteTeacher);
+			}
+		} catch (SQLException e) {
+			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
+			e.printStackTrace();
+		}
 	}
 
 	// TO DELETE DATA

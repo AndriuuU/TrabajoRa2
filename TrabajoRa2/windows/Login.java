@@ -1,5 +1,7 @@
 package windows;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -9,11 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import connec.Connect;
-import javax.swing.SwingConstants;
-import java.awt.Color;
-import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class Login extends JFrame {
@@ -43,11 +43,13 @@ public class Login extends JFrame {
 		jpPassword.setBounds(121, 87, 143, 19);
 		jpPassword.setToolTipText("Enter Password");
 
-		jbLogin = new JButton("Login");
-		jbLogin.setBounds(40, 135, 100, 20);
+		jbLogin = new JButton();
+		WindowPreset.buttonPreset(jbLogin, "Login", "files\\login1.png");
+		jbLogin.setBounds(90, 135, 26, 26);
 
-		jbRegister = new JButton("Register");
-		jbRegister.setBounds(160, 135, 100, 20);
+		jbRegister = new JButton();
+		WindowPreset.buttonPreset(jbRegister, "Register", "files\\register.png");
+		jbRegister.setBounds(165, 135, 26, 26);
 
 		getContentPane().add(jlUser);
 		getContentPane().add(jtUser);
@@ -105,7 +107,11 @@ public class Login extends JFrame {
 					getContentPane().hide();
 				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("notaccepted")) {
 					lblIncorrect.show();
-				}else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("")) {
+				} else if (jtUser.getText().equals("admin") && password.equals("admin")) {
+					dispose();
+					@SuppressWarnings("unused")
+					AdminWindow aw = new AdminWindow();
+				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("")) {
 					lblUserNotFound.show();
 				}
 			} catch (SQLException e1) {

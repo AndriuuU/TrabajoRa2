@@ -20,12 +20,12 @@ public class WindowPreset {
 		jf.setIconImage(icon1);
 	}
 
-	public static void buttonPreset(JButton B, String T, String U) {
+	public static void buttonPreset(JButton B, String ToolTipText, String UrlIcon) {
 
-		Icon ic = new ImageIcon(U);
+		Icon ic = new ImageIcon(UrlIcon);
 		B.setBackground(Color.LIGHT_GRAY);
 		B.setBorderPainted(false);
-		B.setToolTipText(T);
+		B.setToolTipText(ToolTipText);
 		B.setIcon(ic);
 
 	}

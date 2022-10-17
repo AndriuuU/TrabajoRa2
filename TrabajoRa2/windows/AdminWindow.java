@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -179,49 +181,60 @@ public class AdminWindow extends JFrame {
 
 	class ButtonManager implements ActionListener {
 
+		@SuppressWarnings("unused")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			String selector = o.getClass().toString();
 			JButton b = (JButton) e.getSource();
+			String insert = "Insert New Row.";
+			String delete = "Delete Selected Row.";
+			String details = "Detail of the Selected Row.";
+			String update = "Update Selected Row.";
 
 			if (selector.equals("class clases.Subjects")) {
-				if (b.getText().equals("Insert")) {
+				if (b.getToolTipText().equals(insert)) {
 					System.out.println("Insert Subject");
-				} else if (b.getText().equals("Delete")) {
+				} else if (b.getToolTipText().equals(delete)) {
 					AdminWindow.jtable.getSelectedRow();
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a subject, are you sure?");
-				} else if (b.getText().equals("Details")) {
+				} else if (b.getToolTipText().equals(details)) {
 
-				} else if (b.getText().equals("Update")) {
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");
 				}
 			} else if (selector.equals("class clases.Teacher")) {
-				if (b.getText().equals("Insert")) {
-					System.out.println("Insert Professor");
-				} else if (b.getText().equals("Delete")) {
+				if (b.getToolTipText().equals(insert)) {
+					RegisterTeacher rt = new RegisterTeacher();
+				} else if (b.getToolTipText().equals(delete)) {
 					AdminWindow.jtable.getSelectedRow();
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a professor, are you sure?");
 
-				} else if (b.getText().equals("Details")) {
+				} else if (b.getToolTipText().equals(details)) {
 
-				} else if (b.getText().equals("Update")) {
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");
 				}
 			} else if (selector.equals("class clases.Student")) {
-				if (b.getText().equals("Insert")) {
-					System.out.println("Insert Student");
-				} else if (b.getText().equals("Delete")) {
+				if (b.getToolTipText().equals(insert)) {
+					try {
+						RegisterStudent rs = new RegisterStudent();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+				} else if (b.getToolTipText().equals(delete)) {
 					AdminWindow.jtable.getSelectedRow();
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a student, are you sure?");
 
-				} else if (b.getText().equals("Details")) {
+				} else if (b.getToolTipText().equals(details)) {
 
-				} else if (b.getText().equals("Update")) {
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");

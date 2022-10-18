@@ -1,5 +1,6 @@
 package windows;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,7 +21,7 @@ public class TeacherView extends JFrame {
 	private String[] columNames;
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
-	private JButton back, btnLook, btnStudent;
+	private JButton back, btnLook, btnStudent,btnRa;
 	private JLabel lblTeacher;
 	public static String codAsigna;
 	public static String dniTeacher;
@@ -47,22 +48,27 @@ public class TeacherView extends JFrame {
 
 		lblTeacher = new JLabel("(Nombre del profesor)");
 		lblTeacher.setBounds(36, 29, 205, 13);
+		lblTeacher.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(lblTeacher);
 
 		ButtonManager buttonMana = new ButtonManager();
 
-		btnLook = new JButton("SHOW");
+		btnLook = new JButton();
 		btnLook.setBounds(461, 101, 85, 21);
+		WindowPreset.buttonPreset(btnLook, "Detail of the Selected Row.", "files\\details.png");
 		btnLook.addActionListener(buttonMana);
 		getContentPane().add(btnLook);
 
-		btnStudent = new JButton("NOTE GRADE");
-		btnStudent.setBounds(452, 145, 107, 21);
+		btnStudent = new JButton();
+		btnStudent.setBounds(448, 140, 107, 25);
+		WindowPreset.buttonPreset(btnStudent, "Show all grade", "files\\showMore.png");
 		btnStudent.addActionListener(buttonMana);
 		getContentPane().add(btnStudent);
+		
 
-		back = new JButton("Return");
+		back = new JButton();
 		back.setBounds(461, 268, 85, 21);
+		WindowPreset.buttonPreset(back, "Go to Login.", "files\\disconnect.png");
 		back.addActionListener(buttonMana);
 		getContentPane().add(back);
 
@@ -86,6 +92,7 @@ public class TeacherView extends JFrame {
 			if (e.getSource() == back) {
 
 				dniTeacher=null;
+				codAsigna=null;
 				new Login();
 				setVisible(false);
 				
@@ -99,7 +106,7 @@ public class TeacherView extends JFrame {
 				} else if (e.getSource() == btnStudent) {
 					
 					new TeacherRaGrade();
-				}
+				} 
 			} else
 				JOptionPane.showMessageDialog(TeacherView.this, "Debes seleccionar una asignaruta!!",
 						"Asignatura no seleccionada", JOptionPane.WARNING_MESSAGE);

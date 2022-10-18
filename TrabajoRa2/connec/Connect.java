@@ -398,7 +398,7 @@ public class Connect {
 		return null;
 	}
 	
-	public Object[] getRa(String cod) {
+	public Ra getRa(String cod) {
 		try {
 
 			String insertquery = "SELECT * FROM Ra WHERE '" + cod + "'=id;";
@@ -407,7 +407,7 @@ public class Connect {
 
 			if (result.next()) {
 
-				Object[] data = {result.getString("id"), result.getString("nombre"),result.getString("descripcion"),Float.parseFloat(result.getString("ponderacion")),result.getString("codAsig")};
+				Ra data =new Ra(result.getString("id"), result.getString("nombre"),result.getString("descripcion"),Float.parseFloat(result.getString("ponderacion")),getSubjectRa(result.getString("codAsig")));
 
 				return data;
 
@@ -444,6 +444,18 @@ public class Connect {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateRa(Ra r) {
+		try {
+			String teacherQuery = "UPDATE ra set nombre= '" + r.getName()
+			+ "', descripcion= '" + r.getDescription() + "', ponderacion='" +r.getWeighting()+"' WHERE id= '"+r.getId()+"' ;";
+			statement.executeUpdate(teacherQuery);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Update Error");
+			e.printStackTrace();
+		}
+		System.out.println("Update");
+	}
 
 	
 	// TO DELETE DATAº
@@ -474,6 +486,20 @@ public class Connect {
 				statement.executeUpdate(updateCalificate);
 				String deleteStudent = "DELETE FROM profesor WHERE dni = '" + dni + "'";
 				statement.execute(deleteStudent);
+			}
+		} catch (SQLException e) {
+			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteRa(String cod) {
+		try {
+			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
+					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (output == JOptionPane.YES_OPTION) {
+				String delRa = "DELETE FROM ra WHERE id = '" + cod + "'";
+				statement.execute(delRa);
 			}
 		} catch (SQLException e) {
 			 JOptionPane.showMessageDialog(null, "Error, deletion failed");

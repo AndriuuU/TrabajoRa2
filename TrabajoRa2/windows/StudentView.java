@@ -76,7 +76,7 @@ public class StudentView extends JFrame {
 		back = new JButton();
 		back.setBounds(461, 268, 26, 26);
 		back.addActionListener(buttonMana);
-		WindowPreset.buttonPreset(back, "Back to menu", "files\\return.png");
+		WindowPreset.buttonPreset(back, "Go to Login.", "files\\disconnect.png");
 		getContentPane().add(back);
 
 		name = new JLabel();

@@ -19,13 +19,12 @@ public class RaProfessorView extends JFrame {
 	public String[] columNames;
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
-	private JButton back;
+	private JButton back, btnRa, btnShow;
 	private JLabel lblAlumno;
 	static public String codRa;
 	public boolean entra;
 
 	Connect mostrar = new Connect();
-	private JButton btnShow;
 
 	public RaProfessorView() {
 
@@ -34,8 +33,7 @@ public class RaProfessorView extends JFrame {
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
 
-		
-
+	
 		columNames = new String[] { "Ra", "Name" };
 		tablemodel = new DefaultTableModel(columNames, 0);
 		setTabla(new JTable(tablemodel));
@@ -48,20 +46,29 @@ public class RaProfessorView extends JFrame {
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
 
-		ButtonManager buttonMana = new ButtonManager();
 		
-		btnShow = new JButton("Show");
-		btnShow.setBounds(367, 109, 85, 21);
-		btnShow.addActionListener(buttonMana);
-		getContentPane().add(btnShow);
-
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 301, 280);
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
+		
+		ButtonManager buttonMana = new ButtonManager();
+		
+		btnShow = new JButton();
+		btnShow.setBounds(367, 109, 90, 25);
+		WindowPreset.buttonPreset(btnShow, "Show all grade RA", "files\\showMore.png");
+		btnShow.addActionListener(buttonMana);
+		getContentPane().add(btnShow);
 
-		back = new JButton("Return");
+		btnRa = new JButton();
+		btnRa.setBounds(360, 150, 107, 25);
+		WindowPreset.buttonPreset(btnRa, "Insert or edit or delete RA", "files\\insert.png");
+		btnRa.addActionListener(buttonMana);
+		getContentPane().add(btnRa);
+
+		back = new JButton();
 		back.setBounds(367, 267, 85, 21);
+		WindowPreset.buttonPreset(back, "Back to menu", "files\\return.png");
 		back.addActionListener(buttonMana);
 		getContentPane().add(back);
 
@@ -84,6 +91,7 @@ public class RaProfessorView extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			int num = getTabla().getSelectedRow();
 			if (e.getSource() == back) {
+				codRa=null;
 				setVisible(false);
 				new TeacherView();
 			} else {
@@ -95,10 +103,17 @@ public class RaProfessorView extends JFrame {
 
 						new TeacherRaGrade();
 
+					}else if(e.getSource()== btnRa) {
+						codRa = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
+						RaView.codRa=codRa;
+						new RaView(TeacherView.codAsigna);
 					}
-				} else
-					JOptionPane.showMessageDialog(RaProfessorView.this, "Debes seleccionar una asignaruta!!",
-							"Asignatura no seleccionada", JOptionPane.WARNING_MESSAGE);
+				} else if(e.getSource()== btnRa) {
+					setVisible(false);
+					new RaView(TeacherView.codAsigna);
+				}else
+					JOptionPane.showMessageDialog(RaProfessorView.this, "SELECT RA!!",
+							"¡ERROR!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

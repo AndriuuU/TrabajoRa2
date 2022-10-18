@@ -16,11 +16,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class RaView extends JFrame{
+	
 	private JTextField txId, txName, txDescrip, txWeigth, txCodSubject;
 	private JLabel lblId, lblName, lblDescription, lblCodsubject, lblWeighting;
-	private JButton btReturn,btSave,btDelete;
-	public static Ra ra;
-	private Subjects subject;
+	private JButton btReturn,btSave,btDelete,btModify;
+	public static String codRa;
 	Connect c=new Connect();
 	private Subjects sub;
 	
@@ -33,6 +33,7 @@ public class RaView extends JFrame{
 		
 		txId = new JTextField();
 		txId.setBounds(165, 64, 116, 19);
+		txId.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		getContentPane().add(txId);
 		txId.setColumns(10);
 		
@@ -43,6 +44,7 @@ public class RaView extends JFrame{
 		
 		txName = new JTextField();
 		txName.setColumns(10);
+		txName.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txName.setBounds(165, 100, 183, 19);
 		getContentPane().add(txName);
 		
@@ -53,6 +55,7 @@ public class RaView extends JFrame{
 		
 		txDescrip = new JTextField();
 		txDescrip.setBounds(165, 139, 191, 19);
+		txDescrip.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		getContentPane().add(txDescrip);
 		
 		lblDescription = new JLabel("Description:");
@@ -62,6 +65,7 @@ public class RaView extends JFrame{
 		
 		txWeigth = new JTextField();
 		txWeigth.setBounds(165, 182, 96, 19);
+		txWeigth.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		getContentPane().add(txWeigth);
 		
 		lblWeighting = new JLabel("Weighting:");
@@ -72,6 +76,7 @@ public class RaView extends JFrame{
 		txCodSubject = new JTextField();
 		txCodSubject.setBounds(165, 228, 96, 19);
 		txCodSubject.setText(codSub);
+		txCodSubject.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txCodSubject.setEditable(false);
 		getContentPane().add(txCodSubject);
 		
@@ -84,31 +89,40 @@ public class RaView extends JFrame{
 		
 		ReturnManager retuMan =new ReturnManager();
 		
-		btReturn = new JButton("Return");
-		btReturn.setBounds(60, 279, 85, 21);
+		btReturn = new JButton();
+		btReturn.setBounds(60, 279, 85, 25);
+		WindowPreset.buttonPreset(btReturn, "Back to menu", "files\\return.png");
 		btReturn.addActionListener(retuMan);
 		getContentPane().add(btReturn);
 		
 		SaveManager saveMan =new SaveManager();
 		
-		btSave = new JButton("Save");
-		btSave.setBounds(215, 279, 85, 21);
+		btSave = new JButton();
+		btSave.setBounds(215, 279, 85, 25);
+		WindowPreset.buttonPreset(btSave, "Confirm", "files\\confirm.png");
 		btSave.addActionListener(saveMan);
 		getContentPane().add(btSave);
 		
-		if(ra!=null) {
+		if(codRa!=null) {
+			Ra ra=c.getRa(codRa);
 			txId.setText(ra.getId());
 			txId.setEditable(false);
 			txName.setText(ra.getName());
 			txDescrip.setText(ra.getDescription());
 			txWeigth.setText(Float.toString(ra.getWeighting()));
 			
-			btSave.setText("Modify");
-			btSave.setBounds(150, 279, 85, 21);
+			getContentPane().remove(btSave);
+			ModifyManager modiMana=new ModifyManager();
+			btModify =new JButton();
+			btModify.setBounds(150, 279, 85, 25);
+			WindowPreset.buttonPreset(btModify, "Update Ra.", "files\\update.png");
+			btModify.addActionListener(modiMana);
+			getContentPane().add(btModify);
 			
 			DeleteManager deleMan =new DeleteManager();
-			btDelete =new JButton("Delete");
-			btDelete.setBounds(240, 279, 85, 21);
+			btDelete =new JButton();
+			btDelete.setBounds(240, 279, 85, 25);
+			WindowPreset.buttonPreset(btDelete, "Delete Ra.", "files\\delete.png");
 			btDelete.addActionListener(deleMan);
 			getContentPane().add(btDelete);
 			
@@ -125,7 +139,7 @@ public class RaView extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new TeacherView();
+			new RaProfessorView();
 			setVisible(false);
 			
 		}
@@ -144,7 +158,7 @@ public class RaView extends JFrame{
 					System.out.println(raNew);
 					c.insertRa(raNew);
 					
-					new TeacherView();
+					new RaProfessorView();
 					setVisible(false);
 				}else
 					JOptionPane.showMessageDialog(RaView.this, "Codigo ya en uso!", "Error id del RA",
@@ -162,12 +176,27 @@ public class RaView extends JFrame{
 		
 	}
 	
+	public class ModifyManager implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			float number=Float.parseFloat(txWeigth.getText());
+			c.updateRa(new Ra(txId.getText(),txName.getText(),txDescrip.getText(),number,sub));
+			new RaProfessorView();
+			setVisible(false);
+			
+		}
+		
+	}
+	
 	public class DeleteManager implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			
+			c.deleteRa(txId.getText());
+			new RaProfessorView();
+			setVisible(false);
 		}
 		
 	}

@@ -243,17 +243,19 @@ public class RegisterStudent extends JFrame {
 				// Move the temp pic to files
 				// In case the user change the dni of the name after selecting the pic, the pic
 				// will be saved with all of the changes
-				destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
-						+ fileChooser.extension.toString());
-				try {
-					Files.copy(sourcer.toPath(), destination.toPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Files.delete(sourcer.toPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				if (fileChooser.extension != null) {
+					destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
+							+ fileChooser.extension.toString());
+					try {
+						Files.copy(sourcer.toPath(), destination.toPath());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					try {
+						Files.delete(sourcer.toPath());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 
 				String surnames = jtSurname.getText().toString();

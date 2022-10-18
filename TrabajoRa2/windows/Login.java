@@ -97,24 +97,12 @@ public class Login extends JFrame {
 			lblIncorrect.hide();
 			lblUserNotFound.hide();
 			try {
-				c.searchUser(jtUser.getText().toString(), password);
-
-				if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("studentaccepted")) {
-					new StudentView(jtUser.getText().toString());
-					getContentPane().hide();
-				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("teacheraccepted")) {
-					TeacherView.dniTeacher = jtUser.getText();
-					new TeacherView();
-					getContentPane().hide();
-				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("notaccepted")) {
-					lblIncorrect.show();
-				} else if (jtUser.getText().equals("admin") && password.equals("admin")) {
-					dispose();
-					@SuppressWarnings("unused")
-					AdminWindow aw = new AdminWindow();
-				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("")) {
+				String status = c.searchUser(jtUser.getText().toString(), password);
+				if(status.equalsIgnoreCase(""))
 					lblUserNotFound.show();
-				}
+				if(status.equalsIgnoreCase("wrongpass"))
+					lblIncorrect.show();
+					
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

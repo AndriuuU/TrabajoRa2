@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 
-<<<<<<< Updated upstream
+
 import windows.Login;
-=======
+
 import windows.AdminWindow;
->>>>>>> Stashed changes
+
 
 public class test {
 	static Statement statement;
@@ -16,21 +16,20 @@ public class test {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws SQLException, ParseException {
 
-<<<<<<< Updated upstream
+
 		Login l = new Login();
-=======
+
 		
 //		AdminWindow ad = new AdminWindow();
 		// Login l = new Login();
->>>>>>> Stashed changes
+
 //		RaStudentView r = new RaStudentView();
 //		StudentView s = new StudentView("987654321B");
-		AdminWindow ad = new AdminWindow();
+//		AdminWindow ad = new AdminWindow();
 //		SubjectsView s = new SubjectsView();
-<<<<<<< Updated upstream
-=======
+
 //		AdminWindow aw = new AdminWindow();
->>>>>>> Stashed changes
+
 //		RegisterStudent r = new RegisterStudent();
 //		RegisterTeacher rt = new RegisterTeacher();
 //		Connect c = new Connect();

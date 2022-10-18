@@ -35,7 +35,7 @@ public class Connect {
 	private String pass = "";
 	private Map<String, String> students;
 	private Map<String, String> teachers;
-	public Map<String, String> subjectContent = new HashMap<String, String>();
+	public Map<String, String> subjectContent = new HashMap<String, String>();;
 
 	public Connect() {
 		try {
@@ -144,8 +144,7 @@ public class Connect {
 						new StudentView(logDni);
 					}
 					else {
-						state = "notloged";
-						Login.lblIncorrect.show();
+						state = "wrongpass";
 					}
 				}
 			}
@@ -168,12 +167,11 @@ public class Connect {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : teachers.values()) {
 					if (logPass.equalsIgnoreCase(valor)) {
-						state = "loged";
+						state = "tloged";
 						new TeacherView();
 					}
 					else {
-						state = "notloged";
-						Login.lblIncorrect.show();
+						state = "wrongpass";
 					}
 				}
 			}
@@ -245,7 +243,6 @@ public class Connect {
 	}
 
 	public void viewStudents(String dni) {
-
 		try {
 			String insertquery = "SELECT r.codAsig,a.nombre, SUM(c.nota*(r.ponderacion/100)) 'Nota' FROM califica c, matricula m, ra r,asignatura a WHERE '"
 					+ dni
@@ -258,7 +255,6 @@ public class Connect {
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
-
 	}
 
 	public void viewStudentsRA(String dni, String codAsig) {
@@ -457,24 +453,8 @@ public class Connect {
 		System.out.println("Update");
 	}
 
-<<<<<<< Updated upstream
+
 	
-	// TO DELETE DATAº
-	public void deleteTeacher(String dni) {
-		try {
-			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
-					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-			if (output == JOptionPane.YES_OPTION) {
-				String updateSubject = "UPDATE asignatura set dni = NULL WHERE dniProfesor = '" + dni + "'";
-				statement.executeUpdate(updateSubject);
-				String deleteTeacher = "DELETE FROM profesor WHERE dni = '" + dni + "'";
-				statement.execute(deleteTeacher);
-			}
-		} catch (SQLException e) {
-			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
-			e.printStackTrace();
-		}
-	}
 	
 	public void deleteStudent(String dni) {
 		try {
@@ -503,12 +483,12 @@ public class Connect {
 				statement.execute(delRa);
 			}
 		} catch (SQLException e) {
-			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error, deletion failed");
 		}
-=======
-	// TO DELETE DATA
+	}
 	
+	
+	// TO DELETE DATA
 	public void deleteTeacher(String dni) {
 		try {
 			int output = JOptionPane.showConfirmDialog(null
@@ -527,7 +507,6 @@ public class Connect {
 		}
 		
 		
->>>>>>> Stashed changes
 	}
 	
 	public void delete() {

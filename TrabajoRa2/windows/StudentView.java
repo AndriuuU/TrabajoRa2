@@ -90,7 +90,7 @@ public class StudentView extends JFrame {
 
 	private void insertFoto() {
 		ImageIcon imageIcon = new ImageIcon(s.getPhoto().toString());
-		if (imageIcon.getImage() != null) {
+		if (imageIcon.getImage() == null) {
 			imageIcon = new ImageIcon("files/Perfil.png");
 		}
 		Image image = imageIcon.getImage(); // transform it

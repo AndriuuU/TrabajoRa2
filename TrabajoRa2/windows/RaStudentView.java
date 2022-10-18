@@ -65,7 +65,7 @@ public class RaStudentView extends JFrame {
 	}
 
 	private void setTabla(JTable jTable) {
-		this.table = jTable;
+		RaStudentView.table = jTable;
 
 	}
 

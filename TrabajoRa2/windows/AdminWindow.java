@@ -31,16 +31,12 @@ public class AdminWindow extends JFrame {
 	private JComboBox<String> comboBox;
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
-<<<<<<< Updated upstream
-	private String[] options = { "Subjects", "Professors", "Students" };
-	private static Object o = new Subjects();
 
-=======
 	private String[] options = { "Courses", "Professors", "Students" };
 	@SuppressWarnings("unused")
 	private static Object o;
 	private String dniTeacher;
->>>>>>> Stashed changes
+
 	// Table's Attributes.
 
 	private static String[] columnsName;
@@ -49,11 +45,9 @@ public class AdminWindow extends JFrame {
 	private static Connect c = new Connect();
 
 	public AdminWindow() {
-
 		super("AdminWindow");
 		setSize(700, 500);
 		WindowPreset.preset(this);
-
 		// añadir (options) como parametro del constructor, una vez metido no deja abrir
 		// windowBuilder
 		comboBox = new JComboBox<String>(options);
@@ -64,13 +58,10 @@ public class AdminWindow extends JFrame {
 		comboBox.setBackground(Color.LIGHT_GRAY);
 		add(comboBox);
 		comboBox.addItemListener(new ItemListener() {
-
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-
 				JComboBox<?> jcb1 = (JComboBox<?>) e.getSource();
 				changeTable(jcb1.getSelectedIndex());
-
 			}
 		});
 
@@ -107,13 +98,11 @@ public class AdminWindow extends JFrame {
 		jbDis.setBounds(55, 330, 26, 26);
 		WindowPreset.buttonPreset(jbDis, "Go to Login.", "files\\disconnect.png");
 		jbDis.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				@SuppressWarnings("unused")
 				Login l = new Login();
-
 			}
 		});
 		jptable.setLayout(null);
@@ -128,9 +117,6 @@ public class AdminWindow extends JFrame {
 
 		getContentPane().add(jptable);
 		getContentPane().add(jpButton);
-		
-		
-		
 
 		ButtonManager bm = new ButtonManager();
 		jbInsert.addActionListener(bm);
@@ -142,36 +128,19 @@ public class AdminWindow extends JFrame {
 	}
 
 	public static void changeTable(int index) {
-<<<<<<< Updated upstream
 		DefaultTableModel model = new DefaultTableModel();
-
 		if (index == 0) {
 			o = new Subjects();
 			columnsName = new String[] { "Name", "dniProfesor" };
-=======
-		DefaultTableModel model = new DefaultTableModel() {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
 
-		};
-		if (index == 0) {
-			o = new Asignatura();
-			columnsName = new String[] { "Name", "Teacher" };
->>>>>>> Stashed changes
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
 			for (Subjects as : c.viewSubjects()) {
 				Object[] row = new Object[2];
-<<<<<<< Updated upstream
 				row[0] = as.getName();
 				row[1] = as.getDniProfessor();
-=======
-				row[0] = as.getNombre();
-				row[1] = as.getDniProfesor();
->>>>>>> Stashed changes
+
 				model.addRow(row);
 			}
 
@@ -204,29 +173,26 @@ public class AdminWindow extends JFrame {
 			}
 		}
 	}
-	
-	public class TableManager implements ListSelectionListener{
+
+	public class TableManager implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			dniTeacher = (String) jtable.getValueAt(jtable.getSelectedRow(),0);
+			dniTeacher = (String) jtable.getValueAt(jtable.getSelectedRow(), 0);
 			System.out.println(dniTeacher);
-			
+
 		}
-		
+
 	}
-	
 
 	class ButtonManager implements ActionListener {
-<<<<<<< Updated upstream
 
 		@SuppressWarnings("unused")
-=======
->>>>>>> Stashed changes
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String selector = o.getClass().toString();
 			JButton b = (JButton) e.getSource();
-<<<<<<< Updated upstream
+
 			String insert = "Insert New Row.";
 			String delete = "Delete Selected Row.";
 			String details = "Detail of the Selected Row.";
@@ -239,80 +205,81 @@ public class AdminWindow extends JFrame {
 					AdminWindow.jtable.getSelectedRow();
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a subject, are you sure?");
 				} else if (b.getToolTipText().equals(details)) {
-=======
-			
-			if (selector.equals("class clases.Asignatura")) {
-				if (b.getName().equals("Insert")) {
-					
-				} else if (b.getName().equals("Delete")) {
->>>>>>> Stashed changes
 
-				} else if (b.getToolTipText().equals(update)) {
+					if (selector.equals("class clases.Asignatura")) {
+						if (b.getName().equals("Insert")) {
 
-				} else {
-					System.out.println("Error");
-				}
-			} else if (selector.equals("class clases.Teacher")) {
-<<<<<<< Updated upstream
-				if (b.getToolTipText().equals(insert)) {
-					RegisterTeacher rt = new RegisterTeacher();
-				} else if (b.getToolTipText().equals(delete)) {
-					AdminWindow.jtable.getSelectedRow();
-					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a professor, are you sure?");
+						} else if (b.getName().equals("Delete")) {
 
-				} else if (b.getToolTipText().equals(details)) {
-=======
-				if (b.getName().equals("Insert")) {
-				} else if (b.getName().equals("Delete")) {
-					
-				} else if (b.getName().equals("Details")) {
->>>>>>> Stashed changes
+						} else if (b.getToolTipText().equals(update)) {
 
-				} else if (b.getToolTipText().equals(update)) {
+						} else {
+							System.out.println("Error");
+						}
+					} else if (selector.equals("class clases.Teacher")) {
 
-				} else {
-					System.out.println("Error");
-				}
-			} else if (selector.equals("class clases.Student")) {
-				if (b.getToolTipText().equals(insert)) {
-					try {
-						RegisterStudent rs = new RegisterStudent();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					} catch (ParseException e1) {
-						e1.printStackTrace();
+						if (b.getToolTipText().equals(insert)) {
+							RegisterTeacher rt = new RegisterTeacher();
+						} else if (b.getToolTipText().equals(delete)) {
+							AdminWindow.jtable.getSelectedRow();
+							JOptionPane.showConfirmDialog(rootPane,
+									"You are trying to delete a professor, are you sure?");
+
+						} else if (b.getToolTipText().equals(details)) {
+
+							if (b.getName().equals("Insert")) {
+							} else if (b.getName().equals("Delete")) {
+
+							} else if (b.getName().equals("Details")) {
+
+							} else if (b.getToolTipText().equals(update)) {
+
+							} else {
+								System.out.println("Error");
+							}
+						} else if (selector.equals("class clases.Student")) {
+							if (b.getToolTipText().equals(insert)) {
+								try {
+									RegisterStudent rs = new RegisterStudent();
+								} catch (SQLException e1) {
+									e1.printStackTrace();
+								} catch (ParseException e1) {
+									e1.printStackTrace();
+								}
+							} else if (b.getToolTipText().equals(delete)) {
+								AdminWindow.jtable.getSelectedRow();
+								JOptionPane.showConfirmDialog(rootPane,
+										"You are trying to delete a student, are you sure?");
+
+							} else if (b.getToolTipText().equals(details)) {
+
+							} else if (b.getToolTipText().equals(update)) {
+								String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+								Student s = new Student();
+								s = c.getInfoStudent(dni, c.viewStudents());
+								RegisterStudent.student = s;
+
+								try {
+									RegisterStudent rs = new RegisterStudent();
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (ParseException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+
+							} else {
+								System.out.println("Error");
+							}
+						}
+
+						// actualizar tabla
+						changeTable(comboBox.getSelectedIndex());
+
 					}
-				} else if (b.getToolTipText().equals(delete)) {
-					AdminWindow.jtable.getSelectedRow();
-					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a student, are you sure?");
-
-				} else if (b.getToolTipText().equals(details)) {
-
-				} else if (b.getToolTipText().equals(update)) {
-					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
-					Student s = new Student();
-					s = c.getInfoStudent(dni, c.viewStudents());
-					RegisterStudent.student = s;
-
-					try {
-						RegisterStudent rs = new RegisterStudent();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-				} else {
-					System.out.println("Error");
 				}
 			}
-
-			// actualizar tabla
-			changeTable(comboBox.getSelectedIndex());
-
 		}
-
 	}
 }

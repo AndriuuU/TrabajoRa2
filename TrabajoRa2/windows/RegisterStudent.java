@@ -144,13 +144,13 @@ public class RegisterStudent extends JFrame {
 		btnImg = new JButton();
 		btnImg.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		WindowPreset.buttonPreset(btnImg, "Add your pic", "files\\image.png");
-		btnImg.setBounds(470, 276, 26, 26);
+		btnImg.setBounds(470, 276, 92, 26);
 		getContentPane().add(btnImg);
 
 		btnAgregar = new JButton("ADD");
 		WindowPreset.buttonPreset(btnAgregar, "Add the new student to the database", "files\\insert.png");
 		btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAgregar.setBounds(251, 367, 26, 26);
+		btnAgregar.setBounds(251, 367, 82, 26);
 		getContentPane().add(btnAgregar);
 
 		lblFoto = new JLabel("Foto");
@@ -206,27 +206,16 @@ public class RegisterStudent extends JFrame {
 			lblFoto.setIcon(imageIcon2);
 
 			driverModify dModify = new driverModify();
-			WindowPreset.buttonPreset(btnAgregar, "Mod student", null);
+			btnAgregar.setText("Modify");
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
 			ReturnModify returnMod=new ReturnModify();
-			btnReturnStudent = new JButton();
+			btnReturnStudent = new JButton("Return");
 			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", null);
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			btnReturnStudent.setBounds(185, 367, 26, 26);
-
+			btnReturnStudent.setBounds(185, 367, 110, 23);
 			btnReturnStudent.addActionListener(returnMod);
-
-			btnReturnStudent.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-
-				}
-			});
-
 			getContentPane().add(btnReturnStudent);
 
 			student = null;
@@ -251,31 +240,7 @@ public class RegisterStudent extends JFrame {
 				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 				String dni = jtDni.getText().toString();
 				String name = jtName.getText().toString();
-
-				File imagenes = new File("files/tempSelfies/imgTemp" + fileChooser.extension);
-				File sourcer = new File(imagenes.toPath().toString());
-
-				// Move the temp pic to files
-				// In case the user change the dni of the name after selecting the pic, the pic
-				// will be saved with all of the changes
-				if (fileChooser.extension != null) {
-					destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
-							+ fileChooser.extension.toString());
-				}else {
-					destination = new File ("files/pics/sinfoto.png");
-				}
-				
-				try {
-					Files.copy(sourcer.toPath(), destination.toPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Files.delete(sourcer.toPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-
+				tempImg(dni,name);
 				String surnames = jtSurname.getText().toString();
 				String email = jtEmail.getText().toString();
 				String date_birth = date.getDateFormatString();
@@ -289,11 +254,11 @@ public class RegisterStudent extends JFrame {
 					Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
 							valorPass);
 					c.insertStudent(s);
-					try {
-						c.insertMatricula(dni);
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
+//					try {
+//						c.insertMatricula(dni);
+//					} catch (SQLException e1) {
+//						e1.printStackTrace();
+//					}
 				} else {
 					JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -301,6 +266,32 @@ public class RegisterStudent extends JFrame {
 
 			}
 		}
+	}
+	
+	public void tempImg(String dni, String name) {
+		File imagenes = new File("files/tempSelfies/imgTemp" + fileChooser.extension);
+		File sourcer = new File(imagenes.toPath().toString());
+		// Move the temp pic to files
+		// In case the user change the dni of the name after selecting the pic, the pic
+		// will be saved with all of the changes
+		System.out.println(fileChooser.extension);
+		if (fileChooser.extension != null) {
+			destination = new File("files/pics/" + dni.toString() + name.toString().replace(" ", "")
+					+ fileChooser.extension.toString());
+			System.out.println("estadoo" + destination.exists());
+			try {
+				if(destination.exists())
+					destination.delete();
+				Files.copy(sourcer.toPath(), destination.toPath());
+				Files.delete(sourcer.toPath());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}else {
+			destination = new File ("files/pics/sinfoto.png");
+		}
+		
+		
 	}
 
 	public class driverModify implements ActionListener {
@@ -310,13 +301,16 @@ public class RegisterStudent extends JFrame {
 				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 				String dni = jtDni.getText().toString();
 				String name = jtName.getText().toString();
+				tempImg(dni,name);
 				String surnames = jtSurname.getText().toString();
 				String email = jtEmail.getText().toString();
 				String date_birth = date.getDateFormatString();
 				date_birth = sdf.format(date.getDate());
-				String pic = "nopic";
+				String pic;
 				if (destination != null) {
 					pic = destination.toString().replace("\\", "/");
+				}else {
+					pic = "nopic";
 				}
 				System.out.println(pic);
 				String valorPass = new String(jtPass.getPassword());

@@ -197,7 +197,6 @@ public class RegisterStudent extends JFrame {
 			jtPass.setText(student.getPassw());
 
 			driverModify dModify = new driverModify();
-			btnAgregar.setText("Modify");
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
@@ -206,7 +205,18 @@ public class RegisterStudent extends JFrame {
 			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", "files\\return.png");
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnReturnStudent.setBounds(185, 367, 26, 26);
+
 			btnReturnStudent.addActionListener(returnMod);
+
+			btnReturnStudent.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+
+				}
+			});
+
 			getContentPane().add(btnReturnStudent);
 
 			student = null;
@@ -238,17 +248,19 @@ public class RegisterStudent extends JFrame {
 				// Move the temp pic to files
 				// In case the user change the dni of the name after selecting the pic, the pic
 				// will be saved with all of the changes
-				destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
-						+ fileChooser.extension.toString());
-				try {
-					Files.copy(sourcer.toPath(), destination.toPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Files.delete(sourcer.toPath());
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				if (fileChooser.extension != null) {
+					destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
+							+ fileChooser.extension.toString());
+					try {
+						Files.copy(sourcer.toPath(), destination.toPath());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					try {
+						Files.delete(sourcer.toPath());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 
 				String surnames = jtSurname.getText().toString();

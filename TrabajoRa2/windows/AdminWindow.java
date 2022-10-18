@@ -130,15 +130,8 @@ public class AdminWindow extends JFrame {
 	}
 
 	public static void changeTable(int index) {
-		DefaultTableModel model = new DefaultTableModel() {
-			
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-			
-		};
-		
+		DefaultTableModel model = new DefaultTableModel();
+
 		if (index == 0) {
 			o = new Subjects();
 			columnsName = new String[] { "Name", "dniProfesor" };
@@ -151,7 +144,7 @@ public class AdminWindow extends JFrame {
 				row[1] = as.getDniProfessor();
 				model.addRow(row);
 			}
-			
+
 		} else if (index == 1) {
 			o = new Teacher();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
@@ -165,7 +158,7 @@ public class AdminWindow extends JFrame {
 				row[2] = t.getSurname();
 				model.addRow(row);
 			}
-			
+
 		} else if (index == 2) {
 			o = new Student();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
@@ -238,11 +231,28 @@ public class AdminWindow extends JFrame {
 				} else if (b.getToolTipText().equals(details)) {
 
 				} else if (b.getToolTipText().equals(update)) {
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					Student s = new Student();
+					s = c.getInfoStudent(dni, c.viewStudents());
+					RegisterStudent.student = s;
+
+					try {
+						RegisterStudent rs = new RegisterStudent();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 				} else {
 					System.out.println("Error");
 				}
 			}
+
+			// actualizar tabla
+			changeTable(comboBox.getSelectedIndex());
 
 		}
 

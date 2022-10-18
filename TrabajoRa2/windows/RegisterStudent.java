@@ -2,6 +2,7 @@ package windows;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -195,14 +197,22 @@ public class RegisterStudent extends JFrame {
 			date.setDate(formato.parse(student.getB_date().replace("-", "/")));
 			jtTelefono.setText(String.valueOf(student.getPhone()));
 			jtPass.setText(student.getPassw());
+			
+			File imagenes = new File(student.getPhoto());
+			ImageIcon imageIcon = new ImageIcon(imagenes.getPath()); // load the image to a imageIcon
+			Image image = imageIcon.getImage(); // transform it 
+			Image newimg = image.getScaledInstance(140, 156,  java.awt.Image.SCALE_SMOOTH); 
+			ImageIcon imageIcon2 = new ImageIcon(newimg);	
+			lblFoto.setIcon(imageIcon2);
 
 			driverModify dModify = new driverModify();
+			WindowPreset.buttonPreset(btnAgregar, "Mod student", null);
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
 			ReturnModify returnMod=new ReturnModify();
 			btnReturnStudent = new JButton();
-			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", "files\\return.png");
+			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", null);
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnReturnStudent.setBounds(185, 367, 26, 26);
 
@@ -251,16 +261,19 @@ public class RegisterStudent extends JFrame {
 				if (fileChooser.extension != null) {
 					destination = new File("files/selfies/" + dni.toString() + name.toString().replace(" ", "")
 							+ fileChooser.extension.toString());
-					try {
-						Files.copy(sourcer.toPath(), destination.toPath());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					try {
-						Files.delete(sourcer.toPath());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+				}else {
+					destination = new File ("files/pics/sinfoto.png");
+				}
+				
+				try {
+					Files.copy(sourcer.toPath(), destination.toPath());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					Files.delete(sourcer.toPath());
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 
 				String surnames = jtSurname.getText().toString();

@@ -50,8 +50,9 @@ public class RaStudentView extends JFrame {
 		lblStudent.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblStudent);
 
-		back = new JButton("Return");
+		back = new JButton();
 		back.setBounds(367, 267, 85, 21);
+		WindowPreset.buttonPreset(back, "Back to Student", "files\\return.png");
 		ButtonManager buttonMana = new ButtonManager();
 		back.addActionListener(buttonMana);
 		getContentPane().add(back);

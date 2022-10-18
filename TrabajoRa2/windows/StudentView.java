@@ -133,10 +133,12 @@ public class StudentView extends JFrame {
 
 					new RaStudentView(s.getDni());
 
-				} else if (e.getSource() == back) {
-					new Login();
 				}
-			} else
+			} else if (e.getSource() == back) {
+				setVisible(false);
+			
+				new Login();
+			}else
 				JOptionPane.showMessageDialog(StudentView.this, "You must select a subject!!", "Unselected subject",
 						JOptionPane.WARNING_MESSAGE);
 		}

@@ -1,7 +1,9 @@
 package windows;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Student;
 import connec.Connect;
 
 @SuppressWarnings("serial")
@@ -18,9 +21,11 @@ public class TeacherRaGrade extends JFrame {
 	public String[] columNames;
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
-	private JButton back;
+	private JButton back, btInsert;
 	private JLabel lblAlumno;
-	private boolean salir=false;
+	private boolean salir = false;
+	private String ra;
+	private List<Student> ListStudent;
 
 	Connect mostrar = new Connect();
 
@@ -36,35 +41,39 @@ public class TeacherRaGrade extends JFrame {
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
 
-		
-		String ra = RaProfessorView.codRa;
+		ra = RaProfessorView.codRa;
 		if (ra != null) {
 			mostrar.viewTeacherRaGrade(ra);
-			
-			salir=true;
+
+			salir = true;
 			lblAlumno = new JLabel(ra);
-		}else {
+		} else {
 			String asig = TeacherView.codAsigna;
 			mostrar.viewTeacherFinalGrade(asig);
 			lblAlumno = new JLabel(asig);
 		}
-			
-		
-		
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 301, 280);
 		add(scrollPane);
 		scrollPane.setViewportView(table);
 
-		
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
+
+		ListStudent=mostrar.viewStudents();
 		
+		ButtonManager buttonMana = new ButtonManager();
+
+		btInsert = new JButton();
+		btInsert.setBounds(367, 160, 85, 21);
+		WindowPreset.buttonPreset(btInsert, "Insert grade RA", "files\\insert.png");
+		btInsert.addActionListener(buttonMana);
+		getContentPane().add(btInsert);
+
 		back = new JButton();
 		back.setBounds(367, 267, 85, 21);
 		WindowPreset.buttonPreset(back, "Back to menu", "files\\return.png");
-		ButtonManager buttonMana = new ButtonManager();
 		back.addActionListener(buttonMana);
 		getContentPane().add(back);
 
@@ -85,13 +94,40 @@ public class TeacherRaGrade extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(salir) {
-				new RaProfessorView();
-			}else
-				new TeacherView();
+			if (e.getSource() == btInsert) {
+				new InsertAlumno(ra);
+			} else if (e.getSource() == back) {
+				setVisible(false);
+				if (salir) {
+					new RaProfessorView();
+				} else
+					new TeacherView();
+				
+			}
 			
-			setVisible(false);
+			
 		}
 
+	}
+	
+	public class InsertAlumno extends JFrame {
+		
+		public InsertAlumno(String cod) {
+			super("List of Student");
+			setSize(300, 300);
+			WindowPreset.preset(this);
+			setLayout(new BorderLayout());
+			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			
+			for(Student s:ListStudent) {
+				if(s.equals("Andres")) {
+					
+				}
+			}
+			
+			setVisible(true);
+			
+		}
+		
 	}
 }

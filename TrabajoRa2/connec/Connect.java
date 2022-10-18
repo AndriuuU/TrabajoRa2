@@ -363,6 +363,26 @@ public class Connect {
 		return null;
 
 	}
+	
+	public Subjects getSubjectRa(String cod) {
+		try {
+
+			String insertquery = "SELECT * FROM asignatura WHERE '" + cod + "'=codAsig;";
+
+			ResultSet result = statement.executeQuery(insertquery);
+
+			if (result.next()) {
+
+				Subjects data = new Subjects(result.getString("codAsig"), result.getString("nombre"),Integer.parseInt(result.getString("horas")),result.getString("dniProfesor") );
+
+				return data;
+
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+		return null;
+	}
 
 	// TO UPDATE DATA
 	public void updateStudent(Student s) {

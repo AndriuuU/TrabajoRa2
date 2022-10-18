@@ -201,11 +201,12 @@ public class RegisterStudent extends JFrame {
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
+			ReturnModify returnMod=new ReturnModify();
 			btnReturnStudent = new JButton();
 			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", "files\\return.png");
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnReturnStudent.setBounds(185, 367, 26, 26);
-			btnReturnStudent.addActionListener(null);
+			btnReturnStudent.addActionListener(returnMod);
 			getContentPane().add(btnReturnStudent);
 
 			student = null;
@@ -301,6 +302,13 @@ public class RegisterStudent extends JFrame {
 			}
 		}
 
+	}
+	public class ReturnModify implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new StudentView(jtDni.getText());
+			setVisible(false);
+		}
 	}
 
 	public class driverImage implements ActionListener {

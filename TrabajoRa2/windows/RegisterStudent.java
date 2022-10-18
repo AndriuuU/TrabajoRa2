@@ -197,7 +197,6 @@ public class RegisterStudent extends JFrame {
 			jtPass.setText(student.getPassw());
 
 			driverModify dModify = new driverModify();
-			btnAgregar.setText("Modify");
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
@@ -205,7 +204,14 @@ public class RegisterStudent extends JFrame {
 			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", "files\\return.png");
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnReturnStudent.setBounds(185, 367, 26, 26);
-			btnReturnStudent.addActionListener(null);
+			btnReturnStudent.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+
+				}
+			});
 			getContentPane().add(btnReturnStudent);
 
 			student = null;

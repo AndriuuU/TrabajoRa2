@@ -2,23 +2,41 @@ package Pruebas;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 
+<<<<<<< Updated upstream
 import windows.Login;
+=======
+import windows.AdminWindow;
+>>>>>>> Stashed changes
 
 public class test {
 	static Statement statement;
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, ParseException {
 
+<<<<<<< Updated upstream
 		Login l = new Login();
-//		RaStudentView r = new RaStudentView();
+=======
+		
 //		AdminWindow ad = new AdminWindow();
+		// Login l = new Login();
+>>>>>>> Stashed changes
+//		RaStudentView r = new RaStudentView();
+//		StudentView s = new StudentView("987654321B");
+		AdminWindow ad = new AdminWindow();
 //		SubjectsView s = new SubjectsView();
+<<<<<<< Updated upstream
+=======
+//		AdminWindow aw = new AdminWindow();
+>>>>>>> Stashed changes
 //		RegisterStudent r = new RegisterStudent();
 //		RegisterTeacher rt = new RegisterTeacher();
 //		Connect c = new Connect();
+//		c.deleteTeacher("74544252J");
 //		c.comboFiller();
+//		Register r = new Register();
 
 		// String dni, String nombre, String apellidos, String email, String fecha_nac,
 		// String foto, int telefono

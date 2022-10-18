@@ -191,7 +191,7 @@ public class Connect {
 		return subjectContent;
 	}
 
-	// TO VIEW DATA
+	// TO VIEW DATA OF TEACHERS
 	public List<Teacher> viewTeacher() {
 		List<Teacher> listTeacher = new ArrayList<>();
 		try {
@@ -457,6 +457,7 @@ public class Connect {
 		System.out.println("Update");
 	}
 
+<<<<<<< Updated upstream
 	
 	// TO DELETE DATAº
 	public void deleteTeacher(String dni) {
@@ -505,6 +506,28 @@ public class Connect {
 			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
 			e.printStackTrace();
 		}
+=======
+	// TO DELETE DATA
+	
+	public void deleteTeacher(String dni) {
+		try {
+			int output = JOptionPane.showConfirmDialog(null
+		               ,"Are u sure you want to delete this teacher?"
+		               ,"Message"
+		               ,JOptionPane.YES_NO_OPTION);
+			if(output == JOptionPane.YES_OPTION){
+				String updateSubjects = "UPDATE asignatura SET dniProfesor = NULL WHERE dniProfesor = '" + dni + "'";
+				statement.executeUpdate(updateSubjects);
+				String deleteTeacher  ="DELETE FROM `profesor` WHERE dni = '" +dni+"'";
+				statement.execute(deleteTeacher);
+	            }			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error, deletion failed");
+			e.printStackTrace();
+		}
+		
+		
+>>>>>>> Stashed changes
 	}
 	
 	public void delete() {

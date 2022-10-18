@@ -45,7 +45,6 @@ public class fileChooser {
 				ImageIcon imageIcon2 = new ImageIcon(newimg);	
 				RegisterStudent.lblFoto.setIcon(imageIcon2);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

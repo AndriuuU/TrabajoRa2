@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Student;
@@ -29,9 +31,16 @@ public class AdminWindow extends JFrame {
 	private JComboBox<String> comboBox;
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
+<<<<<<< Updated upstream
 	private String[] options = { "Subjects", "Professors", "Students" };
 	private static Object o = new Subjects();
 
+=======
+	private String[] options = { "Courses", "Professors", "Students" };
+	@SuppressWarnings("unused")
+	private static Object o;
+	private String dniTeacher;
+>>>>>>> Stashed changes
 	// Table's Attributes.
 
 	private static String[] columnsName;
@@ -119,6 +128,9 @@ public class AdminWindow extends JFrame {
 
 		getContentPane().add(jptable);
 		getContentPane().add(jpButton);
+		
+		
+		
 
 		ButtonManager bm = new ButtonManager();
 		jbInsert.addActionListener(bm);
@@ -130,18 +142,36 @@ public class AdminWindow extends JFrame {
 	}
 
 	public static void changeTable(int index) {
+<<<<<<< Updated upstream
 		DefaultTableModel model = new DefaultTableModel();
 
 		if (index == 0) {
 			o = new Subjects();
 			columnsName = new String[] { "Name", "dniProfesor" };
+=======
+		DefaultTableModel model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+		};
+		if (index == 0) {
+			o = new Asignatura();
+			columnsName = new String[] { "Name", "Teacher" };
+>>>>>>> Stashed changes
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
 			for (Subjects as : c.viewSubjects()) {
 				Object[] row = new Object[2];
+<<<<<<< Updated upstream
 				row[0] = as.getName();
 				row[1] = as.getDniProfessor();
+=======
+				row[0] = as.getNombre();
+				row[1] = as.getDniProfesor();
+>>>>>>> Stashed changes
 				model.addRow(row);
 			}
 
@@ -174,15 +204,29 @@ public class AdminWindow extends JFrame {
 			}
 		}
 	}
+	
+	public class TableManager implements ListSelectionListener{
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			dniTeacher = (String) jtable.getValueAt(jtable.getSelectedRow(),0);
+			System.out.println(dniTeacher);
+			
+		}
+		
+	}
+	
 
 	class ButtonManager implements ActionListener {
+<<<<<<< Updated upstream
 
 		@SuppressWarnings("unused")
+=======
+>>>>>>> Stashed changes
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
 			String selector = o.getClass().toString();
 			JButton b = (JButton) e.getSource();
+<<<<<<< Updated upstream
 			String insert = "Insert New Row.";
 			String delete = "Delete Selected Row.";
 			String details = "Detail of the Selected Row.";
@@ -195,6 +239,13 @@ public class AdminWindow extends JFrame {
 					AdminWindow.jtable.getSelectedRow();
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a subject, are you sure?");
 				} else if (b.getToolTipText().equals(details)) {
+=======
+			
+			if (selector.equals("class clases.Asignatura")) {
+				if (b.getName().equals("Insert")) {
+					
+				} else if (b.getName().equals("Delete")) {
+>>>>>>> Stashed changes
 
 				} else if (b.getToolTipText().equals(update)) {
 
@@ -202,6 +253,7 @@ public class AdminWindow extends JFrame {
 					System.out.println("Error");
 				}
 			} else if (selector.equals("class clases.Teacher")) {
+<<<<<<< Updated upstream
 				if (b.getToolTipText().equals(insert)) {
 					RegisterTeacher rt = new RegisterTeacher();
 				} else if (b.getToolTipText().equals(delete)) {
@@ -209,6 +261,12 @@ public class AdminWindow extends JFrame {
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a professor, are you sure?");
 
 				} else if (b.getToolTipText().equals(details)) {
+=======
+				if (b.getName().equals("Insert")) {
+				} else if (b.getName().equals("Delete")) {
+					
+				} else if (b.getName().equals("Details")) {
+>>>>>>> Stashed changes
 
 				} else if (b.getToolTipText().equals(update)) {
 

@@ -30,7 +30,7 @@ CREATE TABLE Asignatura(
     codAsig VARCHAR(10),
     nombre VARCHAR(200),
     horas int(4),
-    dniProfesor VARCHAR(10),
+    dniProfesor VARCHAR(10) DEFAULT null,
     CONSTRAINT Asignatura_nomb_pk PRIMARY KEY (codAsig),
     CONSTRAINT asignatura_dniProfe_fk FOREIGN KEY (dniProfesor) REFERENCES Profesor(dni)
 );

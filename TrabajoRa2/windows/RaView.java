@@ -2,10 +2,12 @@ package windows;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import clases.Ra;
 import clases.Subjects;
+import connec.Connect;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -19,7 +21,8 @@ public class RaView extends JFrame{
 	private JButton btReturn,btSave,btDelete;
 	public static Ra ra;
 	private Subjects subject;
-	
+	Connect c=new Connect();
+	private Subjects sub;
 	
 	public RaView(String codSub) {
 		
@@ -72,6 +75,8 @@ public class RaView extends JFrame{
 		txCodSubject.setEditable(false);
 		getContentPane().add(txCodSubject);
 		
+		sub=c.getSubjectRa(codSub);
+				
 		lblCodsubject = new JLabel("CodSubject:");
 		lblCodsubject.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCodsubject.setBounds(69, 231, 76, 13);
@@ -120,7 +125,8 @@ public class RaView extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			new TeacherView();
+			setVisible(false);
 			
 		}
 		
@@ -130,7 +136,27 @@ public class RaView extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Ra raNew =new Ra(txId.getText(),txName.getText(),txDescrip.getText(),Float.parseFloat(txWeigth.getText()),);
+			
+			try {
+				float number=Float.parseFloat(txWeigth.getText());
+				if(c.getRa(txId.getText())==null) {
+					Ra raNew =new Ra(txId.getText(),txName.getText(),txDescrip.getText(),number,sub);
+					System.out.println(raNew);
+					c.insertRa(raNew);
+					
+					new TeacherView();
+					setVisible(false);
+				}else
+					JOptionPane.showMessageDialog(RaView.this, "Codigo ya en uso!", "Error id del RA",
+							JOptionPane.WARNING_MESSAGE);
+				
+			}catch (Exception ex) {
+				JOptionPane.showMessageDialog(RaView.this, "Has introducido mal los datos", "ERROR!",
+						JOptionPane.WARNING_MESSAGE);
+			}
+			
+			
+			
 			
 		}
 		
@@ -145,4 +171,5 @@ public class RaView extends JFrame{
 		}
 		
 	}
+	
 }

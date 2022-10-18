@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
+import clases.Ra;
 import clases.Student;
 import clases.Subjects;
 import clases.Teacher;
@@ -93,6 +94,19 @@ public class Connect {
 			System.out.println("Inserted");
 
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "You are trying to insert an existing account", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void insertRa(Ra r) {
+		
+		try {
+			String query = "INSERT INTO ra values('" + r.getId() + "','"+ r.getName()+"','"+ r.getDescription()
+					+"','"+ r.getWeighting()+"','"+ r.getCodSubject().getCodSubject()+"');";
+			statement.execute(query);
+			System.out.println("Inserted");
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "You are trying to insert an existing account", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -374,6 +388,26 @@ public class Connect {
 			if (result.next()) {
 
 				Subjects data = new Subjects(result.getString("codAsig"), result.getString("nombre"),Integer.parseInt(result.getString("horas")),result.getString("dniProfesor") );
+
+				return data;
+
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+		return null;
+	}
+	
+	public Object[] getRa(String cod) {
+		try {
+
+			String insertquery = "SELECT * FROM Ra WHERE '" + cod + "'=id;";
+
+			ResultSet result = statement.executeQuery(insertquery);
+
+			if (result.next()) {
+
+				Object[] data = {result.getString("id"), result.getString("nombre"),result.getString("descripcion"),Float.parseFloat(result.getString("ponderacion")),result.getString("codAsig")};
 
 				return data;
 

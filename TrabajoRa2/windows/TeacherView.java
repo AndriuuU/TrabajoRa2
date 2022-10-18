@@ -21,8 +21,9 @@ public class TeacherView extends JFrame {
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
 	private JButton back, btnLook, btnStudent;
-	private JLabel lblAlumno;
-	static public String codAsigna;
+	private JLabel lblTeacher;
+	public static String codAsigna;
+	public static String dniTeacher;
 
 	Connect mostrar = new Connect();
 
@@ -37,16 +38,16 @@ public class TeacherView extends JFrame {
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
 
-		mostrar.viewTeacher("74544252J");
+		mostrar.viewTeacher(dniTeacher);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 393, 258);
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
 
-		lblAlumno = new JLabel("(Nombre del profesor)");
-		lblAlumno.setBounds(36, 29, 205, 13);
-		getContentPane().add(lblAlumno);
+		lblTeacher = new JLabel("(Nombre del profesor)");
+		lblTeacher.setBounds(36, 29, 205, 13);
+		getContentPane().add(lblTeacher);
 
 		ButtonManager buttonMana = new ButtonManager();
 
@@ -84,7 +85,9 @@ public class TeacherView extends JFrame {
 			int num = getTabla().getSelectedRow();
 			if (e.getSource() == back) {
 
-				// Borrar profesor
+				dniTeacher=null;
+				new Login();
+				setVisible(false);
 				
 			} else if (num >= 0) {
 				setVisible(false);
@@ -96,9 +99,6 @@ public class TeacherView extends JFrame {
 				} else if (e.getSource() == btnStudent) {
 					
 					new TeacherRaGrade();
-					
-					//notaFinal.columNames = new String[] { "Student", "Final" };
-
 				}
 			} else
 				JOptionPane.showMessageDialog(TeacherView.this, "Debes seleccionar una asignaruta!!",

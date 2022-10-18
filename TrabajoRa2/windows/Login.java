@@ -97,15 +97,13 @@ public class Login extends JFrame {
 			lblUserNotFound.hide();
 			try {
 				c.searchUser(jtUser.getText().toString(), password);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
+
 				if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("studentaccepted")) {
 					new StudentView(jtUser.getText().toString());
 					getContentPane().hide();
 				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("teacheraccepted")) {
-					new RaProfessorView();
+					TeacherView.dniTeacher = jtUser.getText();
+					new TeacherView();
 					getContentPane().hide();
 				} else if (c.searchUser(jtUser.getText().toString(), password).equalsIgnoreCase("notaccepted")) {
 					lblIncorrect.show();

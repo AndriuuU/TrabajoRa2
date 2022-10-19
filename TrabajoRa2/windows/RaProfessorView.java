@@ -111,6 +111,7 @@ public class RaProfessorView extends JFrame {
 						new RaView(TeacherView.codAsigna);
 					}
 				} else if(e.getSource()== btnRa) {
+					codRa=null;
 					setVisible(false);
 					new RaView(TeacherView.codAsigna);
 				}else

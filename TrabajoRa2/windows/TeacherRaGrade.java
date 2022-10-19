@@ -99,6 +99,7 @@ public class TeacherRaGrade extends JFrame {
 			} else if (e.getSource() == back) {
 				setVisible(false);
 				if (salir) {
+					RaProfessorView.codRa=null;
 					new RaProfessorView();
 				} else
 					new TeacherView();

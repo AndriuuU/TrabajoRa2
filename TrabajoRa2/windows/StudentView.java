@@ -136,7 +136,7 @@ public class StudentView extends JFrame {
 				}
 			} else if (e.getSource() == back) {
 				setVisible(false);
-			
+				
 				new Login();
 			}else
 				JOptionPane.showMessageDialog(StudentView.this, "You must select a subject!!", "Unselected subject",

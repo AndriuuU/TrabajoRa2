@@ -205,6 +205,22 @@ public class Connect {
 		}
 		return listTeacher;
 	}
+	
+	public List<String> viewTeacherDni() {
+		List<String> listDni = new ArrayList<>();
+		try {
+			String insertquery = "select dni from profesor";
+			ResultSet result = statement.executeQuery(insertquery);
+			while (result.next()) {
+				listDni.add(result.getString("dni"));
+				
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+		return listDni;
+	}
+	
 
 	// TO VIEW DATA
 	public List<Student> viewStudents() {
@@ -284,13 +300,13 @@ public class Connect {
 	public void viewTeacher(String dniTeacher) {
 		try {
 
-			String insertquery = "SELECT codAsig, nombre FROM asignatura WHERE '" + dniTeacher + "'=dniProfesor;";
+			String insertquery = "SELECT codAsig, nombre, horas FROM asignatura WHERE '" + dniTeacher + "'=dniProfesor;";
 
 			ResultSet result = statement.executeQuery(insertquery);
 
 			while (result.next()) {
 
-				Object[] data = { result.getString("codAsig"), result.getString("nombre") };
+				Object[] data = { result.getString("codAsig"), result.getString("nombre"),result.getString("horas") };
 
 				TeacherView.tablemodel.addRow(data);
 
@@ -404,6 +420,26 @@ public class Connect {
 			if (result.next()) {
 
 				Ra data =new Ra(result.getString("id"), result.getString("nombre"),result.getString("descripcion"),Float.parseFloat(result.getString("ponderacion")),getSubjectRa(result.getString("codAsig")));
+
+				return data;
+
+			}
+		} catch (SQLException ex) {
+			System.out.println("Problem To Show Data");
+		}
+		return null;
+	}
+	
+	public Teacher getTeacher(String cod) {
+		try {
+
+			String insertquery = "SELECT * FROM profesor WHERE '" + cod + "'=dni;";
+
+			ResultSet result = statement.executeQuery(insertquery);
+
+			if (result.next()) {
+
+				Teacher data =new Teacher(result.getString("dni"), result.getString("nombre"),result.getString("apellidos"),result.getString("email"),result.getString("pass"));
 
 				return data;
 

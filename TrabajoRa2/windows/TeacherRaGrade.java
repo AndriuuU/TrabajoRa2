@@ -120,9 +120,10 @@ public class TeacherRaGrade extends JFrame {
 			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 			
 			for(Student s:ListStudent) {
-				if(s.equals("Andres")) {
+				if(s.getName().equals("Andres")) {
 					
-				}
+				}else
+					System.out.println(s);
 			}
 			
 			setVisible(true);

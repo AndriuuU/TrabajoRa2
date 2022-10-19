@@ -127,7 +127,7 @@ public class RaView extends JFrame{
 			getContentPane().add(btDelete);
 			
 			
-			ra=null;
+			codRa=null;
 			
 		}
 		
@@ -139,6 +139,8 @@ public class RaView extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			RaProfessorView.codRa=null;
 			new RaProfessorView();
 			setVisible(false);
 			
@@ -158,6 +160,7 @@ public class RaView extends JFrame{
 					System.out.println(raNew);
 					c.insertRa(raNew);
 					
+					RaProfessorView.codRa=null;
 					new RaProfessorView();
 					setVisible(false);
 				}else
@@ -193,7 +196,7 @@ public class RaView extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			RaProfessorView.codRa=null;
 			c.deleteRa(txId.getText());
 			new RaProfessorView();
 			setVisible(false);

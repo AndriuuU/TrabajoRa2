@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Teacher;
 import connec.Connect;
 
 @SuppressWarnings("serial")
@@ -41,9 +42,10 @@ public class RaProfessorView extends JFrame {
 
 		String asig = TeacherView.codAsigna;
 		mostrar.viewTeacherRa(asig);
+		
 
 		lblAlumno = new JLabel(asig);
-		lblAlumno.setBounds(36, 29, 205, 13);
+		lblAlumno.setBounds(36, 29, 205, 21);
 		getContentPane().add(lblAlumno);
 
 		
@@ -109,6 +111,7 @@ public class RaProfessorView extends JFrame {
 						new RaView(TeacherView.codAsigna);
 					}
 				} else if(e.getSource()== btnRa) {
+					codRa=null;
 					setVisible(false);
 					new RaView(TeacherView.codAsigna);
 				}else

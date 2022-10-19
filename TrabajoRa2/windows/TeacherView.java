@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Teacher;
 import connec.Connect;
 
 import javax.swing.JLabel;
@@ -21,7 +22,7 @@ public class TeacherView extends JFrame {
 	private String[] columNames;
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
-	private JButton back, btnLook, btnStudent,btnRa;
+	private JButton back, btnLook, btnStudent;
 	private JLabel lblTeacher;
 	public static String codAsigna;
 	public static String dniTeacher;
@@ -34,20 +35,21 @@ public class TeacherView extends JFrame {
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
 
-		columNames = new String[] { "Cod", "Subject" };
+		columNames = new String[] { "Cod", "Subject" ,"Hours"};
 		tablemodel = new DefaultTableModel(columNames, 0);
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
 
 		mostrar.viewTeacher(dniTeacher);
+		Teacher t=mostrar.getTeacher(dniTeacher);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 63, 393, 258);
 		getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
 
-		lblTeacher = new JLabel("(Nombre del profesor)");
-		lblTeacher.setBounds(36, 29, 205, 13);
+		lblTeacher = new JLabel(t.getName()+" "+t.getSurname());
+		lblTeacher.setBounds(36, 29, 205, 21);
 		lblTeacher.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(lblTeacher);
 
@@ -99,6 +101,7 @@ public class TeacherView extends JFrame {
 			} else if (num >= 0) {
 				setVisible(false);
 				codAsigna = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
+				
 				
 				if (e.getSource() == btnLook) {
 					new RaProfessorView();

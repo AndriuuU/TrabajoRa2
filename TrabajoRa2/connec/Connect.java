@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.security.auth.Subject;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
@@ -19,7 +20,6 @@ import clases.Ra;
 import clases.Student;
 import clases.Subjects;
 import clases.Teacher;
-import windows.Login;
 import windows.RaProfessorView;
 import windows.RaStudentView;
 import windows.StudentView;
@@ -62,6 +62,18 @@ public class Connect {
 		}
 	}
 
+	public void insertSubject(Subjects s) {
+		try {
+			String query = "INSERT INTO asignatura values('" + s.getCodSubject() + "','" + s.getName() + "','"
+					+ s.getHours() + "','" + s.getDniProfessor() + "');";
+			statement.execute(query);
+			System.out.println("Inserted");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "You are trying to insert an existing subject", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	// Read the map(subjects) and compare with the array of checkbox to check wich
 	// one is selected
 	// if is selected inser dniStudent and idSubject
@@ -98,12 +110,12 @@ public class Connect {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public void insertRa(Ra r) {
-		
+
 		try {
-			String query = "INSERT INTO ra values('" + r.getId() + "','"+ r.getName()+"','"+ r.getDescription()
-					+"','"+ r.getWeighting()+"','"+ r.getCodSubject().getCodSubject()+"');";
+			String query = "INSERT INTO ra values('" + r.getId() + "','" + r.getName() + "','" + r.getDescription()
+					+ "','" + r.getWeighting() + "','" + r.getCodSubject().getCodSubject() + "');";
 			statement.execute(query);
 			System.out.println("Inserted");
 		} catch (SQLException e) {
@@ -141,8 +153,7 @@ public class Connect {
 				for (String valor : students.values()) {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "loged";
-					}
-					else {
+					} else {
 						state = "wrongpass";
 					}
 				}
@@ -169,15 +180,14 @@ public class Connect {
 				for (String valor : teachers.values()) {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "tloged";
-					}
-					else {
+					} else {
 						state = "wrongpass";
 					}
 				}
 			}
 		}
 		if (state.equalsIgnoreCase("tloged")) {
-			TeacherView.dniTeacher=logDni;
+			TeacherView.dniTeacher = logDni;
 			new TeacherView();
 		}
 		return state;
@@ -209,7 +219,7 @@ public class Connect {
 		}
 		return listTeacher;
 	}
-	
+
 	public List<String> viewTeacherDni() {
 		List<String> listDni = new ArrayList<>();
 		try {
@@ -217,14 +227,13 @@ public class Connect {
 			ResultSet result = statement.executeQuery(insertquery);
 			while (result.next()) {
 				listDni.add(result.getString("dni"));
-				
+
 			}
 		} catch (SQLException ex) {
 			System.out.println("Problem To Show Data");
 		}
 		return listDni;
 	}
-	
 
 	// TO VIEW DATA
 	public List<Student> viewStudents() {
@@ -304,13 +313,14 @@ public class Connect {
 	public void viewTeacher(String dniTeacher) {
 		try {
 
-			String insertquery = "SELECT codAsig, nombre, horas FROM asignatura WHERE '" + dniTeacher + "'=dniProfesor;";
+			String insertquery = "SELECT codAsig, nombre, horas FROM asignatura WHERE '" + dniTeacher
+					+ "'=dniProfesor;";
 
 			ResultSet result = statement.executeQuery(insertquery);
 
 			while (result.next()) {
 
-				Object[] data = { result.getString("codAsig"), result.getString("nombre"),result.getString("horas") };
+				Object[] data = { result.getString("codAsig"), result.getString("nombre"), result.getString("horas") };
 
 				TeacherView.tablemodel.addRow(data);
 
@@ -393,7 +403,7 @@ public class Connect {
 		return null;
 
 	}
-	
+
 	public Subjects getSubjectRa(String cod) {
 		try {
 
@@ -403,7 +413,8 @@ public class Connect {
 
 			if (result.next()) {
 
-				Subjects data = new Subjects(result.getString("codAsig"), result.getString("nombre"),Integer.parseInt(result.getString("horas")),result.getString("dniProfesor") );
+				Subjects data = new Subjects(result.getString("codAsig"), result.getString("nombre"),
+						Integer.parseInt(result.getString("horas")), result.getString("dniProfesor"));
 
 				return data;
 
@@ -413,7 +424,7 @@ public class Connect {
 		}
 		return null;
 	}
-	
+
 	public Ra getRa(String cod) {
 		try {
 
@@ -423,7 +434,8 @@ public class Connect {
 
 			if (result.next()) {
 
-				Ra data =new Ra(result.getString("id"), result.getString("nombre"),result.getString("descripcion"),Float.parseFloat(result.getString("ponderacion")),getSubjectRa(result.getString("codAsig")));
+				Ra data = new Ra(result.getString("id"), result.getString("nombre"), result.getString("descripcion"),
+						Float.parseFloat(result.getString("ponderacion")), getSubjectRa(result.getString("codAsig")));
 
 				return data;
 
@@ -433,7 +445,7 @@ public class Connect {
 		}
 		return null;
 	}
-	
+
 	public Teacher getTeacher(String cod) {
 		try {
 
@@ -443,7 +455,8 @@ public class Connect {
 
 			if (result.next()) {
 
-				Teacher data =new Teacher(result.getString("dni"), result.getString("nombre"),result.getString("apellidos"),result.getString("email"),result.getString("pass"));
+				Teacher data = new Teacher(result.getString("dni"), result.getString("nombre"),
+						result.getString("apellidos"), result.getString("email"), result.getString("pass"));
 
 				return data;
 
@@ -457,10 +470,10 @@ public class Connect {
 	// TO UPDATE DATA
 	public void updateStudent(Student s) {
 		try {
-			String studentQuery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '" + s.getSurname()
-			+ "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + "" + "', foto='"
-			+ s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw() + ""
-			+ "' where dni = '" + s.getDni() + "';";
+			String studentQuery = "UPDATE alumnos set nombre = '" + s.getName() + "" + "', apellidos= '"
+					+ s.getSurname() + "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + ""
+					+ "', foto='" + s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw()
+					+ "" + "' where dni = '" + s.getDni() + "';";
 //			System.out.println(insertquery);
 			statement.executeUpdate(studentQuery);
 		} catch (SQLException e) {
@@ -469,22 +482,22 @@ public class Connect {
 		}
 		System.out.println("Updated");
 	}
-	
+
 	public void updateTeacher(Teacher t) {
 		try {
-			String teacherQuery = "UPDATE alumnos set nombre = '" + t.getName() + "" + "', apellidos= '" + t.getSurname()
-			+ "" + "', email= '" + t.getEmail() + "" + "', fecha_nac='" +t.getPasswd()+ "';";
+			String teacherQuery = "UPDATE alumnos set nombre = '" + t.getName() + "" + "', apellidos= '"
+					+ t.getSurname() + "" + "', email= '" + t.getEmail() + "" + "', fecha_nac='" + t.getPasswd() + "';";
 			statement.executeUpdate(teacherQuery);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Error");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void updateRa(Ra r) {
 		try {
-			String teacherQuery = "UPDATE ra set nombre= '" + r.getName()
-			+ "', descripcion= '" + r.getDescription() + "', ponderacion='" +r.getWeighting()+"' WHERE id= '"+r.getId()+"' ;";
+			String teacherQuery = "UPDATE ra set nombre= '" + r.getName() + "', descripcion= '" + r.getDescription()
+					+ "', ponderacion='" + r.getWeighting() + "' WHERE id= '" + r.getId() + "' ;";
 			statement.executeUpdate(teacherQuery);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Error");
@@ -493,9 +506,6 @@ public class Connect {
 		System.out.println("Update");
 	}
 
-
-	
-	
 	public void deleteStudent(String dni) {
 		try {
 			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
@@ -509,11 +519,11 @@ public class Connect {
 				statement.execute(deleteStudent);
 			}
 		} catch (SQLException e) {
-			 JOptionPane.showMessageDialog(null, "Error, deletion failed");
+			JOptionPane.showMessageDialog(null, "Error, deletion failed");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void deleteRa(String cod) {
 		try {
 			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
@@ -526,29 +536,25 @@ public class Connect {
 			JOptionPane.showMessageDialog(null, "Error, deletion failed");
 		}
 	}
-	
-	
+
 	// TO DELETE DATA
 	public void deleteTeacher(String dni) {
 		try {
-			int output = JOptionPane.showConfirmDialog(null
-		               ,"Are u sure you want to delete this teacher?"
-		               ,"Message"
-		               ,JOptionPane.YES_NO_OPTION);
-			if(output == JOptionPane.YES_OPTION){
+			int output = JOptionPane.showConfirmDialog(null, "Are u sure you want to delete this teacher?", "Message",
+					JOptionPane.YES_NO_OPTION);
+			if (output == JOptionPane.YES_OPTION) {
 				String updateSubjects = "UPDATE asignatura SET dniProfesor = NULL WHERE dniProfesor = '" + dni + "'";
 				statement.executeUpdate(updateSubjects);
-				String deleteTeacher  ="DELETE FROM `profesor` WHERE dni = '" +dni+"'";
+				String deleteTeacher = "DELETE FROM `profesor` WHERE dni = '" + dni + "'";
 				statement.execute(deleteTeacher);
-	            }			
+			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error, deletion failed");
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
+
 	public void delete() {
 		try {
 			String insertquery = "DELETE FROM `table_name` WHERE field = 'value'";

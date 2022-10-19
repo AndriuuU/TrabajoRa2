@@ -200,86 +200,72 @@ public class AdminWindow extends JFrame {
 
 			if (selector.equals("class clases.Subjects")) {
 				if (b.getToolTipText().equals(insert)) {
-					System.out.println("Insert Subject");
+					InsertSubject is = new InsertSubject();
 				} else if (b.getToolTipText().equals(delete)) {
 					AdminWindow.jtable.getSelectedRow();
 					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a subject, are you sure?");
 				} else if (b.getToolTipText().equals(details)) {
 
-					if (selector.equals("class clases.Asignatura")) {
-						if (b.getName().equals("Insert")) {
+				} else if (b.getToolTipText().equals(update)) {
 
-						} else if (b.getName().equals("Delete")) {
+				} else {
+					System.out.println("Error");
+				}
 
-						} else if (b.getToolTipText().equals(update)) {
+			} else if (selector.equals("class clases.Teacher")) {
 
-						} else {
-							System.out.println("Error");
-						}
-					} else if (selector.equals("class clases.Teacher")) {
+				if (b.getToolTipText().equals(insert)) {
+					RegisterTeacher rt = new RegisterTeacher();
+				} else if (b.getToolTipText().equals(delete)) {
+					AdminWindow.jtable.getSelectedRow();
+					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a professor, are you sure?");
 
-						if (b.getToolTipText().equals(insert)) {
-							RegisterTeacher rt = new RegisterTeacher();
-						} else if (b.getToolTipText().equals(delete)) {
-							AdminWindow.jtable.getSelectedRow();
-							JOptionPane.showConfirmDialog(rootPane,
-									"You are trying to delete a professor, are you sure?");
+				} else if (b.getToolTipText().equals(details)) {
 
-						} else if (b.getToolTipText().equals(details)) {
+				} else if (b.getToolTipText().equals(update)) {
 
-							if (b.getName().equals("Insert")) {
-							} else if (b.getName().equals("Delete")) {
-
-							} else if (b.getName().equals("Details")) {
-
-							} else if (b.getToolTipText().equals(update)) {
-
-							} else {
-								System.out.println("Error");
-							}
-						} else if (selector.equals("class clases.Student")) {
-							if (b.getToolTipText().equals(insert)) {
-								try {
-									RegisterStudent rs = new RegisterStudent();
-								} catch (SQLException e1) {
-									e1.printStackTrace();
-								} catch (ParseException e1) {
-									e1.printStackTrace();
-								}
-							} else if (b.getToolTipText().equals(delete)) {
-								AdminWindow.jtable.getSelectedRow();
-								JOptionPane.showConfirmDialog(rootPane,
-										"You are trying to delete a student, are you sure?");
-
-							} else if (b.getToolTipText().equals(details)) {
-
-							} else if (b.getToolTipText().equals(update)) {
-								String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
-								Student s = new Student();
-								s = c.getInfoStudent(dni, c.viewStudents());
-								RegisterStudent.student = s;
-
-								try {
-									RegisterStudent rs = new RegisterStudent();
-								} catch (SQLException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								} catch (ParseException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
-
-							} else {
-								System.out.println("Error");
-							}
-						}
-
-						// actualizar tabla
-						changeTable(comboBox.getSelectedIndex());
-
+				} else {
+					System.out.println("Error");
+				}
+			} else if (selector.equals("class clases.Student")) {
+				if (b.getToolTipText().equals(insert)) {
+					try {
+						RegisterStudent rs = new RegisterStudent();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						e1.printStackTrace();
 					}
+				} else if (b.getToolTipText().equals(delete)) {
+					AdminWindow.jtable.getSelectedRow();
+					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a student, are you sure?");
+
+				} else if (b.getToolTipText().equals(details)) {
+
+				} else if (b.getToolTipText().equals(update)) {
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					Student s = new Student();
+					s = c.getInfoStudent(dni, c.viewStudents());
+					RegisterStudent.student = s;
+
+					try {
+						RegisterStudent rs = new RegisterStudent();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				} else {
+					System.out.println("Error");
 				}
 			}
+
+			// actualizar tabla
+			changeTable(comboBox.getSelectedIndex());
+
 		}
 	}
 }

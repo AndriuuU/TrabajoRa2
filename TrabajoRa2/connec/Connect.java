@@ -82,12 +82,15 @@ public class Connect {
 		if (SubjectsView.jcSubjects.length > 0) {
 			for (JCheckBox c : SubjectsView.jcSubjects) {
 				Iterator<Entry<String, String>> iterator = subjectContent.entrySet().iterator();
-				if (c.isSelected()) {
-					while (iterator.hasNext()) {
-						Map.Entry<String, String> entry = iterator.next();
-						if (c.getText().toString().equalsIgnoreCase(entry.getValue())) {
-							String query = "INSERT INTO matricula values('" + s + "','" + entry.getKey() + "');";
-							statement.execute(query);
+				if (c != null) {
+					if (c.isSelected()) {
+						while (iterator.hasNext()) {
+							Map.Entry<String, String> entry = iterator.next();
+							if (c.getText().toString().equalsIgnoreCase(entry.getValue())) {
+								String query = "INSERT INTO matricula values('" + s + "','" + entry.getKey() + "');";
+								System.out.println(query);
+								statement.execute(query);
+							}
 						}
 					}
 				}
@@ -144,8 +147,13 @@ public class Connect {
 			}
 
 		}
+<<<<<<< Updated upstream
 		for (String s : subjects)
 			System.out.println(s);
+=======
+//		for (String s : subjects)
+//			System.out.println(s);
+>>>>>>> Stashed changes
 		return subjects;
 	}
 

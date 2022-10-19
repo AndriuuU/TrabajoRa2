@@ -197,12 +197,13 @@ public class RegisterStudent extends JFrame {
 			date.setDate(formato.parse(student.getB_date().replace("-", "/")));
 			jtTelefono.setText(String.valueOf(student.getPhone()));
 			jtPass.setText(student.getPassw());
-			
-			File imagenes = new File("files/pics/"+student.getPhoto());
+
+			System.out.println(student.getPhoto());
+			File imagenes = new File(student.getPhoto());
 			ImageIcon imageIcon = new ImageIcon(imagenes.getPath()); // load the image to a imageIcon
-			Image image = imageIcon.getImage(); // transform it 
-			Image newimg = image.getScaledInstance(140, 156,  java.awt.Image.SCALE_SMOOTH); 
-			ImageIcon imageIcon2 = new ImageIcon(newimg);	
+			Image image = imageIcon.getImage(); // transform it
+			Image newimg = image.getScaledInstance(140, 156, java.awt.Image.SCALE_SMOOTH);
+			ImageIcon imageIcon2 = new ImageIcon(newimg);
 			lblFoto.setIcon(imageIcon2);
 
 			driverModify dModify = new driverModify();
@@ -210,7 +211,7 @@ public class RegisterStudent extends JFrame {
 			btnAgregar.setBounds(310, 367, 110, 23);
 			btnAgregar.addActionListener(dModify);
 
-			ReturnModify returnMod=new ReturnModify();
+			ReturnModify returnMod = new ReturnModify();
 			btnReturnStudent = new JButton("Return");
 			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", null);
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -240,7 +241,7 @@ public class RegisterStudent extends JFrame {
 				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 				String dni = jtDni.getText().toString();
 				String name = jtName.getText().toString();
-				tempImg(dni,name);
+				tempImg(dni, name);
 				String surnames = jtSurname.getText().toString();
 				String email = jtEmail.getText().toString();
 				String date_birth = date.getDateFormatString();
@@ -262,7 +263,7 @@ public class RegisterStudent extends JFrame {
 			}
 		}
 	}
-	
+
 	public void tempImg(String dni, String name) {
 		File imagenes = new File("files/tempSelfies/imgTemp" + fileChooser.extension);
 		File sourcer = new File(imagenes.toPath().toString());
@@ -273,20 +274,19 @@ public class RegisterStudent extends JFrame {
 		if (fileChooser.extension != null) {
 			destination = new File("files/pics/" + dni.toString() + name.toString().replace(" ", "")
 					+ fileChooser.extension.toString());
-			System.out.println("estadoo" + destination.exists());
+			// System.out.println("estadoo" + destination.exists());
 			try {
-				if(destination.exists())
+				if (destination.exists())
 					destination.delete();
 				Files.copy(sourcer.toPath(), destination.toPath());
 				Files.delete(sourcer.toPath());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		}else {
-			destination = new File ("files/pics/sinfoto.png");
+		} else {
+			destination = new File("files/pics/sinfoto.png");
 		}
-		
-		
+
 	}
 
 	public class driverModify implements ActionListener {
@@ -296,16 +296,17 @@ public class RegisterStudent extends JFrame {
 				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 				String dni = jtDni.getText().toString();
 				String name = jtName.getText().toString();
-				tempImg(dni,name);
+				tempImg(dni, name);
 				String surnames = jtSurname.getText().toString();
 				String email = jtEmail.getText().toString();
 				String date_birth = date.getDateFormatString();
 				date_birth = sdf.format(date.getDate());
 				String pic;
-				if (destination != null) {
+				if (destination.toString().equalsIgnoreCase("files/pics/sinfoto.png")) {
 					pic = destination.toString().replace("\\", "/");
-				}else {
-					pic = "files/pic/sinfoto.png";
+				} else {
+					String dir = "files/pics/" + dni + name + ".jpg";
+					pic = dir.replace(" ", "");
 				}
 				System.out.println(pic);
 				String valorPass = new String(jtPass.getPassword());
@@ -315,6 +316,8 @@ public class RegisterStudent extends JFrame {
 				c.updateStudent(s);
 				try {
 					c.insertMatricula(dni);
+				} catch (NullPointerException x) {
+					setVisible(false);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -322,10 +325,11 @@ public class RegisterStudent extends JFrame {
 		}
 
 	}
+
 	public class ReturnModify implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new StudentView(jtDni.getText());
+//			new StudentView(jtDni.getText());
 			setVisible(false);
 		}
 	}

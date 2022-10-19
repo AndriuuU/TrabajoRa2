@@ -11,7 +11,6 @@ import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -33,7 +32,6 @@ public class AdminWindow extends JFrame {
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
 
 	private String[] options = { "Courses", "Professors", "Students" };
-	@SuppressWarnings("unused")
 	private static Object o;
 	private String dniTeacher;
 
@@ -190,20 +188,27 @@ public class AdminWindow extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+
+			// Class selector.
+
 			String selector = o.getClass().toString();
 			JButton b = (JButton) e.getSource();
+
+			// Button selector.
 
 			String insert = "Insert New Row.";
 			String delete = "Delete Selected Row.";
 			String details = "Detail of the Selected Row.";
 			String update = "Update Selected Row.";
 
+			// Class Subjects
+
 			if (selector.equals("class clases.Subjects")) {
 				if (b.getToolTipText().equals(insert)) {
 					InsertSubject is = new InsertSubject();
 				} else if (b.getToolTipText().equals(delete)) {
-					AdminWindow.jtable.getSelectedRow();
-					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a subject, are you sure?");
+					String codSubject = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					c.deleteSubject(codSubject);
 				} else if (b.getToolTipText().equals(details)) {
 
 				} else if (b.getToolTipText().equals(update)) {
@@ -211,14 +216,16 @@ public class AdminWindow extends JFrame {
 				} else {
 					System.out.println("Error");
 				}
+
+				// Class Teacher
 
 			} else if (selector.equals("class clases.Teacher")) {
 
 				if (b.getToolTipText().equals(insert)) {
 					RegisterTeacher rt = new RegisterTeacher();
 				} else if (b.getToolTipText().equals(delete)) {
-					AdminWindow.jtable.getSelectedRow();
-					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a professor, are you sure?");
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					c.deleteTeacher(dni);
 
 				} else if (b.getToolTipText().equals(details)) {
 
@@ -227,19 +234,19 @@ public class AdminWindow extends JFrame {
 				} else {
 					System.out.println("Error");
 				}
+
+				// Class Student
+
 			} else if (selector.equals("class clases.Student")) {
 				if (b.getToolTipText().equals(insert)) {
 					try {
 						RegisterStudent rs = new RegisterStudent();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					} catch (ParseException e1) {
+					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
 					}
 				} else if (b.getToolTipText().equals(delete)) {
-					AdminWindow.jtable.getSelectedRow();
-					JOptionPane.showConfirmDialog(rootPane, "You are trying to delete a student, are you sure?");
-
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					c.deleteStudent(dni);
 				} else if (b.getToolTipText().equals(details)) {
 
 				} else if (b.getToolTipText().equals(update)) {
@@ -247,14 +254,9 @@ public class AdminWindow extends JFrame {
 					Student s = new Student();
 					s = c.getInfoStudent(dni, c.viewStudents());
 					RegisterStudent.student = s;
-
 					try {
 						RegisterStudent rs = new RegisterStudent();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
+					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
 					}
 
@@ -263,7 +265,8 @@ public class AdminWindow extends JFrame {
 				}
 			}
 
-			// actualizar tabla
+			// Refresh Table
+
 			changeTable(comboBox.getSelectedIndex());
 
 		}

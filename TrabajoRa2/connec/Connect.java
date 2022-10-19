@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.security.auth.Subject;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
@@ -36,6 +35,7 @@ public class Connect {
 	private Map<String, String> students;
 	private Map<String, String> teachers;
 	public Map<String, String> subjectContent = new HashMap<String, String>();;
+	@SuppressWarnings("unused")
 	private List<String> subjects;
 
 	public Connect() {
@@ -142,9 +142,9 @@ public class Connect {
 			while (resultSubjects.next()) {
 				subjects.add(resultSubjects.getString("nombre"));
 			}
-			
+
 		}
-		for(String s : subjects)
+		for (String s : subjects)
 			System.out.println(s);
 		return subjects;
 	}
@@ -546,6 +546,19 @@ public class Connect {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error, deletion failed");
 			e.printStackTrace();
+		}
+	}
+
+	public void deleteSubject(String codAsig) {
+		try {
+			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
+					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (output == JOptionPane.YES_OPTION) {
+				String delSubject = "DELETE FROM asignatura WHERE codAsig = '" + codAsig + "'";
+				statement.execute(delSubject);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error, deletion failed");
 		}
 	}
 

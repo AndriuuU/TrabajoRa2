@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import clases.Subjects;
 import clases.Teacher;
 import connec.Connect;
 
@@ -26,6 +27,7 @@ public class InsertSubject extends JFrame {
 	private JButton jbCancel, jbConfirm;
 	private List<String> listDNI;
 	private Connect c = new Connect();
+	private String dniProfessor;
 
 	public InsertSubject() {
 		super("InsertSubject");
@@ -46,6 +48,13 @@ public class InsertSubject extends JFrame {
 
 		jcb = new JComboBox<String>(comboBox);
 		jcb.setBounds(182, 151, 140, 21);
+		jcb.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dniProfessor = jcb.getItemAt(jcb.getSelectedIndex());
+			}
+		});
 		getContentPane().setLayout(null);
 		getContentPane().add(jcb);
 		jthours = new JTextField(10);
@@ -114,7 +123,10 @@ public class InsertSubject extends JFrame {
 			if (b.getToolTipText().equals("Cancel the Operation")) {
 				dispose();
 			} else if (b.getToolTipText().equals("Insert the Subject.")) {
-				
+				Subjects s = new Subjects(jtcod.getText(), jtname.getText(), Integer.parseInt(jthours.getText()),
+						dniProfessor);
+				c.insertSubject(s);
+				dispose();
 			} else {
 				JOptionPane.showMessageDialog(rootPane, "Error");
 

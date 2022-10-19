@@ -36,6 +36,7 @@ public class Connect {
 	private Map<String, String> students;
 	private Map<String, String> teachers;
 	public Map<String, String> subjectContent = new HashMap<String, String>();;
+	private List<String> subjects;
 
 	public Connect() {
 		try {
@@ -122,6 +123,30 @@ public class Connect {
 			JOptionPane.showMessageDialog(null, "You are trying to insert an existing account", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	public List<String> checkMatricula(String dni) throws SQLException {
+		List<String> matriculado = new ArrayList<String>();
+		String queryMatriculas = "select codAsig from matricula where dniAlumno = '" + dni + "';";
+		statement.execute(queryMatriculas);
+		ResultSet resultMatricula = statement.executeQuery(queryMatriculas);
+		while (resultMatricula.next()) {
+			matriculado.add(resultMatricula.getString("codAsig"));
+		}
+		resultMatricula.close();
+		List<String> subjects = new ArrayList<String>();
+
+		for (String s : matriculado) {
+			String querySubjects = "select nombre from asignatura where codAsig = '" + s + "';";
+			ResultSet resultSubjects = statement.executeQuery(querySubjects);
+			while (resultSubjects.next()) {
+				subjects.add(resultSubjects.getString("nombre"));
+			}
+			
+		}
+		for(String s : subjects)
+			System.out.println(s);
+		return subjects;
 	}
 
 	// To search users created in the tables student and teacher

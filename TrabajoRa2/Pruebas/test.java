@@ -4,10 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 
-
 import windows.Login;
-
-import windows.AdminWindow;
 
 
 public class test {
@@ -33,6 +30,7 @@ public class test {
 //		RegisterStudent r = new RegisterStudent();
 //		RegisterTeacher rt = new RegisterTeacher();
 //		Connect c = new Connect();
+//		c.checkMatricula("123456324C");
 //		c.deleteTeacher("74544252J");
 //		c.comboFiller();
 //		Register r = new Register();

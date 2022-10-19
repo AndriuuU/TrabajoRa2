@@ -198,7 +198,7 @@ public class RegisterStudent extends JFrame {
 			jtTelefono.setText(String.valueOf(student.getPhone()));
 			jtPass.setText(student.getPassw());
 			
-			File imagenes = new File(student.getPhoto());
+			File imagenes = new File("files/pics/"+student.getPhoto());
 			ImageIcon imageIcon = new ImageIcon(imagenes.getPath()); // load the image to a imageIcon
 			Image image = imageIcon.getImage(); // transform it 
 			Image newimg = image.getScaledInstance(140, 156,  java.awt.Image.SCALE_SMOOTH); 
@@ -254,11 +254,6 @@ public class RegisterStudent extends JFrame {
 					Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
 							valorPass);
 					c.insertStudent(s);
-//					try {
-//						c.insertMatricula(dni);
-//					} catch (SQLException e1) {
-//						e1.printStackTrace();
-//					}
 				} else {
 					JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -310,7 +305,7 @@ public class RegisterStudent extends JFrame {
 				if (destination != null) {
 					pic = destination.toString().replace("\\", "/");
 				}else {
-					pic = "nopic";
+					pic = "files/pic/sinfoto.png";
 				}
 				System.out.println(pic);
 				String valorPass = new String(jtPass.getPassword());
@@ -318,6 +313,11 @@ public class RegisterStudent extends JFrame {
 				Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
 						valorPass);
 				c.updateStudent(s);
+				try {
+					c.insertMatricula(dni);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 
@@ -343,7 +343,7 @@ public class RegisterStudent extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				c.boxFiller();
-				new SubjectsView();
+				new SubjectsView(jtDni.getText().toString());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

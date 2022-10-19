@@ -1,6 +1,7 @@
 package windows;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,15 +31,12 @@ public class SubjectsView extends JFrame {
 	public static List<String> subjectCod = new ArrayList<String>();
 	int pos = 0;
 	
-	public SubjectsView() throws SQLException {
-		super("List of Subjects");
+	public SubjectsView(String dni) throws SQLException {
+		super("List of Subjects availables");
 		setSize(300, 300);
 		WindowPreset.preset(this);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		
-		
-		
 		
 		int tamaño = c.boxFiller().size();
 		panel = new JPanel(new GridLayout(tamaño,1));
@@ -50,16 +48,18 @@ public class SubjectsView extends JFrame {
 		
 		Iterator<String> iterator = c.subjectContent.values().iterator();
 	    while (iterator.hasNext()) {
-	    	jcSubjects[pos] = new JCheckBox();
-	    	jcSubjects[pos].setText(iterator.next());
-	    	panel.add(jcSubjects[pos]);
+	    	String x = iterator.next();
+	    	for(String s : c.checkMatricula(dni))
+	    		if(x.equalsIgnoreCase(s)) {
+	    			jcSubjects[pos] = new JCheckBox();
+	    			jcSubjects[pos].setText(x);
+	    			jcSubjects[pos].setFont(new Font("Tahoma", Font.PLAIN, 14));
+	    			panel.add(jcSubjects[pos]);
+	    		}
 	    	pos++;
 	    }
-//		for(int i = 0 ; i<c.boxFiller().size();i++) {
-//			jcSubjects[i] = new JCheckBox();
-//			jcSubjects[i].setText(c.boxFiller().get(i).toString());
-//			panel.add(jcSubjects[i]);
-//		}
+	    
+	    
 		
 		aceptar = new JButton("Aceptar");
 		panel2.add(aceptar);
@@ -70,11 +70,10 @@ public class SubjectsView extends JFrame {
 	}
 	
 	public class driverAccept implements ActionListener {
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			setVisible(false);
 		}
-		
 	}
+
 }

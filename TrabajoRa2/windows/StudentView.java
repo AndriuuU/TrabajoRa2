@@ -46,6 +46,7 @@ public class StudentView extends JFrame {
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
 
+		insertFoto();
 		mostrar.viewStudents(dni);
 		s = mostrar.getInfoStudent(dni, mostrar.viewStudents());
 
@@ -91,12 +92,11 @@ public class StudentView extends JFrame {
 	private void insertFoto() {
 		ImageIcon imageIcon = new ImageIcon(s.getPhoto().toString());
 		if (imageIcon.getImage() == null) {
-			imageIcon = new ImageIcon("files/Perfil.png");
+			imageIcon = new ImageIcon("files/sinfoto.png");
 		}
 		Image image = imageIcon.getImage(); // transform it
 		Image newimg = image.getScaledInstance(94, 110, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon imageIcon2 = new ImageIcon(newimg);
-
 		name.setIcon(imageIcon2);
 	}
 

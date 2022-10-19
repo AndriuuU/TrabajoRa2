@@ -141,7 +141,6 @@ public class Connect {
 				for (String valor : students.values()) {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "loged";
-						new StudentView(logDni);
 					}
 					else {
 						state = "wrongpass";
@@ -152,6 +151,8 @@ public class Connect {
 		if (state.equalsIgnoreCase("")) {
 			state = checkTeacher(logDni, logPass);
 		}
+		if (state.equalsIgnoreCase("loged"))
+			new StudentView(logDni);
 
 		// The value returned will be :
 		// "" -> if user doesnt exist
@@ -168,13 +169,16 @@ public class Connect {
 				for (String valor : teachers.values()) {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "tloged";
-						new TeacherView();
 					}
 					else {
 						state = "wrongpass";
 					}
 				}
 			}
+		}
+		if (state.equalsIgnoreCase("tloged")) {
+			TeacherView.dniTeacher=logDni;
+			new TeacherView();
 		}
 		return state;
 	}

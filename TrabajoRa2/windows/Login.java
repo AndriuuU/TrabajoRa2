@@ -88,7 +88,7 @@ public class Login extends JFrame {
 
 	}
 
-	// Driver to login Teacher and Students
+	// Driver to login 	 and Students
 	public class driverLogin implements ActionListener {
 		@SuppressWarnings("deprecation")
 		@Override
@@ -102,6 +102,11 @@ public class Login extends JFrame {
 					lblUserNotFound.show();
 				if(status.equalsIgnoreCase("wrongpass"))
 					lblIncorrect.show();
+				if (jtUser.getText().equals("admin") && password.equals("admin")) {
+					dispose();
+					@SuppressWarnings("unused")
+					AdminWindow aw = new AdminWindow();
+				}
 					
 			} catch (SQLException e1) {
 				e1.printStackTrace();

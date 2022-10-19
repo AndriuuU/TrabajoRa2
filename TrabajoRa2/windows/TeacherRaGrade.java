@@ -102,7 +102,6 @@ public class TeacherRaGrade extends JFrame {
 					new RaProfessorView();
 				} else
 					new TeacherView();
-				
 			}
 			
 			

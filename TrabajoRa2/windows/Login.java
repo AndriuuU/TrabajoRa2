@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import clases.Student;
 import connec.Connect;
 
 @SuppressWarnings("serial")
@@ -98,16 +99,26 @@ public class Login extends JFrame {
 			lblUserNotFound.hide();
 			try {
 				String status = c.searchUser(jtUser.getText().toString(), password);
-				if(status.equalsIgnoreCase(""))
-					lblUserNotFound.show();
-				if(status.equalsIgnoreCase("wrongpass"))
-					lblIncorrect.show();
 				if (jtUser.getText().equals("admin") && password.equals("admin")) {
 					dispose();
 					@SuppressWarnings("unused")
 					AdminWindow aw = new AdminWindow();
 				}
-					
+				if(status.equalsIgnoreCase(""))
+					lblUserNotFound.show();
+				if(status.equalsIgnoreCase("wrongpass"))
+					lblIncorrect.show();
+				if(status.equalsIgnoreCase("tloged")) {
+					setVisible(false);
+					TeacherView.dniTeacher = jtUser.getText();
+					new TeacherView();
+				}
+				if(status.equalsIgnoreCase("sloged")) {
+					setVisible(false);
+					new StudentView(jtUser.getText().toString());
+				}
+				
+	
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

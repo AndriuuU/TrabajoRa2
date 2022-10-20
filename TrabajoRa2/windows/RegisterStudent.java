@@ -277,7 +277,7 @@ public class RegisterStudent extends JFrame {
 				String valorPass = new String(jtPass.getPassword());
 				String telefono = jtTelefono.getText().toString();
 
-				if (emptyDetector(dni, name, surnames, email, date_birth, pic, valorPass, telefono) == true) {
+				if (Detector(dni, name, surnames, email, date_birth, pic, valorPass, telefono) == true) {
 					date_birth = sdf.format(date.getDate());
 					Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
 							valorPass);
@@ -382,7 +382,7 @@ public class RegisterStudent extends JFrame {
 	}
 
 	// To detect if some of the jtextfields are empty
-	public boolean emptyDetector(String dni, String name, String surnames, String email, String date_birth, String pic,
+	public boolean Detector(String dni, String name, String surnames, String email, String date_birth, String pic,
 			String valorPass, String telefono) {
 		boolean passed = true;
 		if (dni.equalsIgnoreCase("") || name.equalsIgnoreCase("") || surnames.equalsIgnoreCase("")

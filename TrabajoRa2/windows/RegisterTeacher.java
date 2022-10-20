@@ -3,16 +3,19 @@ package windows;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import clases.Teacher;
 import connec.Connect;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class RegisterTeacher extends JFrame {
@@ -22,6 +25,7 @@ public class RegisterTeacher extends JFrame {
 	private JTextField jtEmail;
 	private JPasswordField jpPassword;
 	private Connect c = new Connect();
+	private JLabel lblInvalidDNI ;
 
 	public RegisterTeacher() {
 
@@ -94,6 +98,13 @@ public class RegisterTeacher extends JFrame {
 		// btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnRegister.setBounds(237, 301, 26, 26);
 		getContentPane().add(btnRegister);
+		
+		lblInvalidDNI = new JLabel("INVALID DNI");
+		lblInvalidDNI.setForeground(new Color(255, 0, 0));
+		lblInvalidDNI.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblInvalidDNI.setBounds(331, 46, 82, 14);
+		lblInvalidDNI.setVisible(false);
+		getContentPane().add(lblInvalidDNI);
 
 		driverRegister dvRegister = new driverRegister();
 		btnRegister.addActionListener(dvRegister);
@@ -104,14 +115,35 @@ public class RegisterTeacher extends JFrame {
 	public class driverRegister implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			lblInvalidDNI.setVisible(false);
 			String dni = jtDni.getText().toString();
 			String name = jtName.getText().toString();
 			String surname = jtSurname.getText().toString();
 			String email = jtEmail.getText().toString();
 			String password = new String(jpPassword.getPassword());
+			
+			if (Detector(dni, name, surname, email,password) == true) {
 			Teacher t = new Teacher(dni, name, surname, email, password);
 			c.insertTeacher(t);
+			}
 		}
 
+	}
+	
+	public boolean Detector(String dni, String name, String surnames, String email,
+			String valorPass) {
+		boolean passed = true;
+		if (dni.equalsIgnoreCase("") || name.equalsIgnoreCase("") || surnames.equalsIgnoreCase("")
+				|| email.equalsIgnoreCase("") || valorPass.equalsIgnoreCase("") ) {
+			passed = false;
+			JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		String dniRegexp = "\\d{8}[a-zA-Z]";
+		if(Pattern.matches(dniRegexp, dni)==false) {
+			lblInvalidDNI.setVisible(true);
+			passed = false;
+		}
+		return passed;
 	}
 }

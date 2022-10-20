@@ -15,6 +15,9 @@ public class Ra {
 		this.codSubject = codSubject;
 	}
 
+	public Ra() {
+	}
+
 	public String getId() {
 		return id;
 	}

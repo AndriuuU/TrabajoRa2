@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Ra;
 import clases.Student;
 import clases.Subjects;
 import clases.Teacher;
@@ -31,7 +32,7 @@ public class AdminWindow extends JFrame {
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
 
-	private String[] options = { "Courses", "Professors", "Students" };
+	private String[] options = { "Subjects", "RAs", "Professors", "Students" };
 	private static Object o;
 	private String dniTeacher;
 
@@ -49,7 +50,7 @@ public class AdminWindow extends JFrame {
 		// añadir (options) como parametro del constructor, una vez metido no deja abrir
 		// windowBuilder
 		comboBox = new JComboBox<String>(options);
-		comboBox.setMaximumRowCount(3);
+		comboBox.setMaximumRowCount(4);
 		comboBox.setToolTipText("Selector");
 		comboBox.setBounds(40, 20, 130, 20);
 		comboBox.setSelectedIndex(0);
@@ -129,20 +130,35 @@ public class AdminWindow extends JFrame {
 		DefaultTableModel model = new DefaultTableModel();
 		if (index == 0) {
 			o = new Subjects();
-			columnsName = new String[] { "Name", "dniProfesor" };
+			columnsName = new String[] { "ID", "Name", "dniProfesor" };
 
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
 			for (Subjects as : c.viewSubjects()) {
-				Object[] row = new Object[2];
-				row[0] = as.getName();
-				row[1] = as.getDniProfessor();
+				Object[] row = new Object[3];
+				row[0] = as.getCodSubject();
+				row[1] = as.getName();
+				row[2] = as.getDniProfessor();
 
 				model.addRow(row);
 			}
 
 		} else if (index == 1) {
+			o = new Ra();
+			columnsName = new String[] { "ID", "Name", "Weighting" };
+			model.setColumnIdentifiers(columnsName);
+			jtable = new JTable(model);
+			scrollPane.setViewportView(jtable);
+//			for (Ra r : c.ra) { // método connect para devolver lista de RA
+//				Object[] row = new Object[3];
+//				row[0] = r.getId();
+//				row[1] = r.getName();
+//				row[2] = r.getWeighting();
+//				model.addRow(row);
+//			}
+
+		} else if (index == 2) {
 			o = new Teacher();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
 			model.setColumnIdentifiers(columnsName);
@@ -156,7 +172,7 @@ public class AdminWindow extends JFrame {
 				model.addRow(row);
 			}
 
-		} else if (index == 2) {
+		} else if (index == 3) {
 			o = new Student();
 			columnsName = new String[] { "NIF", "Name", "Surname" };
 			model.setColumnIdentifiers(columnsName);
@@ -207,7 +223,9 @@ public class AdminWindow extends JFrame {
 				if (b.getToolTipText().equals(insert)) {
 					InsertSubject is = new InsertSubject();
 				} else if (b.getToolTipText().equals(delete)) {
+					System.out.println("hola");
 					String codSubject = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					System.out.println(codSubject);
 					c.deleteSubject(codSubject);
 				} else if (b.getToolTipText().equals(details)) {
 
@@ -224,6 +242,7 @@ public class AdminWindow extends JFrame {
 				if (b.getToolTipText().equals(insert)) {
 					RegisterTeacher rt = new RegisterTeacher();
 				} else if (b.getToolTipText().equals(delete)) {
+
 					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
 					c.deleteTeacher(dni);
 
@@ -245,8 +264,10 @@ public class AdminWindow extends JFrame {
 						e1.printStackTrace();
 					}
 				} else if (b.getToolTipText().equals(delete)) {
+
 					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
 					c.deleteStudent(dni);
+
 				} else if (b.getToolTipText().equals(details)) {
 
 				} else if (b.getToolTipText().equals(update)) {
@@ -259,6 +280,18 @@ public class AdminWindow extends JFrame {
 					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
 					}
+
+				} else {
+					System.out.println("Error");
+				}
+			} else if (selector.equals("class clases.Ra")) {
+				if (b.getToolTipText().equals(insert)) {
+
+				} else if (b.getToolTipText().equals(delete)) {
+
+				} else if (b.getToolTipText().equals(details)) {
+
+				} else if (b.getToolTipText().equals(update)) {
 
 				} else {
 					System.out.println("Error");

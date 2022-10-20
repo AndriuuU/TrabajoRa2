@@ -108,12 +108,13 @@ public class RaProfessorView extends JFrame {
 					}else if(e.getSource()== btnRa) {
 						codRa = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
 						RaView.codRa=codRa;
-						new RaView(TeacherView.codAsigna);
+						new RaView();
 					}
 				} else if(e.getSource()== btnRa) {
 					codRa=null;
 					setVisible(false);
-					new RaView(TeacherView.codAsigna);
+					new RaView();
+					//TeacherView.codAsigna
 				}else
 					JOptionPane.showMessageDialog(RaProfessorView.this, "SELECT RA!!",
 							"¡ERROR!", JOptionPane.ERROR_MESSAGE);

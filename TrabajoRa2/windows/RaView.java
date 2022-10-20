@@ -1,5 +1,16 @@
 package windows;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -9,22 +20,17 @@ import clases.Ra;
 import clases.Subjects;
 import connec.Connect;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-
 public class RaView extends JFrame{
 	
 	private JTextField txId, txName, txDescrip, txWeigth, txCodSubject;
 	private JLabel lblId, lblName, lblDescription, lblCodsubject, lblWeighting;
 	private JButton btReturn,btSave,btDelete,btModify;
-	public static String codRa;
+	private JComboBox<String> cbSubject;
+	public static String codRa,codSub;
 	Connect c=new Connect();
 	private Subjects sub;
 	
-	public RaView(String codSub) {
+	public RaView() {
 		
 		super("RaView");
 		setSize(448, 360);
@@ -73,15 +79,22 @@ public class RaView extends JFrame{
 		lblWeighting.setBounds(69, 185, 76, 13);
 		getContentPane().add(lblWeighting);
 		
-		txCodSubject = new JTextField();
-		txCodSubject.setBounds(165, 228, 96, 19);
-		txCodSubject.setText(codSub);
-		txCodSubject.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txCodSubject.setEditable(false);
-		getContentPane().add(txCodSubject);
+		ManeComboBox maneBox=new ManeComboBox();
+		cbSubject = new JComboBox<String>();
+		cbSubject.setBounds(165, 228, 180, 25);
+		cbSubject.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		cbSubject.addItemListener(maneBox);
+		getContentPane().add(cbSubject);
 		
-		sub=c.getSubjectRa(codSub);
-				
+		List<String> listaString =new ArrayList<>(); 
+		List<Subjects> subList=c.viewSubjects();
+		for(Subjects s: subList) {
+			listaString.add(s.getCodSubject()+", "+s.getName());
+		}
+		cbSubject.setModel(new DefaultComboBoxModel<String>(listaString.toArray(new String[0])));
+		
+		//
+		
 		lblCodsubject = new JLabel("CodSubject:");
 		lblCodsubject.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCodsubject.setBounds(69, 231, 76, 13);
@@ -135,6 +148,20 @@ public class RaView extends JFrame{
 		setVisible(true);
 	}
 	
+	public class ManeComboBox implements ItemListener {
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			String seleccionado=(String)cbSubject.getSelectedItem();
+			String[] selec=seleccionado.split(", ");
+			sub=c.getSubjectRa(selec[0]);
+			
+		}
+
+		
+		
+	}
+	
 	public class ReturnManager implements ActionListener {
 
 		@Override
@@ -155,7 +182,9 @@ public class RaView extends JFrame{
 			
 			try {
 				float number=Float.parseFloat(txWeigth.getText());
+				
 				if(c.getRa(txId.getText())==null) {
+					
 					Ra raNew =new Ra(txId.getText(),txName.getText(),txDescrip.getText(),number,sub);
 					System.out.println(raNew);
 					c.insertRa(raNew);

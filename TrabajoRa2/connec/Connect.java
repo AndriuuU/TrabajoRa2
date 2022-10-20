@@ -7,12 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 import clases.Ra;
@@ -22,7 +19,6 @@ import clases.Teacher;
 import windows.RaProfessorView;
 import windows.RaStudentView;
 import windows.StudentView;
-import windows.SubjectsView;
 import windows.TeacherRaGrade;
 import windows.TeacherView;
 
@@ -65,11 +61,25 @@ public class Connect {
 
 	public void insertSubject(Subjects s) {
 		try {
-			String query = "INSERT INTO asignatura values('" + s.getCodSubject() + "','" + s.getName() + "','"
+			String insertSubject = "INSERT INTO asignatura values('" + s.getCodSubject() + "','" + s.getName() + "','"
 					+ s.getHours() + "','" + s.getDniProfessor() + "');";
-			statement.execute(query);
+			statement.execute(insertSubject);
 			System.out.println("Inserted");
 		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "You are trying to insert an existing subject", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void updateSubject(Subjects s) {
+		try {
+			String updateSubject = "UPDATE asignatura set nombre= '" + s.getName() + "', horas='" + s.getHours()
+					+ "' WHERE codAsig= '" + s.getCodSubject() + "' ;";
+			statement.executeUpdate(updateSubject);
+			System.out.println("Inserted");
+		} catch (SQLException e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "You are trying to insert an existing subject", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
@@ -78,11 +88,12 @@ public class Connect {
 	// Read the map(subjects) and compare with the array of checkbox to check wich
 	// one is selected
 	// if is selected inser dniStudent and idSubject
-	public void insertMatricula(String d,String s) throws SQLException {
+	public void insertMatricula(String d, String s) throws SQLException {
 		String query = "INSERT INTO matricula values('" + d + "','" + s + "');";
 		statement.execute(query);
 	}
-	public void deleteMatricula(String d,String s) throws SQLException {
+
+	public void deleteMatricula(String d, String s) throws SQLException {
 		String query = "DELETE FROM matricula WHERE dniAlumno = '" + d + "' AND codAsig = '" + s + "';";
 		statement.execute(query);
 	}
@@ -545,7 +556,6 @@ public class Connect {
 					+ s.getSurname() + "" + "', email= '" + s.getEmail() + "" + "', fecha_nac='" + s.getB_date() + ""
 					+ "', foto='" + s.getPhoto() + "" + "', telefono='" + s.getPhone() + "" + "', pass='" + s.getPassw()
 					+ "" + "' where dni = '" + s.getDni() + "';";
-//			System.out.println(insertquery);
 			statement.executeUpdate(studentQuery);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Error");
@@ -556,9 +566,10 @@ public class Connect {
 
 	public void updateTeacher(Teacher t) {
 		try {
-			String teacherQuery = "UPDATE alumnos set nombre = '" + t.getName() + "" + "', apellidos= '"
-					+ t.getSurname() + "" + "', email= '" + t.getEmail() + "" + "', fecha_nac='" + t.getPasswd() + "';";
-			statement.executeUpdate(teacherQuery);
+			String updateTeacher = "UPDATE profesor set nombre = '" + t.getName() + "" + "', apellidos= '"
+					+ t.getSurname() + "" + "', email= '" + t.getEmail() + "" + "', pass='" + t.getPasswd()
+					+ "' WHERE dni= '" + t.getDni() + "';";
+			statement.executeUpdate(updateTeacher);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Error");
 			e.printStackTrace();
@@ -567,9 +578,9 @@ public class Connect {
 
 	public void updateRa(Ra r) {
 		try {
-			String teacherQuery = "UPDATE ra set nombre= '" + r.getName() + "', descripcion= '" + r.getDescription()
+			String updateRa = "UPDATE ra set nombre= '" + r.getName() + "', descripcion= '" + r.getDescription()
 					+ "', ponderacion='" + r.getWeighting() + "' WHERE id= '" + r.getId() + "' ;";
-			statement.executeUpdate(teacherQuery);
+			statement.executeUpdate(updateRa);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Error");
 			e.printStackTrace();

@@ -11,7 +11,6 @@ import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -33,7 +32,7 @@ public class AdminWindow extends JFrame {
 	private JPanel jptable, jpButton;
 	private JButton jbInsert, jbDelete, jbDetails, jbUpdate, jbDis;
 
-	private String[] options = { "Subjects", "RAs", "Professors", "Students" };
+	private String[] options = { "Subjects", "RAs", "Teachers", "Students" };
 	private static Object o;
 	private String dniTeacher;
 
@@ -131,7 +130,7 @@ public class AdminWindow extends JFrame {
 		DefaultTableModel model = new DefaultTableModel();
 		if (index == 0) {
 			o = new Subjects();
-			columnsName = new String[] { "ID", "Name", "dniProfesor" };
+			columnsName = new String[] { "ID", "Name", "Teacher" };
 
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
@@ -218,39 +217,57 @@ public class AdminWindow extends JFrame {
 			String details = "Detail of the Selected Row.";
 			String update = "Update Selected Row.";
 
-			// Class Subjects
+			// Class Subjects terminated.
 
 			if (selector.equals("class clases.Subjects")) {
 				if (b.getToolTipText().equals(insert)) {
 					InsertSubject is = new InsertSubject();
 				} else if (b.getToolTipText().equals(delete)) {
-					System.out.println("hola");
 					String codSubject = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
-					System.out.println(codSubject);
 					c.deleteSubject(codSubject);
 				} else if (b.getToolTipText().equals(details)) {
-
+					String codSubject = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					new Admin_Details_Subject(c.getSubjectRa(codSubject));
 				} else if (b.getToolTipText().equals(update)) {
-
+					String codSubject = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					new Admin_Update_Subject(c.getSubjectRa(codSubject));
 				} else {
 					System.out.println("Error");
 				}
 
-				// Class Teacher
+				// Class RA terminated
 
-			} else if (selector.equals("class clases.Teacher")) {
-
+			} else if (selector.equals("class clases.Ra")) {
 				if (b.getToolTipText().equals(insert)) {
-					RegisterTeacher rt = new RegisterTeacher();
+					new Admin_Insert_RA();
 				} else if (b.getToolTipText().equals(delete)) {
+					String codRA = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					c.deleteRA(codRA);
+				} else if (b.getToolTipText().equals(details)) {
+					Admin_Details_RA.codRa = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					new Admin_Details_RA();
+				} else if (b.getToolTipText().equals(update)) {
+					Admin_Update_RA.codRa = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					new Admin_Update_RA();
+				} else {
+					System.out.println("Error");
+				}
+			}
 
+			// Class Teacher terminated
+
+			else if (selector.equals("class clases.Teacher")) {
+				if (b.getToolTipText().equals(insert)) {
+					new Admin_Insert_Teacher();
+				} else if (b.getToolTipText().equals(delete)) {
 					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
 					c.deleteTeacher(dni);
-
 				} else if (b.getToolTipText().equals(details)) {
-
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					new Admin_Details_Teacher(c.getTeacher(dni));
 				} else if (b.getToolTipText().equals(update)) {
-
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					new Admin_Update_Teacher(c.getTeacher(dni));
 				} else {
 					System.out.println("Error");
 				}
@@ -260,47 +277,35 @@ public class AdminWindow extends JFrame {
 			} else if (selector.equals("class clases.Student")) {
 				if (b.getToolTipText().equals(insert)) {
 					try {
-						RegisterStudent rs = new RegisterStudent();
+						new Admin_Insert_Student();
 					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
 					}
-
 				} else if (b.getToolTipText().equals(delete)) {
-
 					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
 					c.deleteStudent(dni);
-
 				} else if (b.getToolTipText().equals(details)) {
-
-				} else if (b.getToolTipText().equals(update)) {
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					Student s = c.getInfoStudent(dni, c.viewStudents());
 					try {
-						String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
-						Student s = new Student();
-						s = c.getInfoStudent(dni, c.viewStudents());
-						RegisterStudent.student = s;
-						RegisterStudent rs = new RegisterStudent();
+						new Admin_Details_Student(s);
 					} catch (SQLException | ParseException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} catch (ArrayIndexOutOfBoundsException eX) {
-						JOptionPane.showMessageDialog(AdminWindow.this, "No hay nada seleccionado");
 					}
-
-				} else {
-					System.out.println("Error");
-				}
-			} else if (selector.equals("class clases.Ra")) {
-				if (b.getToolTipText().equals(insert)) {
-					new RaView();
-				} else if (b.getToolTipText().equals(delete)) {
-					String codRA = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
-					c.deleteRA(codRA);
-				} else if (b.getToolTipText().equals(details)) {
-
 				} else if (b.getToolTipText().equals(update)) {
-
+					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					Student s = c.getInfoStudent(dni, c.viewStudents());
+					try {
+						new Admin_Update_Student(s);
+					} catch (SQLException | ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					System.out.println("Error");
 				}
+
 			}
 
 			// Refresh Table

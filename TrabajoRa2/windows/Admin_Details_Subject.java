@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -19,18 +17,16 @@ import clases.Teacher;
 import connec.Connect;
 
 @SuppressWarnings("serial")
-public class InsertSubject extends JFrame {
+public class Admin_Details_Subject extends JFrame {
 
 	private JLabel jlcod, jlname, jlhours, jldni;
-	private JTextField jtcod, jtname, jthours;
-	private JComboBox<String> jcb;
+	private JTextField jtcod, jtname, jthours, jtDniTeacher;
 	private JButton jbCancel, jbConfirm;
 	private List<String> listDNI;
 	private Connect c = new Connect();
-	private static String dniProfessor;
 
-	public InsertSubject() {
-		super("InsertSubject");
+	public Admin_Details_Subject(Subjects s) {
+		super("Admin_Details_Subject");
 		setSize(400, 300);
 		WindowPreset.preset(this);
 
@@ -46,22 +42,19 @@ public class InsertSubject extends JFrame {
 			comboBox[i] = listDNI.get(i);
 		}
 
-		jcb = new JComboBox<String>(comboBox);
-		jcb.setBounds(182, 151, 140, 21);
-		jcb.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dniProfessor = jcb.getItemAt(jcb.getSelectedIndex());
-			}
-		});
+		jtDniTeacher = new JTextField(10);
+		jtDniTeacher.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		jtDniTeacher.setToolTipText("Insert Teacher");
+		jtDniTeacher.setBounds(182, 151, 140, 21);
 		getContentPane().setLayout(null);
-		getContentPane().add(jcb);
+		getContentPane().add(jtDniTeacher);
+
 		jthours = new JTextField(10);
 		jthours.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jthours.setToolTipText("Insert hours");
 		jthours.setBounds(182, 110, 140, 19);
 		getContentPane().add(jthours);
+
 		jtname = new JTextField(10);
 		jtname.setToolTipText("Insert Name");
 		jtname.setBounds(182, 65, 140, 19);
@@ -79,16 +72,19 @@ public class InsertSubject extends JFrame {
 		jlcod.setBounds(58, 29, 84, 13);
 		jlcod.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(jlcod);
+
 		jlname = new JLabel("NAME: ");
 		jlname.setHorizontalAlignment(SwingConstants.RIGHT);
 		jlname.setBounds(58, 68, 84, 13);
 		jlname.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(jlname);
+
 		jlhours = new JLabel("HOURS: ");
 		jlhours.setHorizontalAlignment(SwingConstants.RIGHT);
 		jlhours.setBounds(58, 113, 84, 13);
 		jlhours.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(jlhours);
+
 		jldni = new JLabel("PROFESSOR: ");
 		jldni.setHorizontalAlignment(SwingConstants.RIGHT);
 		jldni.setBounds(25, 153, 117, 13);
@@ -103,38 +99,26 @@ public class InsertSubject extends JFrame {
 		WindowPreset.buttonPreset(jbConfirm, "Insert the Subject.", "files\\confirm.png");
 
 		getContentPane().add(jbCancel);
-		getContentPane().add(jbConfirm);
 
-		ButtonManager bm = new ButtonManager();
+		jbCancel.addActionListener(new ActionListener() {
 
-		jbCancel.addActionListener(bm);
-		jbConfirm.addActionListener(bm);
-
-		setVisible(true);
-	}
-
-	class ButtonManager implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			JButton b = (JButton) e.getSource();
-
-			if (b.getToolTipText().equals("Cancel the Operation")) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				dispose();
-			} else if (b.getToolTipText().equals("Insert the Subject.")) {
-				Subjects s = new Subjects(jtcod.getText(), jtname.getText(), Integer.parseInt(jthours.getText()),
-						dniProfessor);
-				c.insertSubject(s);
-				AdminWindow.changeTable(0);
-				dispose();
-			} else {
-				JOptionPane.showMessageDialog(rootPane, "Error");
 
 			}
+		});
 
-		}
+		jtcod.setText(s.getCodSubject());
+		jtcod.setEditable(false);
+		jtname.setText(s.getName());
+		jtname.setEditable(false);
+		jthours.setText(String.valueOf(s.getHours()));
+		jthours.setEditable(false);
+		jtDniTeacher.setText(s.getDniProfessor());
+		jtDniTeacher.setEditable(false);
 
+		setVisible(true);
 	}
 
 }

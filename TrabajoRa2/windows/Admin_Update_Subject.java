@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,18 +18,17 @@ import clases.Teacher;
 import connec.Connect;
 
 @SuppressWarnings("serial")
-public class InsertSubject extends JFrame {
+public class Admin_Update_Subject extends JFrame {
 
 	private JLabel jlcod, jlname, jlhours, jldni;
-	private JTextField jtcod, jtname, jthours;
-	private JComboBox<String> jcb;
+	private JTextField jtcod, jtname, jthours, jtDniTeacher;
 	private JButton jbCancel, jbConfirm;
 	private List<String> listDNI;
 	private Connect c = new Connect();
 	private static String dniProfessor;
 
-	public InsertSubject() {
-		super("InsertSubject");
+	public Admin_Update_Subject(Subjects s) {
+		super("Admin_Update_Subject");
 		setSize(400, 300);
 		WindowPreset.preset(this);
 
@@ -46,22 +44,19 @@ public class InsertSubject extends JFrame {
 			comboBox[i] = listDNI.get(i);
 		}
 
-		jcb = new JComboBox<String>(comboBox);
-		jcb.setBounds(182, 151, 140, 21);
-		jcb.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dniProfessor = jcb.getItemAt(jcb.getSelectedIndex());
-			}
-		});
+		jtDniTeacher = new JTextField(10);
+		jtDniTeacher.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		jtDniTeacher.setToolTipText("Insert Teacher");
+		jtDniTeacher.setBounds(182, 151, 140, 21);
 		getContentPane().setLayout(null);
-		getContentPane().add(jcb);
+		getContentPane().add(jtDniTeacher);
+
 		jthours = new JTextField(10);
 		jthours.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jthours.setToolTipText("Insert hours");
 		jthours.setBounds(182, 110, 140, 19);
 		getContentPane().add(jthours);
+
 		jtname = new JTextField(10);
 		jtname.setToolTipText("Insert Name");
 		jtname.setBounds(182, 65, 140, 19);
@@ -79,16 +74,19 @@ public class InsertSubject extends JFrame {
 		jlcod.setBounds(58, 29, 84, 13);
 		jlcod.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(jlcod);
+
 		jlname = new JLabel("NAME: ");
 		jlname.setHorizontalAlignment(SwingConstants.RIGHT);
 		jlname.setBounds(58, 68, 84, 13);
 		jlname.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(jlname);
+
 		jlhours = new JLabel("HOURS: ");
 		jlhours.setHorizontalAlignment(SwingConstants.RIGHT);
 		jlhours.setBounds(58, 113, 84, 13);
 		jlhours.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().add(jlhours);
+
 		jldni = new JLabel("PROFESSOR: ");
 		jldni.setHorizontalAlignment(SwingConstants.RIGHT);
 		jldni.setBounds(25, 153, 117, 13);
@@ -110,6 +108,13 @@ public class InsertSubject extends JFrame {
 		jbCancel.addActionListener(bm);
 		jbConfirm.addActionListener(bm);
 
+		jtcod.setText(s.getCodSubject());
+		jtcod.setEditable(false);
+		jtname.setText(s.getName());
+		jthours.setText(String.valueOf(s.getHours()));
+		jtDniTeacher.setText(s.getDniProfessor());
+		jtDniTeacher.setEditable(false);
+
 		setVisible(true);
 	}
 
@@ -125,7 +130,7 @@ public class InsertSubject extends JFrame {
 			} else if (b.getToolTipText().equals("Insert the Subject.")) {
 				Subjects s = new Subjects(jtcod.getText(), jtname.getText(), Integer.parseInt(jthours.getText()),
 						dniProfessor);
-				c.insertSubject(s);
+				c.updateSubject(s);
 				AdminWindow.changeTable(0);
 				dispose();
 			} else {

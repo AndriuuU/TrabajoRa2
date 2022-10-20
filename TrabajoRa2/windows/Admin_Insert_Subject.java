@@ -19,7 +19,7 @@ import clases.Teacher;
 import connec.Connect;
 
 @SuppressWarnings("serial")
-public class InsertSubject extends JFrame {
+public class Admin_Insert_Subject extends JFrame {
 
 	private JLabel jlcod, jlname, jlhours, jldni;
 	private JTextField jtcod, jtname, jthours;
@@ -29,8 +29,8 @@ public class InsertSubject extends JFrame {
 	private Connect c = new Connect();
 	private static String dniProfessor;
 
-	public InsertSubject() {
-		super("InsertSubject");
+	public Admin_Insert_Subject() {
+		super("Admin_Insert_Subject");
 		setSize(400, 300);
 		WindowPreset.preset(this);
 

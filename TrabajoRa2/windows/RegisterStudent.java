@@ -242,7 +242,7 @@ public class RegisterStudent extends JFrame {
 	public class driverAdd implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equalsIgnoreCase("ADD")) {
+			if (e.getSource()==btnAgregar) {
 				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 				String dni = jtDni.getText().toString();
 				String name = jtName.getText().toString();

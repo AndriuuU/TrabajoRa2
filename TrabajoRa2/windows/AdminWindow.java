@@ -11,6 +11,7 @@ import java.text.ParseException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -263,6 +264,7 @@ public class AdminWindow extends JFrame {
 					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
 					}
+
 				} else if (b.getToolTipText().equals(delete)) {
 
 					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
@@ -271,14 +273,16 @@ public class AdminWindow extends JFrame {
 				} else if (b.getToolTipText().equals(details)) {
 
 				} else if (b.getToolTipText().equals(update)) {
-					String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
-					Student s = new Student();
-					s = c.getInfoStudent(dni, c.viewStudents());
-					RegisterStudent.student = s;
 					try {
+						String dni = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+						Student s = new Student();
+						s = c.getInfoStudent(dni, c.viewStudents());
+						RegisterStudent.student = s;
 						RegisterStudent rs = new RegisterStudent();
 					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
+					}catch (ArrayIndexOutOfBoundsException eX) {
+						JOptionPane.showMessageDialog(AdminWindow.this, "No hay nada seleccionado");
 					}
 
 				} else {

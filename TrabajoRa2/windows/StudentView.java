@@ -90,14 +90,14 @@ public class StudentView extends JFrame {
 	}
 
 	private void insertFoto() {
-		ImageIcon imageIcon = new ImageIcon(s.getPhoto());
-		if (imageIcon.getImage() == null) {
-			imageIcon = new ImageIcon("files/sinfoto.png");
-		}
-		Image image = imageIcon.getImage(); // transform it
-		Image newimg = image.getScaledInstance(94, 110, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon imageIcon2 = new ImageIcon(newimg);
-		name.setIcon(imageIcon2);
+//		ImageIcon imageIcon = new ImageIcon(s.getPhoto());
+//		if (imageIcon.getImage() == null) {
+//			imageIcon = new ImageIcon("files/sinfoto.png");
+//		}
+//		Image image = imageIcon.getImage(); // transform it
+//		Image newimg = image.getScaledInstance(94, 110, java.awt.Image.SCALE_SMOOTH);
+//		ImageIcon imageIcon2 = new ImageIcon(newimg);
+//		name.setIcon(imageIcon2);
 	}
 
 	public static JTable getTabla() {

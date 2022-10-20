@@ -145,15 +145,7 @@ public class Connect {
 			while (resultSubjects.next()) {
 				subjects.add(resultSubjects.getString("nombre"));
 			}
-
 		}
-<<<<<<< Updated upstream
-		for (String s : subjects)
-			System.out.println(s);
-=======
-//		for (String s : subjects)
-//			System.out.println(s);
->>>>>>> Stashed changes
 		return subjects;
 	}
 
@@ -185,7 +177,7 @@ public class Connect {
 			if (logDni.equalsIgnoreCase(key)) {
 				for (String valor : students.values()) {
 					if (logPass.equalsIgnoreCase(valor)) {
-						state = "loged";
+						state = "sloged";
 					} else {
 						state = "wrongpass";
 					}
@@ -214,14 +206,11 @@ public class Connect {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "tloged";
 					} else {
-						state = "wrongpass";
+						if (!state.equalsIgnoreCase("tloged")) 
+							state = "wrongpass";
 					}
 				}
 			}
-		}
-		if (state.equalsIgnoreCase("tloged")) {
-			TeacherView.dniTeacher = logDni;
-			new TeacherView();
 		}
 		return state;
 	}
@@ -437,6 +426,22 @@ public class Connect {
 
 	}
 
+	public String getInfoStudentDNI(String name) {
+		try {
+			String insertquery = "SELECT dni FROM alumnos WHERE '" + name + "'=nombre;";
+			ResultSet result = statement.executeQuery(insertquery);
+
+			if (result.next()) {
+				return result.getString("dni");
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 	public Subjects getSubjectRa(String cod) {
 		try {
 
@@ -539,16 +544,28 @@ public class Connect {
 		System.out.println("Update");
 	}
 
+	public void updateGradeRa(String dni, String codRa, float nota) {
+		try {
+			String teacherQuery = "UPDATE `califica` SET `nota`='" + nota + "' WHERE dniAlumno='" + dni
+					+ "' AND `idRa`='" + codRa + "';";
+			statement.executeUpdate(teacherQuery);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Update Error");
+			e.printStackTrace();
+		}
+		System.out.println("Update");
+	}
+
 	public void deleteStudent(String dni) {
 		try {
 			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
 					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			if (output == JOptionPane.YES_OPTION) {
-				String updateSubject = "DELETE matricula WHERE dniAlumno = '" + dni + "'";
-				statement.executeUpdate(updateSubject);
-				String updateCalificate = "DELETE califica  WHERE dniAlumno = '" + dni + "'";
+				String deleteSubject = "DELETE matricula WHERE dniAlumno = '" + dni + "';";
+				statement.execute(deleteSubject);
+				String updateCalificate = "DELETE califica  WHERE dniAlumno = '" + dni + "';";
 				statement.executeUpdate(updateCalificate);
-				String deleteStudent = "DELETE FROM profesor WHERE dni = '" + dni + "'";
+				String deleteStudent = "DELETE FROM profesor WHERE dni = '" + dni + "';";
 				statement.execute(deleteStudent);
 			}
 		} catch (SQLException e) {

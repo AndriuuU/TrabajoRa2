@@ -321,12 +321,12 @@ public class RegisterStudent extends JFrame {
 						valorPass);
 				c.updateStudent(s);
 				try {
-					c.insertMatricula(dni);
-				} catch (NullPointerException x) {
-					setVisible(false);
+					new SubjectsView(dni);
 				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
 		}
 

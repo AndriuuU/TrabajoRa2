@@ -78,24 +78,13 @@ public class Connect {
 	// Read the map(subjects) and compare with the array of checkbox to check wich
 	// one is selected
 	// if is selected inser dniStudent and idSubject
-	public void insertMatricula(String s) throws SQLException {
-		if (SubjectsView.jcSubjects.length > 0) {
-			for (JCheckBox c : SubjectsView.jcSubjects) {
-				Iterator<Entry<String, String>> iterator = subjectContent.entrySet().iterator();
-				if (c != null) {
-					if (c.isSelected()) {
-						while (iterator.hasNext()) {
-							Map.Entry<String, String> entry = iterator.next();
-							if (c.getText().toString().equalsIgnoreCase(entry.getValue())) {
-								String query = "INSERT INTO matricula values('" + s + "','" + entry.getKey() + "');";
-								System.out.println(query);
-								statement.execute(query);
-							}
-						}
-					}
-				}
-			}
-		}
+	public void insertMatricula(String d,String s) throws SQLException {
+		String query = "INSERT INTO matricula values('" + d + "','" + s + "');";
+		statement.execute(query);
+	}
+	public void deleteMatricula(String d,String s) throws SQLException {
+		String query = "DELETE FROM matricula WHERE dniAlumno = '" + d + "' AND codAsig = '" + s + "';";
+		statement.execute(query);
 	}
 
 	// To insert a new teacher, if dni already exist throw exception with a
@@ -128,7 +117,7 @@ public class Connect {
 		}
 	}
 
-	public List<String> checkMatricula(String dni) throws SQLException {
+	public List<Subjects> getEnrrolled(String dni) throws SQLException {
 		List<String> matriculado = new ArrayList<String>();
 		String queryMatriculas = "select codAsig from matricula where dniAlumno = '" + dni + "';";
 		statement.execute(queryMatriculas);
@@ -137,16 +126,42 @@ public class Connect {
 			matriculado.add(resultMatricula.getString("codAsig"));
 		}
 		resultMatricula.close();
-		List<String> subjects = new ArrayList<String>();
+		List<Subjects> subjects = new ArrayList<Subjects>();
 
 		for (String s : matriculado) {
-			String querySubjects = "select nombre from asignatura where codAsig = '" + s + "';";
+			String querySubjects = "select codAsig,nombre from asignatura where codAsig = '" + s + "';";
 			ResultSet resultSubjects = statement.executeQuery(querySubjects);
 			while (resultSubjects.next()) {
-				subjects.add(resultSubjects.getString("nombre"));
+				Subjects ss = new Subjects(resultSubjects.getString("codAsig"), resultSubjects.getString("nombre"), 0,
+						"");
+				subjects.add(ss);
 			}
 		}
 		return subjects;
+	}
+
+	public List<Subjects> getNotEnrrolled(List<Subjects> enrrolled) throws SQLException {
+		List<Subjects> raEnrrolled = new ArrayList<Subjects>();
+		String queryMatriculas = "select codAsig,nombre from asignatura";
+		statement.execute(queryMatriculas);
+		ResultSet resultMatricula = statement.executeQuery(queryMatriculas);
+		while (resultMatricula.next()) {
+			boolean existe = false;
+			String x = resultMatricula.getString("nombre");
+			for (Subjects s : enrrolled) {
+				if (x.equalsIgnoreCase(s.getName())) {
+					existe = true;
+				}
+			}
+			if (existe == false) {
+				Subjects ss = new Subjects(resultMatricula.getString("codAsig"), resultMatricula.getString("nombre"), 0,
+						"");
+				raEnrrolled.add(ss);
+			}
+
+		}
+		return raEnrrolled;
+
 	}
 
 	// To search users created in the tables student and teacher
@@ -179,7 +194,7 @@ public class Connect {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "sloged";
 					} else {
-						if(!state.equalsIgnoreCase("sloged"))
+						if (!state.equalsIgnoreCase("sloged"))
 							state = "wrongpass";
 					}
 				}

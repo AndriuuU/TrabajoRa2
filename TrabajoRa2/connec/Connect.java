@@ -179,7 +179,8 @@ public class Connect {
 					if (logPass.equalsIgnoreCase(valor)) {
 						state = "sloged";
 					} else {
-						state = "wrongpass";
+						if(!state.equalsIgnoreCase("sloged"))
+							state = "wrongpass";
 					}
 				}
 			}

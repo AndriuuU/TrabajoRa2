@@ -14,16 +14,21 @@ public class test {
 	public static void main(String[] args) throws SQLException, ParseException {
 
 
-		Login l = new Login();
+		//
+		
+
 
 		
 //		AdminWindow ad = new AdminWindow();
-		// Login l = new Login();
+		 Login l = new Login();
+		
 
 //		RaStudentView r = new RaStudentView();
 //		StudentView s = new StudentView("987654321B");
+//		StudentView s = new StudentView("123456789A");
+//		TeacherView.dniTeacher = "74544252J";
+//		TeacherView t = new TeacherView();
 //		AdminWindow ad = new AdminWindow();
-//		SubjectsView s = new SubjectsView();
 
 //		AdminWindow aw = new AdminWindow();
 

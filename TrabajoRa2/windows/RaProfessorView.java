@@ -23,6 +23,7 @@ public class RaProfessorView extends JFrame {
 	private JButton back, btnRa, btnShow;
 	private JLabel lblAlumno;
 	static public String codRa;
+	private String asig;
 	public boolean entra;
 
 	Connect mostrar = new Connect();
@@ -35,13 +36,12 @@ public class RaProfessorView extends JFrame {
 		getContentPane().setLayout(null);
 
 	
-		columNames = new String[] { "Ra", "Name" };
-		tablemodel = new DefaultTableModel(columNames, 0);
-		setTabla(new JTable(tablemodel));
-		table = new JTable(tablemodel);
+		//columNames = new String[] { "Ra", "Name" };
+		//tablemodel = new DefaultTableModel(columNames, 0);
+		changeTable();
+		//setTabla(new JTable(tablemodel));
+		//table = new JTable(tablemodel);
 
-		String asig = TeacherView.codAsigna;
-		mostrar.viewTeacherRa(asig);
 		
 
 		lblAlumno = new JLabel(asig);
@@ -77,6 +77,15 @@ public class RaProfessorView extends JFrame {
 		setVisible(true);
 
 	}
+	public void changeTable() {
+		columNames = new String[] { "Ra", "Name" };
+		tablemodel = new DefaultTableModel(columNames, 0);
+		asig = TeacherView.codAsigna;
+		mostrar.viewTeacherRa(asig);
+		setTabla(new JTable(tablemodel));
+		table = new JTable(tablemodel);
+		
+	}
 
 	public static JTable getTabla() {
 		return table;
@@ -109,16 +118,21 @@ public class RaProfessorView extends JFrame {
 						codRa = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
 						RaView.codRa=codRa;
 						new RaView();
+						
 					}
 				} else if(e.getSource()== btnRa) {
 					codRa=null;
-					setVisible(false);
+					
 					new RaView();
-					//TeacherView.codAsigna
+					
 				}else
 					JOptionPane.showMessageDialog(RaProfessorView.this, "SELECT RA!!",
 							"¡ERROR!", JOptionPane.ERROR_MESSAGE);
 			}
+			
+			changeTable();
+			
 		}
+		
 	}
 }

@@ -36,6 +36,7 @@ public class RaView extends JFrame{
 		setSize(448, 360);
 		WindowPreset.preset(this);
 		getContentPane().setLayout(null);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 		txId = new JTextField();
 		txId.setBounds(165, 64, 116, 19);
@@ -88,6 +89,7 @@ public class RaView extends JFrame{
 		
 		List<String> listaString =new ArrayList<>(); 
 		List<Subjects> subList=c.viewSubjects();
+		listaString.add("VACIO");
 		for(Subjects s: subList) {
 			listaString.add(s.getCodSubject()+", "+s.getName());
 		}
@@ -189,8 +191,8 @@ public class RaView extends JFrame{
 					c.insertRa(raNew);
 					
 					RaProfessorView.codRa=null;
-					new RaProfessorView();
-					setVisible(false);
+					
+					dispose();
 				}else
 					JOptionPane.showMessageDialog(RaView.this, "Codigo ya en uso!", "Error id del RA",
 							JOptionPane.WARNING_MESSAGE);

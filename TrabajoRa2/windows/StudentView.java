@@ -46,7 +46,7 @@ public class StudentView extends JFrame {
 		setTabla(new JTable(tablemodel));
 		table = new JTable(tablemodel);
 
-		insertFoto();
+		//insertFoto();
 		mostrar.viewStudents(dni);
 		s = mostrar.getInfoStudent(dni, mostrar.viewStudents());
 
@@ -83,14 +83,15 @@ public class StudentView extends JFrame {
 		name = new JLabel();
 		name.setBounds(456, 35, 97, 90);
 		name.setBorder(BorderFactory.createLineBorder(Color.black));
-		insertFoto();
+		//insertFoto();
 		getContentPane().add(name);
+		System.out.println(s.getPhoto());
 
 		setVisible(true);
 	}
 
 	private void insertFoto() {
-		ImageIcon imageIcon = new ImageIcon(s.getPhoto());
+		ImageIcon imageIcon = new ImageIcon(""+s.getPhoto());
 		if (imageIcon.getImage() == null) {
 			imageIcon = new ImageIcon("files/sinfoto.png");
 		}

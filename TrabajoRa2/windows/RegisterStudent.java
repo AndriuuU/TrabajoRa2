@@ -147,7 +147,7 @@ public class RegisterStudent extends JFrame {
 		btnImg.setBounds(470, 276, 92, 26);
 		getContentPane().add(btnImg);
 
-		btnAgregar = new JButton("ADD");
+		btnAgregar = new JButton();
 		WindowPreset.buttonPreset(btnAgregar, "Add the new student to the database", "files\\insert.png");
 		btnAgregar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAgregar.setBounds(251, 367, 82, 26);
@@ -170,17 +170,12 @@ public class RegisterStudent extends JFrame {
 		jtPass.setBounds(133, 263, 189, 20);
 		getContentPane().add(jtPass);
 
-		btnSubjectsView = new JButton();
-		WindowPreset.buttonPreset(btnSubjectsView, "Select your subjects", "files\\note.png");
-		btnSubjectsView.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSubjectsView.setBounds(22, 307, 26, 26);
-		getContentPane().add(btnSubjectsView);
+		
 
 		driverAdd dAgregar = new driverAdd();
 		btnAgregar.addActionListener(dAgregar);
 
-		driverSubjects dSubjects = new driverSubjects();
-		btnSubjectsView.addActionListener(dSubjects);
+		
 		setVisible(true);
 
 		driverImage dImage = new driverImage();
@@ -207,18 +202,28 @@ public class RegisterStudent extends JFrame {
 			lblFoto.setIcon(imageIcon2);
 
 			driverModify dModify = new driverModify();
-			btnAgregar.setText("Modify");
 			btnAgregar.setBounds(310, 367, 110, 23);
+			WindowPreset.buttonPreset(btnAgregar, "Update Selected Row.", "files\\update.png");
 			btnAgregar.addActionListener(dModify);
 
 			ReturnModify returnMod = new ReturnModify();
-			btnReturnStudent = new JButton("Return");
-			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", null);
+			btnReturnStudent = new JButton();
+			WindowPreset.buttonPreset(btnReturnStudent, "Return to view student", "files\\return.png");
 			btnReturnStudent.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnReturnStudent.setBounds(185, 367, 110, 23);
 			btnReturnStudent.addActionListener(returnMod);
 			getContentPane().add(btnReturnStudent);
 
+			
+			btnSubjectsView = new JButton();
+			WindowPreset.buttonPreset(btnSubjectsView, "Select your subjects", "files\\note.png");
+			btnSubjectsView.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnSubjectsView.setBounds(22, 307, 26, 26);
+			getContentPane().add(btnSubjectsView);
+			
+			driverSubjects dSubjects = new driverSubjects();
+			btnSubjectsView.addActionListener(dSubjects);
+			
 			student = null;
 		}
 
@@ -255,6 +260,7 @@ public class RegisterStudent extends JFrame {
 					Student s = new Student(dni, name, surnames, email, date_birth, pic, Integer.parseInt(telefono),
 							valorPass);
 					c.insertStudent(s);
+					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -329,7 +335,7 @@ public class RegisterStudent extends JFrame {
 	public class ReturnModify implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			new StudentView(jtDni.getText());
+			new StudentView(jtDni.getText());
 			setVisible(false);
 		}
 	}

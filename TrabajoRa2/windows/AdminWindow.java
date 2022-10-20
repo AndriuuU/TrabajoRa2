@@ -292,7 +292,8 @@ public class AdminWindow extends JFrame {
 				if (b.getToolTipText().equals(insert)) {
 
 				} else if (b.getToolTipText().equals(delete)) {
-
+					String codRA = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
+					c.deleteRA(codRA);
 				} else if (b.getToolTipText().equals(details)) {
 
 				} else if (b.getToolTipText().equals(update)) {

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 
-import windows.Login;
+import windows.RegisterStudent;
 
 
 public class test {
@@ -20,7 +20,7 @@ public class test {
 
 		
 //		AdminWindow ad = new AdminWindow();
-		 Login l = new Login();
+//		 Login l = new Login();
 		
 
 //		RaStudentView r = new RaStudentView();
@@ -32,7 +32,7 @@ public class test {
 
 //		AdminWindow aw = new AdminWindow();
 
-//		RegisterStudent r = new RegisterStudent();
+		RegisterStudent r = new RegisterStudent();
 //		RegisterTeacher rt = new RegisterTeacher();
 //		Connect c = new Connect();
 //		c.checkMatricula("123456324C");

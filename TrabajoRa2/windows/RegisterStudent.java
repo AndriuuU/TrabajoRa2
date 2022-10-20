@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -52,9 +54,11 @@ public class RegisterStudent extends JFrame {
 	public static JLabel lblFoto;
 	private JLabel lblPass;
 	private JPasswordField jtPass;
+	private JLabel lblInvalidDNI;
 	static public Student student;
 
 	public static List<String> listOfSubjects = new ArrayList<String>();
+	private JLabel lblMaxTlf;
 
 	public RegisterStudent() throws SQLException, ParseException {
 
@@ -169,6 +173,20 @@ public class RegisterStudent extends JFrame {
 		jtPass.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		jtPass.setBounds(133, 263, 189, 20);
 		getContentPane().add(jtPass);
+		
+		lblInvalidDNI = new JLabel("INVALID DNI");
+		lblInvalidDNI.setForeground(new Color(255, 0, 0));
+		lblInvalidDNI.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblInvalidDNI.setBounds(165, 48, 92, 14);
+		lblInvalidDNI.setVisible(false);
+		getContentPane().add(lblInvalidDNI);
+		
+		lblMaxTlf = new JLabel("8 NUMBERS");
+		lblMaxTlf.setForeground(new Color(255, 0, 0));
+		lblMaxTlf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMaxTlf.setBounds(211, 224, 111, 14);
+		lblMaxTlf.setVisible(false);
+		getContentPane().add(lblMaxTlf);
 
 		
 
@@ -182,6 +200,8 @@ public class RegisterStudent extends JFrame {
 		btnImg.addActionListener(dImage);
 
 		if (student != null) {
+			lblInvalidDNI.setVisible(false);
+			lblMaxTlf.setVisible(false);
 			setTitle("Modify");
 			jtDni.setText(student.getDni());
 			jtDni.setEditable(false);
@@ -242,6 +262,8 @@ public class RegisterStudent extends JFrame {
 	public class driverAdd implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			lblInvalidDNI.setVisible(false);
+			lblMaxTlf.setVisible(false);
 			if (e.getSource()==btnAgregar) {
 				SimpleDateFormat sdf = new SimpleDateFormat(date.getDateFormatString());
 				String dni = jtDni.getText().toString();
@@ -261,9 +283,6 @@ public class RegisterStudent extends JFrame {
 							valorPass);
 					c.insertStudent(s);
 					dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
-							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -368,8 +387,21 @@ public class RegisterStudent extends JFrame {
 		boolean passed = true;
 		if (dni.equalsIgnoreCase("") || name.equalsIgnoreCase("") || surnames.equalsIgnoreCase("")
 				|| email.equalsIgnoreCase("") || date_birth.equalsIgnoreCase("") || pic.equalsIgnoreCase("")
-				|| valorPass.equalsIgnoreCase("") || telefono.equalsIgnoreCase(""))
+				|| valorPass.equalsIgnoreCase("") || telefono.equalsIgnoreCase("")) {
 			passed = false;
+			JOptionPane.showMessageDialog(null, "NO PUEDE HABER CAMPOS VACIOS", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		String dniRegexp = "\\d{8}[a-zA-Z]";
+		if(Pattern.matches(dniRegexp, dni)==false) {
+			lblInvalidDNI.setVisible(true);
+			passed = false;
+		}
+		String tlfRef = "\\d{8}";
+		if(Pattern.matches(tlfRef, telefono)==false) {
+			lblMaxTlf.setVisible(true);
+			passed = false;
+		}
 		return passed;
 	}
 }

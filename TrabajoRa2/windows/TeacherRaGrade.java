@@ -1,18 +1,17 @@
 package windows;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import clases.Student;
 import connec.Connect;
 
 @SuppressWarnings("serial")
@@ -25,7 +24,6 @@ public class TeacherRaGrade extends JFrame {
 	private JLabel lblAlumno;
 	private boolean salir = false;
 	private String ra;
-	private List<Student> ListStudent;
 
 	Connect mostrar = new Connect();
 
@@ -47,10 +45,20 @@ public class TeacherRaGrade extends JFrame {
 
 			salir = true;
 			lblAlumno = new JLabel(ra);
+
+			ButtonManager buttonMana = new ButtonManager();
+
+			btInsert = new JButton();
+			btInsert.setBounds(367, 160, 85, 21);
+			WindowPreset.buttonPreset(btInsert, "Insert grade RA", "files\\insert.png");
+			btInsert.addActionListener(buttonMana);
+			getContentPane().add(btInsert);
+
 		} else {
 			String asig = TeacherView.codAsigna;
 			mostrar.viewTeacherFinalGrade(asig);
 			lblAlumno = new JLabel(asig);
+
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -61,15 +69,7 @@ public class TeacherRaGrade extends JFrame {
 		lblAlumno.setBounds(36, 29, 205, 13);
 		getContentPane().add(lblAlumno);
 
-		ListStudent=mostrar.viewStudents();
-		
 		ButtonManager buttonMana = new ButtonManager();
-
-		btInsert = new JButton();
-		btInsert.setBounds(367, 160, 85, 21);
-		WindowPreset.buttonPreset(btInsert, "Insert grade RA", "files\\insert.png");
-		btInsert.addActionListener(buttonMana);
-		getContentPane().add(btInsert);
 
 		back = new JButton();
 		back.setBounds(367, 267, 85, 21);
@@ -94,41 +94,27 @@ public class TeacherRaGrade extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btInsert) {
-				new InsertAlumno(ra);
-			} else if (e.getSource() == back) {
+
+			int num = getTabla().getSelectedRow();
+			if (num >= 0) {
+				if (e.getSource() == btInsert) {
+					String name = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
+					Float grade = Float.parseFloat(getTabla().getValueAt(getTabla().getSelectedRow(), 1).toString());
+					new InsertGrade(ra,name,grade);
+				}
+			}
+			if (e.getSource() == back) {
 				setVisible(false);
 				if (salir) {
-					RaProfessorView.codRa=null;
+					RaProfessorView.codRa = null;
 					new RaProfessorView();
 				} else
 					new TeacherView();
+
 			}
-			
-			
+
 		}
 
 	}
-	
-	public class InsertAlumno extends JFrame {
-		
-		public InsertAlumno(String cod) {
-			super("List of Student");
-			setSize(300, 300);
-			WindowPreset.preset(this);
-			setLayout(new BorderLayout());
-			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-			
-			for(Student s:ListStudent) {
-				if(s.getName().equals("Andres")) {
-					
-				}else
-					System.out.println(s);
-			}
-			
-			setVisible(true);
-			
-		}
-		
-	}
+
 }

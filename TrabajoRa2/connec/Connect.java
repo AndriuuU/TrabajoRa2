@@ -604,6 +604,19 @@ public class Connect {
 		}
 	}
 
+	public void deleteRA(String codRa) {
+		try {
+			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",
+					"Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if (output == JOptionPane.YES_OPTION) {
+				String delRA = "DELETE FROM ra WHERE id = '" + codRa + "'";
+				statement.execute(delRA);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error, deletion failed");
+		}
+	}
+
 	public void deleteRa(String cod) {
 		try {
 			int output = JOptionPane.showConfirmDialog(null, "Are you sure you want to perform this action? ",

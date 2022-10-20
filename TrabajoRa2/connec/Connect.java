@@ -147,13 +147,10 @@ public class Connect {
 			}
 
 		}
-<<<<<<< Updated upstream
+
 		for (String s : subjects)
 			System.out.println(s);
-=======
-//		for (String s : subjects)
-//			System.out.println(s);
->>>>>>> Stashed changes
+
 		return subjects;
 	}
 

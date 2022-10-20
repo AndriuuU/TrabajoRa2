@@ -43,6 +43,7 @@ public class TeacherRaGrade extends JFrame {
 		if (ra != null) {
 			mostrar.viewTeacherRaGrade(ra);
 
+			
 			salir = true;
 			lblAlumno = new JLabel(ra);
 

@@ -434,6 +434,22 @@ public class Connect {
 
 	}
 
+	public String getInfoStudentDNI(String name) {
+		try {
+			String insertquery = "SELECT dni FROM alumnos WHERE '" + name + "'=nombre;";
+			ResultSet result = statement.executeQuery(insertquery);
+
+			if (result.next()) {
+				return result.getString("dni");
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 	public Subjects getSubjectRa(String cod) {
 		try {
 
@@ -528,6 +544,18 @@ public class Connect {
 		try {
 			String teacherQuery = "UPDATE ra set nombre= '" + r.getName() + "', descripcion= '" + r.getDescription()
 					+ "', ponderacion='" + r.getWeighting() + "' WHERE id= '" + r.getId() + "' ;";
+			statement.executeUpdate(teacherQuery);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Update Error");
+			e.printStackTrace();
+		}
+		System.out.println("Update");
+	}
+
+	public void updateGradeRa(String dni, String codRa, float nota) {
+		try {
+			String teacherQuery = "UPDATE `califica` SET `nota`='" + nota + "' WHERE dniAlumno='" + dni
+					+ "' AND `idRa`='" + codRa + "';";
 			statement.executeUpdate(teacherQuery);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Error");

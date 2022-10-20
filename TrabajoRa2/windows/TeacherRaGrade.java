@@ -102,6 +102,7 @@ public class TeacherRaGrade extends JFrame {
 					String name = getTabla().getValueAt(getTabla().getSelectedRow(), 0).toString();
 					Float grade = Float.parseFloat(getTabla().getValueAt(getTabla().getSelectedRow(), 1).toString());
 					new InsertGrade(ra,name,grade);
+					setVisible(false);
 				}
 			}
 			if (e.getSource() == back) {

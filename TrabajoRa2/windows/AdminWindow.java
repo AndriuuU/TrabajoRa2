@@ -151,13 +151,13 @@ public class AdminWindow extends JFrame {
 			model.setColumnIdentifiers(columnsName);
 			jtable = new JTable(model);
 			scrollPane.setViewportView(jtable);
-//			for (Ra r : c.ra) { // método connect para devolver lista de RA
-//				Object[] row = new Object[3];
-//				row[0] = r.getId();
-//				row[1] = r.getName();
-//				row[2] = r.getWeighting();
-//				model.addRow(row);
-//			}
+			for (Ra r : c.viewRa()) {
+				Object[] row = new Object[3];
+				row[0] = r.getId();
+				row[1] = r.getName();
+				row[2] = r.getWeighting();
+				model.addRow(row);
+			}
 
 		} else if (index == 2) {
 			o = new Teacher();
@@ -281,7 +281,7 @@ public class AdminWindow extends JFrame {
 						RegisterStudent rs = new RegisterStudent();
 					} catch (SQLException | ParseException e1) {
 						e1.printStackTrace();
-					}catch (ArrayIndexOutOfBoundsException eX) {
+					} catch (ArrayIndexOutOfBoundsException eX) {
 						JOptionPane.showMessageDialog(AdminWindow.this, "No hay nada seleccionado");
 					}
 

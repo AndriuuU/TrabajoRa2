@@ -5,6 +5,7 @@ public class Ra {
 	private String id, name, description;
 	private float weighting;
 	private Subjects codSubject;
+	private String codS;
 
 	public Ra(String id, String name, String description, float weighting, Subjects codSubject) {
 		super();
@@ -13,6 +14,15 @@ public class Ra {
 		this.description = description;
 		this.weighting = weighting;
 		this.codSubject = codSubject;
+	}
+
+	public Ra(String id, String name, String description, float weighting, String codS) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.weighting = weighting;
+		this.codS = codS;
 	}
 
 	public Ra() {
@@ -62,6 +72,14 @@ public class Ra {
 	public String toString() {
 		return "Ra [id=" + id + ", name=" + name + ", description=" + description + ", weighting=" + weighting
 				+ ", codSubject=" + codSubject + "]";
+	}
+
+	public String getCodS() {
+		return codS;
+	}
+
+	public void setCodS(String codS) {
+		this.codS = codS;
 	}
 
 }

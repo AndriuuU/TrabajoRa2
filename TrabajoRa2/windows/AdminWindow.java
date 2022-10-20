@@ -290,7 +290,7 @@ public class AdminWindow extends JFrame {
 				}
 			} else if (selector.equals("class clases.Ra")) {
 				if (b.getToolTipText().equals(insert)) {
-
+					new RaView();
 				} else if (b.getToolTipText().equals(delete)) {
 					String codRA = jtable.getValueAt(jtable.getSelectedRow(), 0).toString();
 					c.deleteRA(codRA);

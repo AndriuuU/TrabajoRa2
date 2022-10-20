@@ -186,7 +186,6 @@ public class RaView extends JFrame{
 				if(c.getRa(txId.getText())==null) {
 					
 					Ra raNew =new Ra(txId.getText(),txName.getText(),txDescrip.getText(),number,sub);
-					System.out.println(raNew);
 					c.insertRa(raNew);
 					
 					RaProfessorView.codRa=null;

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
 
@@ -29,7 +30,7 @@ public class StudentView extends JFrame {
 	static public JTable table;
 	static public DefaultTableModel tablemodel;
 	private JButton back, btnCrud, btnLook;
-	private JLabel lblStudent, name;
+	private JLabel lblStudent, photo;
 	static public String codEnrolment;
 	private Student s;
 
@@ -63,43 +64,42 @@ public class StudentView extends JFrame {
 		ButtonManager buttonMana = new ButtonManager();
 
 		btnCrud = new JButton();
-		btnCrud.setBounds(461, 166, 26, 26);
+		btnCrud.setBounds(461, 197, 26, 26);
 		WindowPreset.buttonPreset(btnCrud, "Update information", "files\\update.png");
 		btnCrud.addActionListener(buttonMana);
 		getContentPane().add(btnCrud);
 
 		btnLook = new JButton();
-		btnLook.setBounds(461, 196, 26, 26);
+		btnLook.setBounds(461, 234, 26, 26);
 		WindowPreset.buttonPreset(btnLook, "Show all grade RA", "files\\showMore.png");
 		btnLook.addActionListener(buttonMana);
 		getContentPane().add(btnLook);
 
 		back = new JButton();
-		back.setBounds(461, 268, 26, 26);
+		back.setBounds(461, 295, 26, 26);
 		back.addActionListener(buttonMana);
 		WindowPreset.buttonPreset(back, "Go to Login.", "files\\disconnect.png");
 		getContentPane().add(back);
 
-		name = new JLabel();
-		name.setBounds(456, 35, 97, 90);
-		name.setBorder(BorderFactory.createLineBorder(Color.black));
-		//insertFoto();
-		getContentPane().add(name);
-		System.out.println(s.getPhoto());
+		photo = new JLabel();
+		photo.setBounds(450, 46, 115, 140);
+		photo.setBorder(BorderFactory.createLineBorder(Color.black));
+		insertFoto();
+		getContentPane().add(photo);
 
 		setVisible(true);
 	}
 
 	private void insertFoto() {
-
-		ImageIcon imageIcon = new ImageIcon(""+s.getPhoto());
+		File imagen = new File(s.getPhoto());
+		ImageIcon imageIcon = new ImageIcon(imagen.getPath());
 		if (imageIcon.getImage() == null) {
 			imageIcon = new ImageIcon("files/sinfoto.png");
 		}
 		Image image = imageIcon.getImage(); // transform it
-		Image newimg = image.getScaledInstance(94, 110, java.awt.Image.SCALE_SMOOTH);
+		Image newimg = image.getScaledInstance(115, 140, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon imageIcon2 = new ImageIcon(newimg);
-		name.setIcon(imageIcon2);
+		photo.setIcon(imageIcon2);
 	}
 
 	public static JTable getTabla() {
